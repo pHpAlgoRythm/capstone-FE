@@ -11,13 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('request_table', function(Blueprint $table){
+        Schema::create('vehicle_status', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('reporter_id')->constrained('users');
-            $table->string('type');
-            $table->foreignId('location_id')->constained('locations');
-            $table->foreignId('status_id')->constrained('request_status');
-            $table->dateTime('requested_on');
+            $table->string('status_name');
             $table->timestamps();
         });
     }
@@ -27,6 +23,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('request_table');
+        Schema::dropIfExists('vehicle_status');
     }
 };
