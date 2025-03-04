@@ -1,18 +1,9 @@
 @import "tailwindcss";
 
-.reg-card {
-  @apply w-full h-screen flex flex-wrap justify-center items-center;
+body {
+  @apply p-10;
 }
-
-.wrapper {
-  @apply flex flex-col justify-center border border-white p-10 shadow-lg rounded-md;
-}
-
-.wrapper input,
+input,
 textarea {
-  @apply border border-black rounded-sm mt-1;
-}
-
-.title {
-  @apply text-center font-bold text-lg uppercase;
+  @apply border;
 }
