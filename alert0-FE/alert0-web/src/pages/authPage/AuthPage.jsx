@@ -1,22 +1,15 @@
-import React from "react";
-import Register from "../../components/Registration";
-
+import { Routes, Route } from "react-router-dom";
+import Login from "../../components/Auth/Login";
+import Registration from "../../components/Auth/Registration";
+import Error from "../../components/Auth/Error";
 function AuthPage() {
-
-    return (
-        <>
-            <Register
-                title="Register"
-                email={{ label: 'Email', type: 'email' }}
-                password={{ label: 'Password', type: 'password' }}
-                fullname={{ label: 'Full Name', type: 'text' }}
-                address={{ label: 'Address', type: 'text' }}
-                phone_number={{ label: 'Phone', type: 'tel' }}
-                profile={{ label: 'Profile Image', type: 'file' }}
-            />
-       
-        </>
-    );
+  return (
+    <Routes>
+      <Route path="Login" element={<Login />} />
+      <Route path="Registration" element={<Registration />} />
+      <Route path="*" element={<Error />} />
+    </Routes>
+  );
 }
 
 export default AuthPage;
