@@ -1,97 +1,154 @@
-  import { useState } from "react";
+import { useForm } from "react-hook-form";
 
-  const Register = () => {
-    const [data, setData] = useState({
-      fullname: '',
-      phoneNumber: '',
-      email: '',
-      address: '',  
-      image: null,
-    });
+const Registration = () => {
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
 
-    const handleChange = (e) => {
-      if (e.target.name === "image") {
-        setData({
-          ...data,
-          [e.target.name]: e.target.files[0],
-        });
-      } else {
-        setData({
-          ...data,
-          [e.target.name]: e.target.value,
-        });
+  const submitData = async (data) => {
+   const response = await fetch('http://127.0.0.1:8000/api/register', {
+    method: 'POST',
+    headers:  { 'Content/Type': 'application/json'},
+    body:JSON.stringify(data)
+   });
+
+   try {
+      const result = await response.json()
+      if(!response.ok){
+        console.log('failed to fetch')
       }
-    };
-  const register = async (e) => {
-    e.preventDefault()
-        const formData = new FormData();
-
-            formData.append('fullname', data.fullname)
-            formData.append('phone', data.phoneNumber)
-            formData.append('email', data.email)
-            formData.append('address', data.address)
-            formData.append ('image', data.image) 
-
-
-            try {
-              const response = await fetch('http://localhost:8000/register', {
-                method: 'POST',
-                body:formData
-              });
-            if(!response.ok){
-            const result = await response.json()
-            throw new Error('error');
-            console.log(result)
-            }
-
-            const result = await response.json()
-            alert('operation  processing..')
-            } catch (error) {
-              console.log(error)
-            }
-  }
-  
-    return (
-      <>
-        <form onSubmit={register}>
-          <div className="form-wrapper">
-
-          <label htmlFor="image">Profile Image</label>
-          <input type="file" name="image" id="image" onChange={handleChange} />
-          <div>
-            <p>personal Informations</p>
-            </div>
-            <div className="personal-info">  
-            <div className="input-wrapper">
-            <label htmlFor="fullname">Fullname</label>
-            <input type="text" name="fullname" id="fullname" onChange={handleChange} />
-            </div>
-
-            <div className="input-wrapper">
-            <label htmlFor="phoneNumber">Phone Number</label>
-            <input type="text" name="phoneNumber" id="phoneNumber" onChange={handleChange} />
-            </div>
-
-            <div className="input-wrapper">
-            <label htmlFor="email">Email</label>
-            <input type="email" id="email" name="email" onChange={handleChange} />
-            </div>
-
-            <div className="input-wrapper">
-              
-            <label htmlFor="address">Address</label>
-            <textarea name="address" id="address" onChange={handleChange}></textarea>
-            </div>
-            </div>
-            
-          
-            <button type="submit">Register</button>
-          </div>
-
-            
-        </form>
-      </>
-    );
+      alert(result)
+   } catch (error) {
+      console.log(error)
+   }
   };
 
-  export default Register;
+  return (
+    <>
+      <form onSubmit={handleSubmit(submitData)}>
+        <div className="sub-wrapper">
+          <label htmlFor="name">Fullname</label>
+          <input
+            type="text"
+            id="name"
+            {...register("name", { required: "Full name is required" })}
+          />
+          {errors.name && <p className="text-red-700">{errors.name.message}</p>}
+        </div>
+        <div className="sub-wrapper">
+          <label htmlFor="email">email</label>
+          <input
+            type="email"
+            id="email"
+            {...register("email", { required: "Email is require" })}
+          />
+          {errors.email && (
+            <p className="text-red-700">{errors.email.message}</p>
+          )}
+        </div>
+
+        <div className="">
+          <label htmlFor="gender">Gender</label>
+          <div className="flex">
+            <div>
+              <input
+                type="radio"
+                id="male"
+                value="male"
+                {...register("gender", { required: "Gender is required" })}
+              />
+              <label htmlFor="male">Male</label>
+            </div>
+            <div>
+              <input
+                type="radio"
+                id="female"
+                value="female"
+                {...register("gender", { required: "Gender is required" })}
+              />
+              <label htmlFor="female">Female</label>
+            </div>
+            <div>
+              <input
+                type="radio"
+                id="nonBinary"
+                value="nonBinary"
+                {...register("gender", { required: "Gender is required" })}
+              />
+              <label htmlFor="nonBinary">Non-Binary</label>
+            </div>
+          </div>
+        </div>
+
+        {errors.gender && (
+          <p className="text-red-700">{errors.gender.message}</p>
+        )}
+
+        <div className="sub-wrapper">
+          <label htmlFor="phone">Phone</label>
+          <input
+            type="Tel"
+            id="phone"
+            {...register("phoneNum", { required: "Phone number is required" })}
+          />
+          {errors.phoneNum && (
+            <p className="text-red-700">{errors.phoneNum.message}</p>
+          )}
+        </div>
+
+        <div className="sub-wrapper">
+          <label htmlFor="address">Address</label>
+          <textarea
+            id="address"
+            {...register("address", { required: "Address is require" })}
+          ></textarea>
+          {errors.address && (
+            <p className="text-red-700">{errors.address.message}</p>
+          )}
+        </div>
+
+        <div className="sub-wrapper">
+          <label htmlFor="password">Password</label>
+          <input
+            type="password"
+            id="password"
+            {...register("password", {
+              required: "Password number is required",
+            })}
+          />
+          {errors.password && (
+            <p className="text-red-700">{errors.password.message}</p>
+          )}
+        </div>
+
+        <div className="sub-wrapper">
+          <label htmlFor="c_password">Confirm Password</label>
+          <input
+            type="password"
+            id="c_password"
+            {...register("c_password", {
+              required: "Confirm password  is required",
+            })}
+          />
+          {errors.c_password && (
+            <p className="text-red-700">{errors.c_password.message}</p>
+          )}
+        </div>
+
+
+        <input
+  type="datetime-local"
+  defaultValue={new Date().toISOString().slice(0, 16)}
+  {...register("dob", { required: "Date of birth is required" })}
+/>
+{errors.dob && <p className="text-red-700">{errors.dob.message}</p>}
+
+        <button type="submit">Register</button>
+      </form>
+    </>
+  );
+};
+
+export default Registration;
