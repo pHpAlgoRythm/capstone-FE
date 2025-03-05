@@ -1,10 +1,9 @@
-import Register from "./components/Auth/Registration";
-
+import Registration from "./components/Auth/Registration";
 function App (){
 
     return (
         <>
-        <Register></Register>
+        <Registration></Registration>
         </>
     )
 }
