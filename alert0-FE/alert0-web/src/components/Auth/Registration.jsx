@@ -91,10 +91,10 @@ const Registration = () => {
           <input
             type="Tel"
             id="phone"
-            {...register("phoneNum", { required: "Phone number is required" })}
+            {...register("phone", { required: "Phone number is required" })}
           />
-          {errors.phoneNum && (
-            <p className="text-red-700">{errors.phoneNum.message}</p>
+          {errors.phone && (
+            <p className="text-red-700">{errors.phone.message}</p>
           )}
         </div>
 
@@ -113,7 +113,7 @@ const Registration = () => {
           <label htmlFor="password">Password</label>
           <input
             type="password"
-            id="password"
+            id="password" 
             {...register("password", {
               required: "Password number is required",
             })}
@@ -135,17 +135,30 @@ const Registration = () => {
           {errors.c_password && (
             <p className="text-red-700">{errors.c_password.message}</p>
           )}
-        </div>
-
-
-        <input
+        </div>  
+<div className="sub-wrapper">
+  
+<input
   type="datetime-local"
   defaultValue={new Date().toISOString().slice(0, 16)}
-  {...register("dob", { required: "Date of birth is required" })}
+  {...register("created_at", { required: "Date of birth is required" })}
 />
 {errors.dob && <p className="text-red-700">{errors.dob.message}</p>}
+</div>
 
+
+<div className="sub-wrapper">
+  <input type="hidden"  {...register('role')} />
+</div>
         <button type="submit">Register</button>
+
+
+        <div className="sub-wrapper">
+  <input type="hidden"  {...register('status')} />
+</div>
+        <button type="submit">Register</button>
+
+
       </form>
     </>
   );
