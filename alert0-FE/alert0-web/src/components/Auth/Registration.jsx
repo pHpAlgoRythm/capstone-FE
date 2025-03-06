@@ -9,17 +9,16 @@ const Registration = () => {
     setError,
     formState: { errors, isSubmitting },
   } = useForm();
-  
+
   const submitData = async (data) => {
     const response = await fetch("http://127.0.0.1:8000/api/register", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(data),
     });
-
     try {
       const result = await response.json();
-      if (response.status !== 200) {
+      if (response.ok) {
         if (result.message.includes("email")) {
           setError("email", {
             type: "server",
@@ -34,7 +33,6 @@ const Registration = () => {
       console.log(error);
     }
   };
-
   return (
     <>
       <form onSubmit={handleSubmit(submitData)}>
