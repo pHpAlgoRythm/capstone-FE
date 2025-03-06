@@ -19,8 +19,8 @@ const Registration = () => {
 
     try {
       const result = await response.json()
-    if(!response.ok){
-      throw new Error(`Failed to fetch Data${response.status}`)
+    if(response.status !== 200){
+      throw new Error(`error${result.message || 'something went wrong'} `)
     };
    alert(result)
 
@@ -160,8 +160,7 @@ const Registration = () => {
 
 <div className="sub-wrapper">
   <input type="hidden" value='unknown' {...register('status')} />
-</div>
-        
+</div>  
         <button type="submit">Register</button>
 
 
