@@ -1,13 +1,21 @@
 import { useForm } from "react-hook-form";
+import { useState } from "react";
+
+
+
 
 const Registration = () => {
+
+
   const {
     register,
     handleSubmit,
     watch,
-    formState: { errors },
+    setError,
+    formState: { errors,isSubmitting },
   } = useForm();
 
+  const [serverError,setServerError] =useState("");
 
   const submitData = async (data) => {
     const response = await fetch('http://127.0.0.1:8000/api/register', {
@@ -17,15 +25,20 @@ const Registration = () => {
         JSON.stringify(data)
     });
 
+    
     try {
       const result = await response.json()
     if(response.status !== 200){
-      throw new Error(`error${result.message || 'something went wrong'} `)
+      throw new Error(result.message || 'something went')
     };
-   alert(result)
+   alert('registration Successful')
 
     } catch (error) {
         console.log(error)
+        setError(error.message)
+        if(error.message.toLowerCase().includes('email')){
+          setServerError('email',{message:error.message})
+        }
     };
   };
 
@@ -161,7 +174,9 @@ const Registration = () => {
 <div className="sub-wrapper">
   <input type="hidden" value='unknown' {...register('status')} />
 </div>  
-        <button type="submit">Register</button>
+        <button type="submit" disabled={isSubmitting}>
+          {isSubmitting? 'Registering...': 'Registered'}</button>
+
 
 
      
