@@ -4,27 +4,32 @@ const Registration = () => {
   const {
     register,
     handleSubmit,
+    watch,
     formState: { errors },
   } = useForm();
 
-  const submitData = async (data) => {
-   const response = await fetch('http://127.0.0.1:8000/api/register', {
-    method: 'POST',
-    headers:  { 'Content/Type': 'application/json'},
-    body:JSON.stringify(data)
-   });
 
-   try {
+  const submitData = async (data) => {
+    const response = await fetch('http://127.0.0.1:8000/api/register', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: 
+        JSON.stringify(data)
+    });
+
+    try {
       const result = await response.json()
-      if(!response.ok){
-        console.log('failed to fetch')
-      }
-      alert(result)
-   } catch (error) {
-      console.log(error)
-   }
+    if(!response.ok){
+      throw new Error(`Failed to fetch Data${response.status}`)
+    };
+   alert(result)
+
+    } catch (error) {
+        console.log(error)
+    };
   };
 
+ 
   return (
     <>
       <form onSubmit={handleSubmit(submitData)}>
@@ -128,8 +133,10 @@ const Registration = () => {
           <input
             type="password"
             id="c_password"
+
             {...register("c_password", {
               required: "Confirm password  is required",
+              validate: (value) => value === watch('password') || 'Password do not match'
             })}
           />
           {errors.c_password && (
@@ -148,15 +155,17 @@ const Registration = () => {
 
 
 <div className="sub-wrapper">
-  <input type="hidden"  {...register('role')} />
+ <input type="hidden"  value='resident' {...register('role')} />
 </div>
+
+<div className="sub-wrapper">
+  <input type="hidden" value='unknown' {...register('status')} />
+</div>
+        
         <button type="submit">Register</button>
 
 
-        <div className="sub-wrapper">
-  <input type="hidden"  {...register('status')} />
-</div>
-        <button type="submit">Register</button>
+     
 
 
       </form>
