@@ -1,15 +1,22 @@
-import { Routes, Route } from "react-router-dom";
-import Login from "../../components/Auth/Login";
-import Registration from "../../components/Auth/Registration";
-import Error from "../../components/Auth/Error";
-function AuthPage() {
+    import React from 'react'
+    import Registration from '../../components/Auth/Registration'
+    import Login from '../../components/Auth/Login'
+    import { useState } from 'react'
+
+
+export const AuthPage = () => {
+
+    const [isLogin,setIsLogin] = useState(false)
+
+    const toggle = () => {
+        setIsLogin((prev =>!prev))
+    }
   return (
-    <Routes>
-      <Route path="Login" element={<Login />} />
-      <Route path="Registration" element={<Registration />} />
-      <Route path="*" element={<Error />} />
-    </Routes>
-  );
+            <>
+               {!isLogin?   <Registration toggle={toggle} /> : <Login toggle={toggle} />}
+            </>
+  )
 }
+
 
 export default AuthPage;
