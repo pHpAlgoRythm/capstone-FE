@@ -1,10 +1,19 @@
-import Registration from "./components/Auth/Registration";
-function App (){
+import React from "react";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import AuthPage from "./pages/authPage/AuthPage";
 
-    return (
+
+const App = () => {
+    return( 
         <>
-        <Registration></Registration>
+
+<Router>
+<Routes>
+<Route path="/" element={<AuthPage/>} />
+</Routes>    
+</Router>
         </>
     )
 }
+
 export default App;
