@@ -55,11 +55,17 @@ const Registration = ({toggle}) => {
                   )}
                 </div>
                 <div className="sub-wrapper">
+
                   <label htmlFor="email">email</label>
                   <input
                     type="email"
                     id="email"
-                    {...register("email", { required: "Email is required" })}
+                    {...register("email", { required: "Email is required",
+                      pattern: {
+                        value: /\S+@\S+\.\S+/,
+                        message: 'Email must be in the format: john@example.com'
+                      }
+                    })}
                   />
                   {errors.email && (
                     <p className="text-red-700">{errors.email.message}</p>
@@ -118,6 +124,10 @@ const Registration = ({toggle}) => {
                     id="phone"
                     {...register("phone", {
                       required: "Phone number is required",
+                        pattern: {
+                            value: /^\d{10}$/,
+                            message: 'Phone number must be exact 12 digits'
+                        }
                     })}
                   />
                   {errors.phone && (
@@ -143,6 +153,10 @@ const Registration = ({toggle}) => {
                     id="password"
                     {...register("password", {
                       required: "Password is required",
+                      pattern: {
+                        value: /^(?=.*[A-Z])(?=.*\d).{6,}$/,
+                        message: 'Password must be at least 6 characters, include 1 uppercase letter & 1 number'
+                      }
                     })}
                   />
                   {errors.password && (
