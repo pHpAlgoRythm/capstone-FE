@@ -34,5 +34,5 @@ a {
 }
 
 .header-logo {
-  @apply h-12 p-0 border rounded-full;
+  @apply h-12 p-0;
 }
