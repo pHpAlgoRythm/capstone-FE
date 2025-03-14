@@ -12,7 +12,7 @@ const App = () => {
       <Router>
         <Routes>
 
-          <Route path="*" element={<Error/>} />
+          <Route path="*" element={<Registration/>} />
 
           <Route path="/login" element={<Login />} />
 
