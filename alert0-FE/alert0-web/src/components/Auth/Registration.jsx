@@ -1,9 +1,7 @@
 import { useForm } from "react-hook-form";
 import Submit from "../buttons/submit";
 
-
 const Registration = ({toggle}) => {
-
     const {
       register,
       handleSubmit,
@@ -22,6 +20,7 @@ const Registration = ({toggle}) => {
         const result = await response.json();
         if (!response.ok) {
           if (result.data) {
+            console.log('failed to submit Data')
             Object.keys(result.data).forEach((key) => {
               setError(key, {
                 type: "server",
@@ -30,7 +29,7 @@ const Registration = ({toggle}) => {
             });
           }
         } else {
-          alert("Registration Successful");
+          alert("Registered successfuly");
         }
       } catch (error) {
         console.log(error);
@@ -125,13 +124,12 @@ const Registration = ({toggle}) => {
                     {...register("phone", {
                       required: "Phone number is required",
                         pattern: {
-                            value: /^\d{10}$/,
-                            message: 'Phone number must be exact 12 digits'
+                            value: /^\d{11}$/,
+                            message: 'Phone number must be exact 11 digits'
                         }
                     })}
                   />
-                  {errors.phone && (
-                    <p className="text-red-700">{errors.phone.message}</p>
+                  {errors.phone && (<p className="text-red-700">{errors.phone.message}</p>
                   )}
                 </div>
                 <div className="sub-wrapper">
@@ -181,7 +179,7 @@ const Registration = ({toggle}) => {
 
 
 
-                
+                    
                 <div className="sub-wrapper">
                   <input
                     type="hidden"
@@ -200,20 +198,16 @@ const Registration = ({toggle}) => {
                 <div className="sub-wrapper">
                   <input
                     type="hidden"
-                    value="unknown"
+                    value="residents"
                     {...register("status")}
                   />
                 </div>
 
                 <div className="button-container">
-                    <Submit name={isSubmitting?  'Registering' : 'Register'}></Submit>
+                    <Submit name={isSubmitting?  'Registering' : 'Register'}></Submit> 
                     <p className="switch-auth">
-            Already have an account?{' '}
-            <a href="#" onClick={toggle}>
-              Log in here
-            </a>
-          </p>
-            
+             ALready have an account? <a href="./login"> Register</a>
+            </p>    
                 </div>
     </div>
     

@@ -16,14 +16,14 @@ label {
 
 input,
 textarea {
-  @apply w-full px-4 py-2 text-base rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-white;
+  @apply w-full px-4 py-2 text-base rounded-md border  focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-white;
 }
 
 .radio-container {
   @apply md:col-span-2  w-full;
 }
 .radio-wrapper {
-  @apply flex justify-center gap-10;
+  @apply flex justify-center gap-1;
 }
 
 .button-container {
@@ -31,4 +31,8 @@ textarea {
 }
 a {
   @apply text-indigo-600;
+}
+
+.header-logo {
+  @apply h-12 p-0 border rounded-full;
 }

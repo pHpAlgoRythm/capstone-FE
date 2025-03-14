@@ -1,14 +1,19 @@
 import React from 'react'
 import { useForm } from 'react-hook-form';
 import Submit from '../buttons/submit';
-export const Login = ({toggle}) => {
+import { useNavigate } from "react-router-dom";
+
+const Login = () => {
+  // Login UseForm Hook
         const  { 
             register,
             handleSubmit,
             formState: {errors,isSubmitting}
      }= useForm();
+
+    //  Data Submition Using Fetch and redirection to dashboard
+    const navigate = useNavigate();
      const submitData =  async (data) => {
-            
         const response = await fetch("http://127.0.0.1:8000/api/login", {
             method: 'POST',
             headers: {
@@ -16,13 +21,19 @@ export const Login = ({toggle}) => {
             },
             body:JSON.stringify(data)
         });
-
         try {
             const result = await response.json()
-            if(response.ok){
-                alert(`Login successful${result.message}`)
+            if(response.ok){  
+              localStorage.setItem('token', result.data.token);
+              localStorage.setItem('userID',result.data.id)
+          if(result.data.role == 'resident'){ 
+            navigate('/dashboard')
+          }else(
+          alert('invalid')
+          )
             }else{
-                throw new Error('Something went wrong')
+                // throw new Error('Something went wrong')
+                alert('invalid account')
             }
         } catch (error) {
             console.log(error)
@@ -62,10 +73,7 @@ export const Login = ({toggle}) => {
                 <div className="button-container">
                     <Submit type = 'submit' disabled ={isSubmitting} name = {isSubmitting? 'Logging in' : 'Log in' }></Submit>
                     <p className="switch-auth">
-              Don't have an account?{' '}
-              <a href="#" onClick={toggle}>
-                Register here
-              </a>
+              Don't have an account? <a href="./Registration"> Register</a>
             </p>
                 </div>
             </div>
