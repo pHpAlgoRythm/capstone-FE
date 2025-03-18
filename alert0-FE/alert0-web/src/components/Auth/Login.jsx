@@ -25,7 +25,10 @@ const Login = () => {
             const result = await response.json()
             if(response.ok){  
               localStorage.setItem('token', result.data.token);
-              localStorage.setItem('userID',result.data.id)
+              localStorage.setItem('userID',result.data.id);
+              localStorage.setItem('fullName', result.data.message);
+
+
           if(result.data.role == 'resident'){ 
             navigate('/dashboard')
           }else(
@@ -44,6 +47,7 @@ const Login = () => {
     <div className="card"> 
         <form onSubmit={handleSubmit(submitData)}>
             <div className="grid-container">
+
             <div className="sub-wrapper">
                   <label htmlFor="email">email</label>
                   <input
@@ -56,7 +60,7 @@ const Login = () => {
                   )}
                 </div>
 
-                <div className="sub-wrapper">
+                <div className="sub-wrapper ">
                   <label htmlFor="password">Password</label>
                   <input
                     type="password"

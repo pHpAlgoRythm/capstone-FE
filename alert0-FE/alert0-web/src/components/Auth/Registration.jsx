@@ -16,6 +16,7 @@ const Registration = ({toggle}) => {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(data),
       });
+      
       try {
         const result = await response.json();
         if (!response.ok) {
@@ -206,7 +207,7 @@ const Registration = ({toggle}) => {
                 <div className="button-container">
                     <Submit name={isSubmitting?  'Registering' : 'Register'}></Submit> 
                     <p className="switch-auth">
-             ALready have an account? <a href="./login"> Register</a>
+             ALready have an account? <a href="./login">Login</a>
             </p>    
                 </div>
     </div>
