@@ -179,7 +179,10 @@ const Registration = () => {
               value="Pending"
               {...register("approval_status")}
             />
-
+            <label htmlFor="approval_id_photo">Approval id</label>
+            <input type="file"  id="approval_id_photo"{...register('approval_id_photo')}   />
+            <label htmlFor="approval_photo">Approval Photo</label>
+            <input type="file" id="approval_photo" {...register('approval_photo')} />
             <div className="col-span-2 flex justify-center flex-col rounder-sm gap-2">
               <Button type="submit"
                variant="contained"
