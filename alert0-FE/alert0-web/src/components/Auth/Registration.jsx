@@ -1,222 +1,204 @@
 import { useForm } from "react-hook-form";
-import Submit from "../buttons/submit";
+import useRegister from "../services/API/useRegister";
+import {
+  Button,
+  TextField,
+  FormControl,
+  FormLabel,
+  RadioGroup,
+  FormControlLabel,
+  Radio,
+} from "@mui/material";
 
-const Registration = ({toggle}) => {
-    const {
-      register,
-      handleSubmit,
-      watch,
-      setError,
-      formState: { errors, isSubmitting },
-    } = useForm();
-  
-    const submitData = async (data) => {
-      const response = await fetch("http://127.0.0.1:8000/api/register", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(data),
-      });
-      
-      try {
-        const result = await response.json();
-        if (!response.ok) {
-          if (result.data) {
-            console.log('failed to submit Data')
-            Object.keys(result.data).forEach((key) => {
-              setError(key, {
-                type: "server",
-                message: result.data[key][0],
-              });
-            });
-          }
-        } else {
-          alert("Registered successfuly");
-        }
-      } catch (error) {
-        console.log(error);
-      }
-    };
-  return ( 
+const Registration = () => {
+  const {
+    register,
+    handleSubmit,
+    watch,
+    setError,
+    formState: { errors },
+  } = useForm();
+  const { submitData, isSubmitting } = useRegister(setError);
+
+  return (
     <>
-    
-    <div className="card">
-    <form onSubmit={handleSubmit(submitData)}>
-          <div className="grid-container">
-        
-    <div className="sub-wrapper">
-                  <label htmlFor="name">Fullname</label>
-                  <input
-                    type="text"
-                    id="name"
-                    {...register("name", { required: "Full name is required" })}
+      <div className="p-20 shadow-lg rounded-md bg-white">
+        <form onSubmit={handleSubmit(submitData)}>
+          <div className="md:grid grid-cols-2 gap-5 justify-items-center mx-auto max-w-lg p-6">
+            <div className="sub-wrapper">
+              <TextField
+                {...register("name", {
+                  required: "Fullname is required",
+                })}
+                variant="outlined"
+                type="text"
+                fullWidth
+                label="Fullname"
+                size="small"
+              />
+              {errors.name && (
+                <p className="text-red-700">{errors.name.message}</p>
+              )}
+            </div>
+
+            <div className="sub-wrapper">
+              <TextField
+                {...register("email", {
+                  required: "Email is required",
+                  pattern: {
+                    value: /\S+@\S+\.\S+/,
+                    message: "Email must be in the format: john@example.com",
+                  },
+                })}
+                variant="outlined"
+                type="email"
+                fullWidth
+                label="Email"
+                size="small"
+              />
+              {errors.email && (
+                <p className="text-red-700">{errors.email.message}</p>
+              )}
+            </div>
+            <div className="sub-wrapper col-span-2 ">
+              <FormControl>
+                <FormLabel>Gender</FormLabel>
+                <RadioGroup
+                  row
+                  {...register("gender", { required: "Gender is required" })}
+                >
+                  <FormControlLabel
+                    value="male"
+                    control={<Radio />}
+                    label="Male"
                   />
-                  {errors.name && (
-                    <p className="text-red-700">{errors.name.message}</p>
-                  )}
-                </div>
-                <div className="sub-wrapper">
-
-                  <label htmlFor="email">email</label>
-                  <input
-                    type="email"
-                    id="email"
-                    {...register("email", { required: "Email is required",
-                      pattern: {
-                        value: /\S+@\S+\.\S+/,
-                        message: 'Email must be in the format: john@example.com'
-                      }
-                    })}
+                  <FormControlLabel
+                    value="female"
+                    control={<Radio />}
+                    label="Female"
                   />
-                  {errors.email && (
-                    <p className="text-red-700">{errors.email.message}</p>
-                  )}
-                </div>
-
-                <div className="radio-container">
-                  <label htmlFor="gender">Gender</label>
-  
-                  <div className="radio-wrapper">
-                    <div className="">
-                      <input
-                        type="radio"
-                        id="male"
-                        value="male"
-                        {...register("gender", {
-                          required: "Gender is required",
-                        })}
-                      />
-                      <label htmlFor="male">Male</label>
-                    </div>
-
-                    <div className="">
-                      <input
-                        type="radio"
-                        id="female"
-                        value="female"
-                        {...register("gender", {
-                          required: "Gender is required",
-                        })}
-                      />
-                      <label htmlFor="female">Female</label>
-                    </div>
-                    <div className="">
-                      <input
-                        type="radio"
-                        id="nonBinary"
-                        value="nonBinary"
-                        {...register("gender", {
-                          required: "Gender is required",
-                        })}
-                      />
-                      <label htmlFor="nonBinary">Non-Binary</label>
-                    </div>
-                  </div>
-                {errors.gender && (
-                  <p className="text-red-700">{errors.gender.message}</p>
-                )}
-
-</div>
-
-    <div className="sub-wrapper">
-                  <label htmlFor="phone">Phone</label>
-                  <input
-                    type="tel"
-                    id="phone"
-                    {...register("phone", {
-                      required: "Phone number is required",
-                        pattern: {
-                            value: /^\d{11}$/,
-                            message: 'Phone number must be exact 11 digits'
-                        }
-                    })}
+                  <FormControlLabel
+                    value="non-binary"
+                    control={<Radio />}
+                    label="Non-Binary"
                   />
-                  {errors.phone && (<p className="text-red-700">{errors.phone.message}</p>
-                  )}
-                </div>
-                <div className="sub-wrapper">
-                  <label htmlFor="address">Address</label>
-                  <textarea
-                    id="address"
-                    {...register("address", {
-                      required: "Address is required",
-                    })}
-                  ></textarea>
-                  {errors.address && (
-                    <p className="text-red-700">{errors.address.message}</p>
-                  )}
-                </div>
-                <div className="sub-wrapper">
-                  <label htmlFor="password">Password</label>
-                  <input
-                    type="password"
-                    id="password"
-                    {...register("password", {
-                      required: "Password is required",
-                      pattern: {
-                        value: /^(?=.*[A-Z])(?=.*\d).{6,}$/,
-                        message: 'Password must be at least 6 characters, include 1 uppercase letter & 1 number'
-                      }
-                    })}
-                  />
-                  {errors.password && (
-                    <p className="text-red-700">{errors.password.message}</p>
-                  )}
-                </div>
-                <div className="sub-wrapper">
-                  <label htmlFor="c_password">Confirm Password</label>
-                  <input
-                    type="password"
-                    id="c_password"
-                    {...register("c_password", {
-                      required: "Confirm password is required",
-                      validate: (value) =>
-                        value === watch("password") || "Password do not match",
-                    })}
-                  />
-                  {errors.c_password && (
-                    <p className="text-red-700">{errors.c_password.message}</p>
-                  )}
-                </div>
+                </RadioGroup>
+              </FormControl>
+              {errors.gender && (
+                <p className="text-red-700">{errors.gender.message}</p>
+              )}
+            </div>
 
+            <div className="sub-wrapper">
+              <TextField
+                {...register("phone", {
+                  required: "Phone number is required",
+                  pattern: {
+                    value: /^\d{11}$/,
+                    message: "Phone number must be exactly 11 digits",
+                  },
+                })}
+                variant="outlined"
+                type="tel"
+                fullWidth
+                label="Phone Number"
+                size="small"
+              />
+              {errors.phone && (
+                <p className="text-red-700">{errors.phone.message}</p>
+              )}
+            </div>
 
+            <div className="sub-wrapper">
+              <TextField
+                {...register("password", {
+                  required: "Password is required",
+                  pattern: {
+                    value: /^(?=.*[A-Z])(?=.*\d).{6,}$/,
+                    message:
+                      "Password must be at least 6 characters, include 1 uppercase letter & 1 number",
+                  },
+                })}
+                variant="outlined"
+                type="password"
+                fullWidth
+                label="Password"
+                size="small"
+              />
+              {errors.password && (
+                <p className="text-red-700">{errors.password.message}</p>
+              )}
+            </div>
 
-                    
-                <div className="sub-wrapper">
-                  <input
-                    type="hidden"
-                    value={new Date().toISOString().slice(0, 16)}
-                    {...register("created_at", {
-                      required: "Date of birth is required",
-                    })}
-                  />
-                  {errors.dob && (
-                    <p className="text-red-700">{errors.dob.message}</p>
-                  )}
-                </div>
-                <div className="sub-wrapper">
-                  <input type="hidden" value="resident" {...register("role")} />
-                </div>
-                <div className="sub-wrapper">
-                  <input
-                    type="hidden"
-                    value="residents"
-                    {...register("status")}
-                  />
-                </div>
+            <div className="sub-wrapper">
+              <TextField
+                {...register("c_password", {
+                  required: "Confirm password is required",
+                  validate: (value) =>
+                    value === watch("password") || "Passwords do not match",
+                })}
+                variant="outlined"
+                type="password"
+                fullWidth
+                label="Confirm Password"
+                size="small"
+              />
+              {errors.c_password && (
+                <p className="text-red-700">{errors.c_password.message}</p>
+              )}
+            </div>
 
-                <div className="button-container">
-                    <Submit name={isSubmitting?  'Registering' : 'Register'}></Submit> 
-                    <p className="switch-auth">
-             ALready have an account? <a href="./login">Login</a>
-            </p>    
-                </div>
-    </div>
-    
-    </form>
-    </div>
-        
+            <div className="sub-wrapper">
+              <TextField
+                {...register("address", {
+                  required: "Address is required",
+                })}
+                variant="outlined"
+                multiline
+                rows={1}
+                fullWidth
+                label="Address"
+                size="small"
+              />
+              {errors.address && (
+                <p className="text-red-700">{errors.address.message}</p>
+              )}
+            </div>
+            {/* static values */}
+
+            <input
+              type="hidden"
+              value={new Date().toISOString().slice(0, 16)}
+              {...register("created_at")}
+            />
+
+            <input type="hidden" value="resident" {...register("role")} />
+            <input type="hidden" value="N/A" {...register("status")} />
+            <input
+              type="hidden"
+              value="Pending"
+              {...register("approval_status")}
+            />
+
+            <div className="col-span-2 flex justify-center flex-col rounder-sm gap-2">
+              <Button type="submit"
+               variant="contained"
+                size="small"
+                disabled= {isSubmitting}>
+                {isSubmitting ? "Registering" : "Register"}
+              </Button>
+              <p className="">
+                Already have an account?{" "}
+                <a href="./login" className="text-sky-500">
+                  Login
+                </a>
+              </p>
+            </div>
+          </div>
+        </form>
+      </div>
     </>
-  )};
+  );
+};
 
-
-  export default Registration;
+export default Registration;
