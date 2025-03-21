@@ -1,38 +1,5 @@
 @import "tailwindcss";
 
 body {
-  @apply h-screen flex justify-center items-center;
-}
-.card {
-  @apply p-10 shadow-lg rounded-md;
-}
-
-.grid-container {
-  @apply md:grid grid-cols-2 gap-5 justify-items-center  mx-auto max-w-lg p-6;
-}
-label {
-  @apply block text-sm font-semibold   text-black uppercase tracking-wide mb-2;
-}
-
-input,
-textarea {
-  @apply w-full px-4 py-2 text-base rounded-md border  focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-white;
-}
-
-.radio-container {
-  @apply md:col-span-2  w-full;
-}
-.radio-wrapper {
-  @apply flex justify-center gap-1;
-}
-
-.button-container {
-  @apply col-span-2;
-}
-a {
-  @apply text-indigo-600;
-}
-
-.header-logo {
-  @apply h-12 p-0 border rounded-full;
+  @apply h-screen flex justify-center items-center bg-gray-300;
 }

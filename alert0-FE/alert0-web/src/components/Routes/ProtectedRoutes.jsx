@@ -6,7 +6,6 @@ const ProtectedRoutes = () => {
     const token = localStorage.getItem('token');
 
     const isAuthenticated = userID && token;
-  
     return isAuthenticated? <Outlet/> : <Navigate to= './login' replace/>
 };
 

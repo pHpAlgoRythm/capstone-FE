@@ -1,85 +1,54 @@
-import React from 'react'
+import React from 'react';
 import { useForm } from 'react-hook-form';
-import Submit from '../buttons/submit';
-import { useNavigate } from "react-router-dom";
+import useLogin from '../services/API/loginAPI';
+import { Button, TextField } from '@mui/material';
 
 const Login = () => {
-  // Login UseForm Hook
-        const  { 
-            register,
-            handleSubmit,
-            formState: {errors,isSubmitting}
-     }= useForm();
+    const { 
+        register,
+        handleSubmit,
+        formState: { errors }
+    } = useForm();
+    const { submitData, isSubmitting } = useLogin();
 
-    //  Data Submition Using Fetch and redirection to dashboard
-    const navigate = useNavigate();
-     const submitData =  async (data) => {
-        const response = await fetch("http://127.0.0.1:8000/api/login", {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body:JSON.stringify(data)
-        });
-        try {
-            const result = await response.json()
-            if(response.ok){  
-              localStorage.setItem('token', result.data.token);
-              localStorage.setItem('userID',result.data.id)
-          if(result.data.role == 'resident'){ 
-            navigate('/dashboard')
-          }else(
-          alert('invalid')
-          )
-            }else{
-                // throw new Error('Something went wrong')
-                alert('invalid account')
-            }
-        } catch (error) {
-            console.log(error)
-        }
-     };
-  return (
-    <>
-    <div className="card"> 
-        <form onSubmit={handleSubmit(submitData)}>
-            <div className="grid-container">
-            <div className="sub-wrapper">
-                  <label htmlFor="email">email</label>
-                  <input
-                    type="email"
-                    id="email"
-                    {...register("email", { required: "Email is required" })}
-                  />
-                  {errors.email && (
-                    <p className="text-red-700">{errors.email.message}</p>
-                  )}
-                </div>
+    return (
+        <>
+            <div className="p-10 shadow-lg rounded-md bg-white max-w-md mx-auto">
+                <form onSubmit={handleSubmit(submitData)}>
+                    <div className="flex flex-col gap-4">
+                        
+                        <TextField
+                            {...register("email", { required: "Email is required" })}
+                            variant="outlined"
+                            type="email"
+                            fullWidth
+                            label="Email"
+                            size="small"
+                        />
+                        {errors.email && <p className="text-red-700">{errors.email.message}</p>}
 
-                <div className="sub-wrapper">
-                  <label htmlFor="password">Password</label>
-                  <input
-                    type="password"
-                    id="password"
-                    {...register("password", {
-                      required: "Password is required",
-                    })}
-                  />
-                  {errors.password && (
-                    <p className="text-red-700">{errors.password.message}</p>
-                  )}
-                </div>
+                        <TextField
+                            {...register("password", { required: "Password is required" })}
+                            variant="outlined"
+                            type="password"
+                            fullWidth
+                            label="Password"
+                            size="small"
+                        />
+                        {errors.password && <p className="text-red-700">{errors.password.message}</p>}
 
-                <div className="button-container">
-                    <Submit type = 'submit' disabled ={isSubmitting} name = {isSubmitting? 'Logging in' : 'Log in' }></Submit>
-                    <p className="switch-auth">
-              Don't have an account? <a href="./Registration"> Register</a>
-            </p>
-                </div>
-            </div>
-        </form>
-    </div>  
-              </>
-  )};
+                        <Button type="submit" variant="contained" size="small">
+                            {isSubmitting ? "Logging in..." : "Login"}
+                        </Button>
 
-  export default Login;
+                        <p className="text-center">
+                            Don't have an account? <a href="./Registration" className="text-sky-500">Register</a>
+                        </p>
+                    </div>
+                </form>
+            </div>  
+        </>
+    );
+};
+
+export default Login;
