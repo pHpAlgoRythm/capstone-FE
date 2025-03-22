@@ -1,5 +1,6 @@
 import { useForm } from "react-hook-form";
-import useRegister from "../services/API/useRegister";
+import RegAuth from "../services/API/RegisterAPI";
+import { isValidEmail,isValidPhone,isValidPassword } from "../utils/validate";
 import {
   Button,
   TextField,
@@ -18,7 +19,7 @@ const Registration = () => {
     setError,
     formState: { errors },
   } = useForm();
-  const { submitData, isSubmitting } = useRegister(setError);
+  const { submitData, isSubmitting } = RegAuth(setError);
 
   return (
     <>
@@ -44,11 +45,7 @@ const Registration = () => {
             <div className="sub-wrapper">
               <TextField
                 {...register("email", {
-                  required: "Email is required",
-                  pattern: {
-                    value: /\S+@\S+\.\S+/,
-                    message: "Email must be in the format: john@example.com",
-                  },
+                  required: "Email is required", validate: isValidEmail
                 })}
                 variant="outlined"
                 type="email"
@@ -92,11 +89,7 @@ const Registration = () => {
             <div className="sub-wrapper">
               <TextField
                 {...register("phone", {
-                  required: "Phone number is required",
-                  pattern: {
-                    value: /^\d{11}$/,
-                    message: "Phone number must be exactly 11 digits",
-                  },
+                  required: "Phone number is required",validate : isValidPhone
                 })}
                 variant="outlined"
                 type="tel"
@@ -112,12 +105,7 @@ const Registration = () => {
             <div className="sub-wrapper">
               <TextField
                 {...register("password", {
-                  required: "Password is required",
-                  pattern: {
-                    value: /^(?=.*[A-Z])(?=.*\d).{6,}$/,
-                    message:
-                      "Password must be at least 6 characters, include 1 uppercase letter & 1 number",
-                  },
+                  required: "Password is required",validate: isValidPassword
                 })}
                 variant="outlined"
                 type="password"
@@ -180,9 +168,12 @@ const Registration = () => {
               {...register("approval_status")}
             />
             <label htmlFor="approval_id_photo">Approval id</label>
-            <input type="file"  id="approval_id_photo"{...register('approval_id_photo')}   />
+            <input type="file"  id="approval_id_photo"{...register('approval_id_photo')}  className="border"  />
             <label htmlFor="approval_photo">Approval Photo</label>
-            <input type="file" id="approval_photo" {...register('approval_photo')} />
+            <input type="file" id="approval_photo" {...register('approval_photo')} className="border" />
+
+
+
             <div className="col-span-2 flex justify-center flex-col rounder-sm gap-2">
               <Button type="submit"
                variant="contained"

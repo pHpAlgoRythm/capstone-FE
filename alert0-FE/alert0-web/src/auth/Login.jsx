@@ -1,6 +1,6 @@
 import React from 'react';
 import { useForm } from 'react-hook-form';
-import useLogin from '../services/API/loginAPI';
+import LoginAuth from '../services/API/loginAPI';
 import { Button, TextField } from '@mui/material';
 
 const Login = () => {
@@ -9,7 +9,7 @@ const Login = () => {
         handleSubmit,
         formState: { errors }
     } = useForm();
-    const { submitData, isSubmitting } = useLogin();
+    const { submitData, isSubmitting } = LoginAuth();
 
     return (
         <>
@@ -26,7 +26,6 @@ const Login = () => {
                             size="small"
                         />
                         {errors.email && <p className="text-red-700">{errors.email.message}</p>}
-
                         <TextField
                             {...register("password", { required: "Password is required" })}
                             variant="outlined"

@@ -1,5 +1,5 @@
 @import "tailwindcss";
 
 body {
-  @apply h-screen flex justify-center items-center bg-gray-300;
+  @apply h-screen flex justify-center items-center bg-black;
 }

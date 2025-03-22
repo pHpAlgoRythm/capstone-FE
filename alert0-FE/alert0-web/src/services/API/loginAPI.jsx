@@ -1,6 +1,9 @@
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
-const useLogin = () => {
+
+const LoginAuth = () => {
+
+
   const navigate = useNavigate();
   const [isSubmitting, setIsSubmitting] = useState(false);
 
@@ -24,7 +27,7 @@ const useLogin = () => {
           navigate("/resident/dashboard");
         } else if (result.data.role == "admin") {
           navigate("/adminPage/dashboard");
-        } else alert("Inavlid Account Log in");
+        } else alert("Invalid Account Log in");
       } else {
         throw new Error("Something went wrong");
       }
@@ -37,4 +40,4 @@ const useLogin = () => {
   return { submitData, isSubmitting };
 };
 
-export default useLogin;
+export default LoginAuth;
