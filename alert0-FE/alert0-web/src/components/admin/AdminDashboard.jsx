@@ -5,6 +5,9 @@ import { PageContainer } from '@toolpad/core/PageContainer';
 import { NAVIGATION } from './ContentNavigation';
 import { DemoTheme } from '../../utils/Theme';
 import AccountsTable from '../admin/Tables'
+import getPendingUsers from '../../services/API/getPendingUsers';
+import { io } from 'socket.io-client';
+// import { Alert } from '@mui/material';
 
 function useDemoRouter(initialPath) {
 
@@ -20,21 +23,45 @@ function useDemoRouter(initialPath) {
   return router;
 }
 
-const renderContent = (section) => {
+const renderContent = (section, users) => {
   switch(section){
     case 'dashboard': 
-    return <AccountsTable />;
+    return <AccountsTable users={[]} />;
     case 'accounts/pendingAccounts':
-      return <AccountsTable name='John Doe' email='JhonDoe@gmail.com' ApprovalID='N/A' approve='Approve' decline='Decline' />;
+      return <AccountsTable users={users} approve='Approve' decline='Decline' />;
     case 'accounts/residents':
-      return <AccountsTable/>
-};
+      return <AccountsTable users={[]} />
+  };
 }
 
 export default function DashboardLayoutBasic() {
+  const [pendingUsers, setPendingUsers] = React.useState([]);
+  // const [hasNewuser, setHasNewUser] = React.useState(false);
+  const socket = io('http://127.0.0.1:8080');
+
+  React.useEffect(() => {
+    socket.on('PendingUser', () => {
+      // fetch live data
+      handleGetPendingUsers();
+    });
+
+    // initial render sang component
+    handleGetPendingUsers();
+  }, []);
+
+  const handleGetPendingUsers = async () => {
+    // // show new user alert
+    // setHasNewUser(true);
+    const response = await getPendingUsers();
+    setPendingUsers(response.users);
+    // hide user alert after 3 seconds
+    // const newUserTimeOut = setTimeout(() => {
+    //   setHasNewUser(false);
+    //   clearTimeout(newUserTimeOut);
+    // }, 3000);
+  }
 
   const router = useDemoRouter('/dashboard');
-
 
   return (
     <AppProvider
@@ -46,7 +73,8 @@ export default function DashboardLayoutBasic() {
         <PageContainer sx={{border: '2px solid white',
           width: '100%'
         }}>
-        {renderContent(router.pathname.slice(1))}
+        {/* { hasNewuser && <Alert severity="success">New user.</Alert>} */}
+        {renderContent(router.pathname.slice(1), pendingUsers)}
         </PageContainer>
       </DashboardLayout>
     </AppProvider>

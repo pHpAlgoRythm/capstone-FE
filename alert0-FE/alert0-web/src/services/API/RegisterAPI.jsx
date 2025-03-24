@@ -3,7 +3,7 @@ import { io } from "socket.io-client";
 
 const RegAuth = (setError) => {
   const [isSubmitting, setIsSubmitting] = useState(false);
-  // const socket = io("http://localhost:3000/broadcast");
+  const socket = io("http://127.0.0.1:8080");
 
   const submitData = async (data) => {
     setIsSubmitting(true);
@@ -37,7 +37,8 @@ const RegAuth = (setError) => {
           });
         }
       } else {
-        alert("Registered successfuly");
+        // alert("Registered successfuly");
+        socket.emit('register');
         // socket.emit("newUsers", result.data);
       }
     } catch (error) {

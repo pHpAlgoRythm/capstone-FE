@@ -9,7 +9,7 @@ import {
   Button,
 } from "@mui/material";
 
-const AccountsTable = ({ name, email, ApprovalID, approve, decline }) => {
+const AccountsTable = ({ users, name, email, ApprovalID, approve, decline }) => {
   return (
     <>
       <TableContainer component={Paper}>
@@ -24,15 +24,21 @@ const AccountsTable = ({ name, email, ApprovalID, approve, decline }) => {
           </TableHead>
 
           <TableBody>
-            <TableRow>
-              <TableCell>{name}</TableCell>
-              <TableCell>{email}</TableCell>
-              <TableCell>{ApprovalID}</TableCell>
-              <TableCell>
-                <Button variant="contained">{approve} </Button>{" "}
-                <Button variant="outlined">{decline}</Button>{" "}
-              </TableCell>
-            </TableRow>
+            {
+              users.map((user) => {
+                return (
+                  <TableRow key={user.id}>
+                    <TableCell>{user.name}</TableCell>
+                    <TableCell>{user.email}</TableCell>
+                    <TableCell>{user.approval_status}</TableCell>
+                    <TableCell>
+                      <Button variant="contained">{approve} </Button>{" "}
+                      <Button variant="outlined">{decline}</Button>{" "}
+                    </TableCell>
+                  </TableRow>
+                )
+              })
+            }
           </TableBody>
         </Table>
       </TableContainer>
