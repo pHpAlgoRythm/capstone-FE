@@ -23,23 +23,64 @@ const AccountsTable = ({ users, name, email, ApprovalID, approve, decline }) => 
             </TableRow>
           </TableHead>
 
+        
+
           <TableBody>
-            {
-              users.map((user) => {
-                return (
-                  <TableRow key={user.id}>
-                    <TableCell>{user.name}</TableCell>
-                    <TableCell>{user.email}</TableCell>
-                    <TableCell>{user.approval_status}</TableCell>
-                    <TableCell>
-                      <Button variant="contained">{approve} </Button>{" "}
-                      <Button variant="outlined">{decline}</Button>{" "}
-                    </TableCell>
-                  </TableRow>
-                )
-              })
-            }
-          </TableBody>
+  {users.map((user) => {
+    
+    const approvePending = async (id) => {
+      try {
+        const response = await fetch(`http://127.0.0.1:8000/api/approvePendingUser/${id}`, {
+          method: "POST", 
+          headers: {
+            "Content-Type": "application/json",
+          },
+        });
+
+        if (!response.ok) {
+          throw new Error("Failed to approve user");
+        }
+
+        console.log("User approved:", id);
+      } catch (error) {
+        console.error(error.message);
+      }
+    };
+
+
+    const declinePending = async (id) => {
+      try {
+        const response = await fetch(`http://127.0.0.1:8000/api/declinePendingUser/${id}`, {
+          method: "DELETE", 
+          headers: {
+            "Content-Type": "application/json",
+          },
+        });
+
+        if (!response.ok) {
+          throw new Error("Failed to approve user");
+        }
+
+        console.log("User declined:", id);
+      } catch (error) {
+        console.error(error.message);
+      }
+    };
+
+    return (
+      <TableRow key={user.id}>
+        <TableCell>{user.name}</TableCell>
+        <TableCell>{user.email}</TableCell>
+        <TableCell>{user.approval_status}</TableCell>
+        <TableCell>
+          <Button variant="contained" onClick={() => approvePending(user.id)}>Approve</Button>{" "}
+          <Button variant="outlined" onClick={() => declinePending(user.id)}>Decline</Button>{" "}
+        </TableCell>
+      </TableRow>
+    );
+  })}
+</TableBody>
+
         </Table>
       </TableContainer>
     </>
