@@ -23,60 +23,87 @@ function useDemoRouter(initialPath) {
   return router;
 }
 
-const renderContent = (section, users) => {
-  switch(section){
+const renderContent = (section, users, approvePending, declinePending) => {
+  switch (section) {
     case 'dashboard': 
-    return <AccountsTable users={[]} />;
+      return <AccountsTable users={[]} />;
     case 'accounts/pendingAccounts':
-      return <AccountsTable users={users} approve='Approve' decline='Decline' />;
+      return <AccountsTable users={users} approvePending={approvePending} declinePending={declinePending} />;
     case 'accounts/residents':
-      return <AccountsTable users={[]} />
-  };
-}
+      return <AccountsTable users={[]} />;
+    default:
+      return null;
+  }
+};
+
 
 export default function DashboardLayoutBasic() {
   const [pendingUsers, setPendingUsers] = React.useState([]);
-  // const [hasNewuser, setHasNewUser] = React.useState(false);
   const socket = io('http://127.0.0.1:8080');
 
   React.useEffect(() => {
     socket.on('PendingUser', () => {
-      // fetch live data
       handleGetPendingUsers();
     });
 
-    // initial render sang component
+    // Fetch pending users on initial render
     handleGetPendingUsers();
   }, []);
 
   const handleGetPendingUsers = async () => {
-    // // show new user alert
-    // setHasNewUser(true);
     const response = await getPendingUsers();
-    setPendingUsers(response.users);
-    // hide user alert after 3 seconds
-    // const newUserTimeOut = setTimeout(() => {
-    //   setHasNewUser(false);
-    //   clearTimeout(newUserTimeOut);
-    // }, 3000);
-  }
+    if (response.users) {
+      setPendingUsers(response.users);
+    }
+  };
+
+  
+  const approvePending = async (id) => {
+    try {
+      const response = await fetch(`http://127.0.0.1:8000/api/approvePendingUser/${id}`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+
+      if (!response.ok) throw new Error("Failed to approve user");
+
+      console.log("User approved:", id);
+      handleGetPendingUsers(); 
+    } catch (error) {
+      console.error(error.message);
+    }
+  };
+
+  const declinePending = async (id) => {
+    try {
+      const response = await fetch(`http://127.0.0.1:8000/api/declinePendingUser/${id}`, {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+
+      if (!response.ok) throw new Error("Failed to decline user");
+
+      console.log("User declined:", id);
+      handleGetPendingUsers(); // Refresh pending users after decline
+    } catch (error) {
+      console.error(error.message);
+    }
+  };
 
   const router = useDemoRouter('/dashboard');
 
   return (
-    <AppProvider
-      navigation={NAVIGATION}
-      router={router}
-      theme={DemoTheme}
-    >
-      <DashboardLayout >
-        <PageContainer sx={{border: '2px solid white',
-          width: '100%'
-        }}>
-        {/* { hasNewuser && <Alert severity="success">New user.</Alert>} */}
-        {renderContent(router.pathname.slice(1), pendingUsers)}
-        </PageContainer>
+    <AppProvider navigation={NAVIGATION} router={router} theme={DemoTheme}>
+      <DashboardLayout>
+      <PageContainer sx={{ border: '2px solid white', width: '100%' }}>
+            {renderContent(router.pathname.slice(1), pendingUsers, approvePending, declinePending)}
+      </PageContainer>
       </DashboardLayout>
     </AppProvider>
   );
 }
+
