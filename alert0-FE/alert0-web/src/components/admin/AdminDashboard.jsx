@@ -88,7 +88,7 @@ export default function DashboardLayoutBasic() {
       if (!response.ok) throw new Error("Failed to decline user");
 
       console.log("User declined:", id);
-      handleGetPendingUsers(); // Refresh pending users after decline
+      handleGetPendingUsers(); 
     } catch (error) {
       console.error(error.message);
     }
