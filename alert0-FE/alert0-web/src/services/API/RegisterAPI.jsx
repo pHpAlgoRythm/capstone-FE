@@ -37,9 +37,7 @@ const RegAuth = (setError) => {
           });
         }
       } else {
-        // alert("Registered successfuly");
         socket.emit('register');
-        // socket.emit("newUsers", result.data);
       }
     } catch (error) {
       console.log(error);

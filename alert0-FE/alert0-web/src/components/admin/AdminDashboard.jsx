@@ -4,8 +4,13 @@ import { DashboardLayout } from '@toolpad/core/DashboardLayout';
 import { PageContainer } from '@toolpad/core/PageContainer';
 import { NAVIGATION } from './ContentNavigation';
 import { DemoTheme } from '../../utils/Theme';
-import AccountsTable from '../admin/Tables'
 import getPendingUsers from '../../services/API/getPendingUsers';
+import PendingAccounts from './Tables/PendingAccounts';
+import approvePending from '../../services/API/approvedUsers';
+import declinePending from '../../services/API/declineUser';
+import getApprovedUsers from '../../services/API/getApprovedUsers';
+import Approveduserstable from './Tables/ApprovesUsersTable';
+
 import { io } from 'socket.io-client';
 // import { Alert } from '@mui/material';
 
@@ -23,14 +28,19 @@ function useDemoRouter(initialPath) {
   return router;
 }
 
-const renderContent = (section, users, approvePending, declinePending) => {
+const renderContent = (section, users, approvePending, declinePending,resident) => {  
   switch (section) {
     case 'dashboard': 
-      return <AccountsTable users={[]} />;
+      return <PendingAccounts users={[]} /> ;
     case 'accounts/pendingAccounts':
-      return <AccountsTable users={users} approvePending={approvePending} declinePending={declinePending} />;
+      return <PendingAccounts users={users} approvePending={approvePending} declinePending={declinePending} />;
     case 'accounts/residents':
-      return <AccountsTable users={[]} />;
+      return (
+        <>
+       
+        <Approveduserstable resident={resident} />
+      </>
+      );
     default:
       return null;
   }
@@ -39,6 +49,7 @@ const renderContent = (section, users, approvePending, declinePending) => {
 
 export default function DashboardLayoutBasic() {
   const [pendingUsers, setPendingUsers] = React.useState([]);
+  
   const socket = io('http://127.0.0.1:8080');
 
   React.useEffect(() => {
@@ -57,42 +68,27 @@ export default function DashboardLayoutBasic() {
     }
   };
 
-  
-  const approvePending = async (id) => {
-    try {
-      const response = await fetch(`http://127.0.0.1:8000/api/approvePendingUser/${id}`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
+  // 
+  const [approveUsers,setApproveUsers] =React.useState([]);
 
-      if (!response.ok) throw new Error("Failed to approve user");
+  React.useEffect(() => {
+    socket.on('updatedResidents',() => {
+      handleApprovedUsers();
+    });
 
-      console.log("User approved:", id);
-      handleGetPendingUsers(); 
-    } catch (error) {
-      console.error(error.message);
+   handleApprovedUsers();
+  },[])
+
+
+  const handleApprovedUsers = async () => {
+    const UserResponse = await getApprovedUsers();
+    if(UserResponse.resident){
+      setApproveUsers(UserResponse.resident)
+      
     }
+    
   };
 
-  const declinePending = async (id) => {
-    try {
-      const response = await fetch(`http://127.0.0.1:8000/api/declinePendingUser/${id}`, {
-        method: "DELETE",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
-
-      if (!response.ok) throw new Error("Failed to decline user");
-
-      console.log("User declined:", id);
-      handleGetPendingUsers(); 
-    } catch (error) {
-      console.error(error.message);
-    }
-  };
 
   const router = useDemoRouter('/dashboard');
 
@@ -100,10 +96,9 @@ export default function DashboardLayoutBasic() {
     <AppProvider navigation={NAVIGATION} router={router} theme={DemoTheme}>
       <DashboardLayout>
       <PageContainer sx={{ border: '2px solid white', width: '100%' }}>
-            {renderContent(router.pathname.slice(1), pendingUsers, approvePending, declinePending)}
+            {renderContent(router.pathname.slice(1), pendingUsers, (id) => approvePending(id,handleGetPendingUsers), (id) => declinePending(id,handleGetPendingUsers),approveUsers)}
       </PageContainer>
       </DashboardLayout>
     </AppProvider>
   );
 }
-

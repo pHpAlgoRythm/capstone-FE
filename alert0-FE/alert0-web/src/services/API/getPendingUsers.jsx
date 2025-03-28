@@ -5,7 +5,7 @@ const getPendingUsers = async () => {
 
         if(response.ok){
             return {
-                users: data.data,
+                users: data.data
             }
         } else {
             return {
@@ -18,5 +18,4 @@ const getPendingUsers = async () => {
         }
     }
 }
-
 export default getPendingUsers;
