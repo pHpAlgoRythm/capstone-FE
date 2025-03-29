@@ -34,9 +34,9 @@ const Registration = () => {
 
   // max-w-sm sm:max-w-md md:max-w-lg lg:max-w-xl xl:max-w-2xl
   return (
-    <div className="bg-whit min-h-screen flex items-center justify-center px-4 sm:px-6 lg:px-10  overflow-hidden">
+    <div className="bg-gray-300 min-h-screen flex items-center justify-center px-4 sm:px-6 lg:px-10  overflow-hidden">
       <div
-        className="h-full w-full md:bg-white md:shadow-lg rounded-2xl p-10 "
+        className="bg-white h-full max-h-2xl w-full max-w-4xl md:shadow-lg rounded-2xl p-10 "
         data-aos="fade-down"
       >
         <form onSubmit={handleSubmit(submitData)}>
@@ -84,7 +84,11 @@ const Registration = () => {
 
             <div className="sm:col-span-2">
               <FormControl>
-                <FormLabel>Gender</FormLabel>
+                <FormLabel sx={
+                  {
+                    color: 'black'
+                  }
+                }>Gender</FormLabel>
                 <RadioGroup
                   row
                   {...register("gender", { required: "Gender is required" })}
@@ -182,24 +186,31 @@ const Registration = () => {
               )}
             </div>
 
-            <div className="sm:col-span-2 flex flex-col space-y-2">
-              <label htmlFor="approval_id_photo">Approval ID</label>
+            <div className="sm:col-span-2 md:flex gap-4 justify-center items-center">
+
+            <div className="sm:col-span-2 flex flex-col space-y-2 w-full max-w-3xl">
+            <FormLabel htmlFor="approval_id_photo" sx={
+                  {
+                    color: 'black'
+                  }
+                }>ID picture</FormLabel>
               <input
                 type="file"
                 id="approval_id_photo"
                 {...register("approval_id_photo")}
-                className="border-2 border-dashed border-gray-300 p-2"
+                className="border-3 border-dashed border-gray-300 p-2 h-40 md:h-45 lg:h-50  w-full max-w-sm  "
               />
             </div>
 
-            <div className="sm:col-span-2 flex flex-col space-y-2">
-              <label htmlFor="approval_photo">Approval Photo</label>
+            <div className="sm:col-span-2 flex flex-col space-y-2 w-full">
+            <FormLabel htmlFor="approval_photo">Live Picture</FormLabel>
               <input
                 type="file"
                 id="approval_photo"
                 {...register("approval_photo")}
-                className="border-2 border-dashed border-gray-300 p-2"
+                className="border-3 border-dashed border-gray-300 p-2 h-40 md:h-45 lg:h-50  w-full max-w-sm "
               />
+            </div>
             </div>
 
             {/* hidden */}

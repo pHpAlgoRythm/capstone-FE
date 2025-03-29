@@ -13,7 +13,7 @@ const Login = () => {
         handleSubmit,
         formState: { errors }
     } = useForm();
-    const { submitData, isSubmitting } = LoginAuth();
+    const { submitData, isSubmitting, } = LoginAuth();
 
       
     
@@ -22,6 +22,7 @@ const Login = () => {
           duration: 500,
           easing: "ease-out",
           once: true, 
+          
         });
       }, []);
     

@@ -8,8 +8,13 @@ import {
   Paper,
   Button,
 } from "@mui/material";
+import { useEffect } from "react";
 
 const PendingAccounts = ({ users, approvePending, declinePending }) => {
+  useEffect(() =>{
+    document.title = 'KCERA: Adminpage'
+  })
+
   return (
     <TableContainer component={Paper}>
       <Table>

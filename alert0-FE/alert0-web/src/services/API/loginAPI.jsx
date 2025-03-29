@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
-
+import { Alert } from "@mui/material";
 const LoginAuth = () => {
   
   const navigate = useNavigate();
@@ -18,16 +18,17 @@ const LoginAuth = () => {
     });
     
       if(!response.ok){
-        throw new Error('Invalid Credentials')
+        throw new Error('invalid credentials')
       }
 
       const result = await response.json();
-
         localStorage.setItem("token", result.data.token);
         localStorage.setItem("userID", result.data.id);
         localStorage.setItem("fullName", result.data.message);
         
         if (result.data.role == "resident") {
+          
+      console.log('success');
           navigate("/resident/dashboard");
         } else if (result.data.role == "admin") {
           navigate("/adminPage/dashboard");

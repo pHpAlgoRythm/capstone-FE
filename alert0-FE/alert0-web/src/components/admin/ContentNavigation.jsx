@@ -1,63 +1,76 @@
+import {
+  AccountCircle,
+  DirectionsRun,
+  Emergency,
+  FireTruck,
+  ManageAccounts,
+  PendingActions,
+  People,
+  Person,
+} from "@mui/icons-material";
 
-import DashboardIcon from '@mui/icons-material/Dashboard';
-import { Person } from '@mui/icons-material';
-import BarChartIcon from '@mui/icons-material/BarChart';
-import LayersIcon from '@mui/icons-material/Layers';
+import BarChartIcon from "@mui/icons-material/BarChart";
 
 export const NAVIGATION = [
   {
-    kind: 'header',
-    title: 'Main',
+    kind: "header",
+    title: "Main",
   },
   {
-    segment: 'dashboard',
-    title: 'Emergency Request',
-    icon: <DashboardIcon />,
+    segment: "emergencyRequests",
+    title: "Emergency Request",
+    icon: <Emergency />,
   },
 
   {
-    segment: 'accounts',
-    title: 'Accounts',
-    icon: <Person />,
+    segment: "accounts",
+    title: "Accounts",
+    icon: <ManageAccounts />,
     children: [
       {
-        segment: 'pendingAccounts',
-        title: 'Pending Accounts',
-        icon: <Person />,
+        segment: "pendingAccounts",
+        title: "Pending Accounts",
+        icon: <PendingActions />,
       },
       {
-        segment: 'residents',
-        title: 'Residents',
-        icon: <Person />,
+        segment: "residents",
+        title: "Residents",
+        icon: <People />,
       },
       {
-        segment: 'responders',
-        title: 'Responders',
-        icon: <Person />,
+        segment: "responders",
+        title: "Responders",
+        icon: <DirectionsRun />,
       },
       {
-        segment: 'drivers',
-        title: 'Drivers',
-        icon: <Person />,
-      }
+        segment: "drivers",
+        title: "Drivers",
+        icon: <FireTruck />,
+      },
     ],
   },
   {
-    kind: 'divider',
+    kind: "divider",
   },
   {
-    kind: 'header',
-    title: 'Analytics',
+    kind: "header",
+    title: "Analytics",
   },
   {
-    segment: 'reports',
-    title: 'Reports',
+    segment: "reports",
+    title: "Reports",
     icon: <BarChartIcon />,
-
   },
   {
-    segment: 'integrations',
-    title: 'Integrations',
-    icon: <LayersIcon />,
+    kind: "divider",
+  },
+  {
+    kind: "header",
+    title: "Setings",
+  },
+  {
+    segment: "myAccount",
+    title: "My Account",
+    icon: <AccountCircle/>,
   },
 ];

@@ -1,7 +1,6 @@
 import { extendTheme } from '@mui/material/styles';
- 
  export const DemoTheme = extendTheme({
-  colorSchemes: { light: true, dark: true },
+  colorSchemes: { light:true, dark: true },
   colorSchemeSelector: 'class',
   breakpoints: {
     values: {

@@ -1,25 +1,26 @@
 import React from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Registration from "./Auth/Registration";
+import Registration from "./auth/Registration";
 import Login from "./auth/Login";
 import ProtectedRoutes from "./auth/ProtectedRoutes";
-import DashboardLayoutBasic from "./components/admin/AdminDashboard";
+import AdminDashboard from "./pages/Admin/AdminDashboard";
 const App = () => {
     return (
-        <>
-            <BrowserRouter>
+          <BrowserRouter>
+          {/*public Routes*/}
                 <Routes>
                     <Route path="/" element={<Login />} />
                     <Route path="/login" element={<Login />} />
                     <Route path="/registration" element={<Registration />} />
-                    <Route path="/resident/dashboard" element= {<DashboardLayoutBasic/>}></Route>
+                    <Route path="/admin/dashboard" element= {<AdminDashboard/>}/>
 
-                    <Route element={<ProtectedRoutes />}>
-            
+
+        {/* Private Routes (Registered Users only) */}
+                    <Route element={<ProtectedRoutes />}/>
+                        <Route path="/resident/dashboard">
                     </Route>
                 </Routes>
             </BrowserRouter>
-        </>
     );
 };
 
