@@ -14,7 +14,6 @@ const App = () => {
                     <Route path="/registration" element={<Registration />} />
                     <Route path="/admin/dashboard" element= {<AdminDashboard/>}/>
 
-
         {/* Private Routes (Registered Users only) */}
                     <Route element={<ProtectedRoutes />}/>
                         <Route path="/resident/dashboard">

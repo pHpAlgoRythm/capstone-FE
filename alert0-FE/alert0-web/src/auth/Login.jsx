@@ -46,6 +46,7 @@ const Login = () => {
                             fullWidth
                             label="Email"
                             size="small"
+                            placeholder='johnDoe@example.com'
                         />
                         {errors.email && <p className="text-red-700">{errors.email.message}</p>}
                         <TextField
