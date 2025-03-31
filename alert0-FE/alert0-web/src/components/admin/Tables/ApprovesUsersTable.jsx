@@ -7,11 +7,14 @@ import {
     TableRow,
     Paper,
   } from "@mui/material";
+  import { GetDocTitle } from "../../../utils/hooks/useDocumentTitle";
 
+    const Approveduserstable = ({ resident}) => {
+        
+      return (
+        <> 
+        <GetDocTitle title = 'KCERA: Approved Users'  />
 
-  const Approveduserstable = ({ resident}) => {
-    console.log(resident)
-    return (
       <TableContainer component={Paper}>
         <Table>
           <TableHead>
@@ -38,6 +41,7 @@ import {
           </TableBody>
         </Table>
       </TableContainer>
+      </>
     );
   };
   

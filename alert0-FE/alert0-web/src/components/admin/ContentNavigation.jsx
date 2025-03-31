@@ -8,9 +8,7 @@ import {
   People,
   Person,
 } from "@mui/icons-material";
-
 import BarChartIcon from "@mui/icons-material/BarChart";
-
 export const NAVIGATION = [
   {
     kind: "header",
@@ -20,7 +18,9 @@ export const NAVIGATION = [
     segment: "emergencyRequests",
     title: "Emergency Request",
     icon: <Emergency />,
+    
   },
+    
 
   {
     segment: "accounts",

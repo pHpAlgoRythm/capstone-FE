@@ -12,7 +12,6 @@ import getApprovedUsers from "../../services/API/getApprovedUsers";
 import Approveduserstable from "../../components/admin/Tables/ApprovesUsersTable";
 
 import { io } from "socket.io-client";
-
 function useDemoRouter(initialPath) {
   const [pathname, setPathname] = React.useState(initialPath);
 
@@ -35,7 +34,7 @@ const renderContent = (
 ) => {
   switch (section) {
     case "emergencyRequests":
-      return <PendingAccounts users={[]} />;
+      return <h1>Under Development</h1>;
     case "accounts/pendingAccounts":
       return (
         <PendingAccounts

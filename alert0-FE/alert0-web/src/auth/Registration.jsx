@@ -1,6 +1,7 @@
 import { useForm } from "react-hook-form";
 import RegAuth from "../services/API/RegisterAPI";
 import { isValidEmail, isValidPhone, isValidPassword } from "../utils/validate";
+
 import {
   Button,
   TextField,
@@ -10,9 +11,10 @@ import {
   FormControlLabel,
   Radio,
 } from "@mui/material";
-import { useEffect } from "react";
+import { useEffect,useState,useRef } from "react";
 import Aos from "aos";
 import "aos/dist/aos.css";
+import WebCamera from "../utils/AccessWebCam";
 
 const Registration = () => {
   const {
@@ -31,6 +33,13 @@ const Registration = () => {
       once: true,
     });
   }, []);
+  const webcamRef = useRef(null)
+  const [cameraOn,setCameraOn]= useState(false)
+  const [capturedImg,SetCaptureImg] =useState(null)
+
+  const handleCameraOn = () => {
+    setCameraOn(true)
+  }
 
   // max-w-sm sm:max-w-md md:max-w-lg lg:max-w-xl xl:max-w-2xl
   return (
@@ -186,7 +195,7 @@ const Registration = () => {
               )}
             </div>
 
-            <div className="sm:col-span-2 md:flex gap-4 justify-center items-center">
+            <div className="sm:col-span-2 flex gap-4 justify-center items-center">
 
             <div className="sm:col-span-2 flex flex-col space-y-2 w-full max-w-3xl">
             <FormLabel htmlFor="approval_id_photo" sx={
@@ -202,15 +211,20 @@ const Registration = () => {
               />
             </div>
 
-            <div className="sm:col-span-2 flex flex-col space-y-2 w-full">
-            <FormLabel htmlFor="approval_photo">Live Picture</FormLabel>
-              <input
+            <div className="sm:col-span-2 flex flex-col space-y-2 w-full justify-center">
+            
+              {/* <input
                 type="file"
                 id="approval_photo"
                 {...register("approval_photo")}
                 className="border-3 border-dashed border-gray-300 p-2 h-40 md:h-45 lg:h-50  w-full max-w-sm "
-              />
+              />  */}
+            <FormLabel htmlFor="approval_photo">Live Photo</FormLabel>
+            <img src={capturedImg} className="border h-30 md:h-50 md:w-md lg:h-70 lg:w-lg   " />
+            {cameraOn && <WebCamera webcamRef={webcamRef} SetCaptureImg={SetCaptureImg} setCameraOn={setCameraOn}/>}
+            <Button type="button" onClick={handleCameraOn} variant="contained" color="success" >Capture</Button>
             </div>
+           
             </div>
 
             {/* hidden */}
@@ -227,8 +241,9 @@ const Registration = () => {
               value="Pending"
               {...register("approval_status")}
             />
-
+   
             <div className="sm:col-span-2 flex flex-col items-center space-y-2 ">
+            <hr className="col-span-2 w-full" />
               <Button
                 type="submit"
                 variant="contained"

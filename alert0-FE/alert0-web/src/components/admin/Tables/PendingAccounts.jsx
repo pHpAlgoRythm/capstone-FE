@@ -8,14 +8,14 @@ import {
   Paper,
   Button,
 } from "@mui/material";
-import { useEffect } from "react";
+import { GetDocTitle } from "../../../utils/hooks/useDocumentTitle";
 
 const PendingAccounts = ({ users, approvePending, declinePending }) => {
-  useEffect(() =>{
-    document.title = 'KCERA: Adminpage'
-  })
-
+  
   return (
+   <>
+   <GetDocTitle title='KCERA: Pending Accounts' /> 
+    
     <TableContainer component={Paper}>
       <Table>
         <TableHead>
@@ -26,7 +26,6 @@ const PendingAccounts = ({ users, approvePending, declinePending }) => {
             <TableCell style={{ width: "25%" }}>Actions</TableCell>
           </TableRow>
         </TableHead>
-
         <TableBody>
           {users.map((user) => (
             <TableRow key={user.id}>
@@ -42,6 +41,8 @@ const PendingAccounts = ({ users, approvePending, declinePending }) => {
         </TableBody>
       </Table>
     </TableContainer>
+   
+   </>
   );
 };
 

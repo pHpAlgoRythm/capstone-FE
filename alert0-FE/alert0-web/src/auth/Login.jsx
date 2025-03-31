@@ -5,8 +5,6 @@ import { Button, TextField } from '@mui/material';
 import { useEffect } from 'react';
 import Aos from "aos";
 import "aos/dist/aos.css";
-
-
 const Login = () => {
     const { 
         register,
@@ -14,8 +12,6 @@ const Login = () => {
         formState: { errors }
     } = useForm();
     const { submitData, isSubmitting, } = LoginAuth();
-
-      
     
       useEffect(() => {
         Aos.init({
@@ -25,7 +21,6 @@ const Login = () => {
           
         });
       }, []);
-    
 
     return (
         <div className ='bg-white md:bg-gray-300 min-h-screen w-screen flex items-center justify-center overflow-hidden'>
@@ -62,7 +57,6 @@ const Login = () => {
                         <Button type="submit" variant="contained" size="small" fullWidth>
                             {isSubmitting ? "Logging in..." : "Login"}
                         </Button>
-
                         <p className="text-center">
                             Don't have an account? <a href="./Registration" className="text-sky-500">Register</a>
                         </p>
