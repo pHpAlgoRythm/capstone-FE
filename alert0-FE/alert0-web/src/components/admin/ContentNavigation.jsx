@@ -6,7 +6,8 @@ import {
   ManageAccounts,
   PendingActions,
   People,
-  Person,
+  PersonAdd,
+  DirectionsCar
 } from "@mui/icons-material";
 import BarChartIcon from "@mui/icons-material/BarChart";
 export const NAVIGATION = [
@@ -45,7 +46,12 @@ export const NAVIGATION = [
       {
         segment: "drivers",
         title: "Drivers",
-        icon: <FireTruck />,
+        icon: <DirectionsCar />,
+      },
+      {
+        segment: "addNew",
+        title: "Add New Account",
+        icon: <PersonAdd/>,
       },
     ],
   },

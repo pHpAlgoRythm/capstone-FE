@@ -21,7 +21,8 @@ import {
             <TableRow>
               <TableCell style={{ width: "25%" }}>Fullname</TableCell>
               <TableCell style={{ width: "25%" }}>Email</TableCell>
-              <TableCell style={{ width: "25%" }}>Approval Status</TableCell>
+              <TableCell style={{ width: "25%" }}>address</TableCell>
+              
               {/* <TableCell style={{ width: "25%" }}>Actions</TableCell> */}
             </TableRow>
           </TableHead>
@@ -31,7 +32,7 @@ import {
               <TableRow key={resident.id}>
                 <TableCell>{resident.name}</TableCell>
                 <TableCell>{resident.email}</TableCell>
-                <TableCell>{resident.approval_status}</TableCell>
+                <TableCell>{resident.address}</TableCell>
                 {/* <TableCell>
                   <Button variant="contained" onClick={() => approvePending(user.id)}>Approve</Button>{" "}
                   <Button variant="outlined" onClick={() => declinePending(user.id)}>Decline</Button>{" "}
