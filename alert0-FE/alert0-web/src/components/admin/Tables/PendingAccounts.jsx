@@ -10,10 +10,11 @@ import {
 } from "@mui/material";
 import { GetDocTitle } from "../../../utils/hooks/useDocumentTitle";
 
-import ApprovalId from "../actions/ViewId";
+import ApprovalPhoto from "../actions/ViewPhoto";
 
 const PendingAccounts = ({ users, approvePending, declinePending }) => {
-  
+    console.log(users)
+
   return (
    <>
    <GetDocTitle title='KCERA: Pending Accounts' /> 
@@ -35,13 +36,23 @@ const PendingAccounts = ({ users, approvePending, declinePending }) => {
               <TableCell>{user.name}</TableCell>
               <TableCell>{user.email}</TableCell>
               <TableCell>{user.approval_status}</TableCell>
-              <TableCell className="flex">
-                  <Button variant="contained" className="w-[50%]" onClick={() => ApprovalId(user.approval_id_photo)}>View ID</Button>
-                  <Button variant="outlined"  className="w-{50%]">View Photo</Button>
+              <TableCell>
+                <div className=" w-full h-full flex-col">
+                  <ApprovalPhoto
+                   id={user.approval_photo}
+                   live={user.approval_id_photo}
+                  
+                  />
+                 
+                </div>
               </TableCell>
               <TableCell>
-                <Button variant="contained" onClick={() => approvePending(user.id)}>Approve</Button>{" "}
-                <Button variant="outlined" onClick={() => declinePending(user.id)}>Decline</Button>{" "}
+                <div className="w-full h-full flex-col">
+                  
+                    <Button variant="contained" onClick={() => approvePending(user.id)} className="w-full">Approve</Button>
+                 
+                    <Button variant="outlined" onClick={() => declinePending(user.id)} className="w-full">Decline</Button>
+                </div>
               </TableCell>
             </TableRow>
           ))}

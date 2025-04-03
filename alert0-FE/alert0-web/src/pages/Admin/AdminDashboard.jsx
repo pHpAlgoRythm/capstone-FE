@@ -24,11 +24,7 @@ import NewAccount from "../../components/admin/AddNewAccount";
 
 // socket
 import { io } from "socket.io-client";
-// <<<<<<< Updated upstream
-// =======
 
-
-// >>>>>>> Stashed changes
 function useDemoRouter(initialPath) {
   const [pathname, setPathname] = React.useState(initialPath);
 

@@ -352,9 +352,25 @@ const Registration = () => {
                   </div>
                 </div>
             
+<<<<<<< Updated upstream
             </>
             }
                 {activeStep === 2 &&
+=======
+              {/* <input
+                type="file"
+                id="approval_photo"
+                {...register("approval_photo")}
+                className="border-3 border-dashed border-gray-300 p-2 h-40 md:h-45 lg:h-50  w-full max-w-sm "
+              />  */}
+            <FormLabel htmlFor="approval_photo">Live Photo</FormLabel>
+            <img src={capturedImg} className="border h-30 md:h-50 md:w-md lg:h-70 lg:w-lg" />
+            {cameraOn && <WebCamera webcamRef={webcamRef} SetCaptureImg={SetCaptureImg} setCameraOn={setCameraOn}/>}
+            <Button type="button" onClick={handleCameraOn} variant="contained" color="success" >Capture</Button>
+            </div>
+           
+            </div>
+>>>>>>> Stashed changes
 
                   <div className="w-full h-full ">
 

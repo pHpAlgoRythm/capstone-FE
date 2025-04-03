@@ -4,6 +4,7 @@ import Registration from "./auth/Registration";
 import Login from "./auth/Login";
 import ProtectedRoutes from "./auth/ProtectedRoutes";
 import AdminDashboard from "./pages/Admin/AdminDashboard";
+import PendingLandingPage from "./pages/Residents/PendingUserLanding";
 const App = () => {
     return (
           <BrowserRouter>
@@ -13,10 +14,12 @@ const App = () => {
                     <Route path="/login" element={<Login />} />
                     <Route path="/registration" element={<Registration />} />
                     <Route path="/admin/dashboard" element= {<AdminDashboard/>}/>
+                    <Route path= "/resident/pending" element={<PendingLandingPage/>}/>
 
         {/* Private Routes (Registered Users only) */}
                     <Route element={<ProtectedRoutes />}/>
                         <Route path="/resident/dashboard">
+                        
                     </Route>
                 </Routes>
             </BrowserRouter>

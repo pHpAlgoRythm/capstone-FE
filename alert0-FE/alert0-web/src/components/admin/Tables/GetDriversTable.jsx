@@ -1,3 +1,4 @@
+
 import {
     Table,
     TableBody,
@@ -6,6 +7,7 @@ import {
     TableHead,
     TableRow,
     Paper,
+    Button
   } from "@mui/material";
 
   const DriversTable = ({ drivers}) => {
@@ -18,6 +20,7 @@ import {
               <TableCell style={{ width: "25%" }}>Fullname</TableCell>
               <TableCell style={{ width: "25%" }}>Email</TableCell>
               <TableCell style={{ width: "25%" }}>Approval Status</TableCell>
+              <TableCell style={{ width: "25%" }}>Action</TableCell>
              
             </TableRow>
           </TableHead>
@@ -28,6 +31,9 @@ import {
                 <TableCell>{drivers.name}</TableCell>
                 <TableCell>{drivers.email}</TableCell>
                 <TableCell>{drivers.approval_status}</TableCell>
+                <TableCell>
+                  <Button variant="contained">Assign</Button>
+                </TableCell>
                 
               </TableRow>
             ))}

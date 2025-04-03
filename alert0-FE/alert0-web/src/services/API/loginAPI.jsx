@@ -27,9 +27,14 @@ const LoginAuth = () => {
         localStorage.setItem("fullName", result.data.message);
         
         if (result.data.role == "resident") {
+          if(result.data.approval ===  'Pending'){
+            console.log('pending'); 
+            navigate("/resident/pending")
+          }else{
+            console.log('success');
+            navigate("/resident/dashboard");
+          }
           
-      console.log('success');
-          navigate("/resident/dashboard");
         } else if (result.data.role == "admin") {
           navigate("/adminPage/dashboard");
         } else alert("Invalid Account Log in");
