@@ -8,6 +8,7 @@ const WebCamera = ({ webcamRef, SetCaptureImg, setCameraOn}) => {
           const imgSrc = webcamRef.current.getScreenshot();
           SetCaptureImg(imgSrc);
           setCameraOn(false);
+          console.log(imgSrc)
         }
       };
       
@@ -16,7 +17,7 @@ const WebCamera = ({ webcamRef, SetCaptureImg, setCameraOn}) => {
         <Webcam
           audio={false}
           ref={webcamRef}
-          screenshotFormat="image/png"
+          screenshotFormat="image/jpg"
           className="h-screen w-screen fixed left-0 top-0 z-2 object-cover"
         />
         <button onClick={handleCapture} className="fixed bg-white bottom-0 z-3">Capture</button>
