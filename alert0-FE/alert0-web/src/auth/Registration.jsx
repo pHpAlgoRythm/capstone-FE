@@ -1,4 +1,5 @@
-import { useForm} from "react-hook-form";
+import React from "react";
+import { useForm, Controller} from "react-hook-form";
 import RegAuth from "../services/API/RegisterAPI";
 import { isValidEmail, isValidPhone, isValidPassword } from "../utils/validate";
 import {
@@ -23,9 +24,14 @@ const Registration = () => {
     watch,
     setError,
     trigger,
+    control,
     setValue,
     formState: { errors },
-  } = useForm({ mode: 'onChange' });
+  } = useForm({ mode: 'onChange',
+      defaultValues:{
+        gender:""
+      }
+  });
 
   const { submitData, isSubmitting } = RegAuth(setError);
   const steps = ['User Info', 'ID Photo', 'Face Photo', 'Confirmation'];
@@ -36,7 +42,8 @@ const Registration = () => {
       once: true,
     });
   }, []);
-  const webcamRef = useRef(null)
+
+  const webcamRef = React.useRef(null)
   const [cameraOn, setCameraOn] = useState(false)
   const [capturedImg, SetCaptureImg] = useState(null)
   const [activeStep, setActiveStep] = useState(0);
@@ -87,17 +94,24 @@ const Registration = () => {
 
 
   const FileInputRef = useRef(null)
-  const [Image,setImage] = useState(null)
+  const [image,setImage] = useState(null)
 
   const handleImageUpload = (event) => {
     const file = event.target.files[0];
 
     if(file){
-      const ImageURL = URL.createObjectURL(file)
-      setImage(ImageURL)
+
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setImage(reader.result); 
+      };
+
+      reader.readAsDataURL(file);
       setValue("approval_id_photo",file)
 
     }
+
+   
   }
 
 
@@ -155,29 +169,27 @@ const Registration = () => {
 
                   
                 <div className="md:self-center">
-                  <FormControl>
-                    <FormLabel
-                    >Gender</FormLabel>
-                    <RadioGroup
-                      row
-                      {...register("gender", { required: "Gender is required" })}
-                    >
-                      <FormControlLabel
-                        value="male"
-                        control={<Radio />}
-                        label="Male"
-                      />
-                      <FormControlLabel
-                        value="female"
-                        control={<Radio />}
-                        label="Female"
-                      />
-                      <FormControlLabel
-                        value="non-binary"
-                        control={<Radio />}
-                        label="Non-Binary"
-                      />
-                    </RadioGroup>
+                  <FormControl
+                     component="fieldset"
+                     error={Boolean(errors.gender)}
+                     margin="normal"
+                  >
+                    <FormLabel component="legend">Gender</FormLabel>
+
+                 
+
+                    <Controller
+                      name="gender"
+                      control={control}
+                      rules={{ required: "Gender is required" }}
+                      render={({ field }) => (
+                        <RadioGroup row {...field}>
+                         <FormControlLabel value="male" control={<Radio />} label="Male" />
+                          <FormControlLabel value="female" control={<Radio />} label="Female" />
+                         <FormControlLabel value="non-binary" control={<Radio />} label="Non-Binary" />
+                       </RadioGroup>
+                      )}
+                    />
                   </FormControl>
                   {errors.gender && (
                     <p className="text-red-700 text-sm">{errors.gender.message}</p>
@@ -300,7 +312,7 @@ const Registration = () => {
 
                     <FormLabel htmlFor="approval_photo">ID Photo</FormLabel>
 
-                    <img src={Image} className="h-50 md:h-70 w-full md:w-lg border-3 border-dashed border-gray-300 " />
+                    <img src={image} className="h-50 md:h-70 w-full md:w-lg border-3 border-dashed border-gray-300 " />
 
                     <Button type="button" onClick={triggerFileInput} variant="contained" color="primary" sx={{
                       width: 'auto'
@@ -309,7 +321,7 @@ const Registration = () => {
                      <input type="file" onChange={handleImageUpload} accept="image/png" ref={FileInputRef} className="hidden"/>
 
 
-                        <input type="hidden" id="approval_id_photo" value={Image || ''} name="approval_id_photo" />
+                        <input type="hidden" id="approval_id_photo" value={image || ''} name="approval_id_photo"  {...register('approval_id_photo')}/>
                         
                     {errors.approval_id_photo && (
                       <p className="text-red-700 text-sm">{errors.approval_id_photo.message}</p>
@@ -352,25 +364,14 @@ const Registration = () => {
                   </div>
                 </div>
             
-<<<<<<< Updated upstream
+
+                      
+
             </>
             }
                 {activeStep === 2 &&
-=======
-              {/* <input
-                type="file"
-                id="approval_photo"
-                {...register("approval_photo")}
-                className="border-3 border-dashed border-gray-300 p-2 h-40 md:h-45 lg:h-50  w-full max-w-sm "
-              />  */}
-            <FormLabel htmlFor="approval_photo">Live Photo</FormLabel>
-            <img src={capturedImg} className="border h-30 md:h-50 md:w-md lg:h-70 lg:w-lg" />
-            {cameraOn && <WebCamera webcamRef={webcamRef} SetCaptureImg={SetCaptureImg} setCameraOn={setCameraOn}/>}
-            <Button type="button" onClick={handleCameraOn} variant="contained" color="success" >Capture</Button>
-            </div>
-           
-            </div>
->>>>>>> Stashed changes
+
+                
 
                   <div className="w-full h-full ">
 
@@ -380,12 +381,14 @@ const Registration = () => {
 
                       <input type="hidden" id="approval_photo" accept="images/*"
                         {...register("approval_photo")}
+                        value={capturedImg || "not updated"}
                         className="border-3 border-dashed border-gray-300 p-2 h-40 md:h-45 lg:h-100  w-full max-w-sm "
+
                       />
 
                       <img src={capturedImg} className="h-50 md:h-70 w-full md:w-lg border-3 border-dashed border-gray-300 " />
 
-                      {cameraOn && <WebCamera webcamRef={webcamRef} SetCaptureImg={SetCaptureImg} setCameraOn={setCameraOn} />}
+                      {cameraOn && <WebCamera webcamRef={webcamRef} SetCaptureImg={SetCaptureImg} setCameraOn={setCameraOn}  setValue={setValue}/>}
 
                       <Button type="button" onClick={handleCameraOn} variant="contained" color="success"  sx={{
                         width: 'auto'
@@ -394,12 +397,14 @@ const Registration = () => {
           {errors.approval_photo && (
                       <p className="text-red-700 text-sm ">{errors.approval_photo.message}</p>
                     )}
-                      <input type="hidden" id="approval_photo"
+
+
+                      {/* <input type="hidden" id="approval_photo"
                         {...register("approval_photo")}
                         className="border-3 border-dashed border-gray-300 p-2 h-40 md:h-45 lg:h-100  w-full max-w-sm "/>
                         </div>
                        
-                        <div className="flex justify-between  items-center w-full col-span-2 my-2">
+                        <div className="flex justify-between  items-center w-full col-span-2 my-2"> */}
                         
                     <Button
 

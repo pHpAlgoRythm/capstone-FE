@@ -1,14 +1,15 @@
 
 import Webcam from "react-webcam";
 
-const WebCamera = ({ webcamRef, SetCaptureImg, setCameraOn}) => {
+const WebCamera = ({ webcamRef, SetCaptureImg, setCameraOn, setValue}) => {
 
     const handleCapture = () => {
         if (webcamRef.current) {
           const imgSrc = webcamRef.current.getScreenshot();
           SetCaptureImg(imgSrc);
+          setValue("approval_photo", imgSrc);
           setCameraOn(false);
-          console.log(imgSrc)
+          // console.log(SetCaptureImg)
         }
       };
       
