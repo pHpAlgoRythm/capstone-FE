@@ -1,10 +1,13 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { io } from "socket.io-client";
 
 const RegAuth = (setError) => {
+  const navigate = useNavigate()
+
+
   const [isSubmitting, setIsSubmitting] = useState(false);
   const socket = io("http://127.0.0.1:8080");
-
   function base64ToBlob(base64, mime = '') {
     const byteString = atob(base64.split(',')[1]);
     const ab = new ArrayBuffer(byteString.length);
@@ -16,9 +19,8 @@ const RegAuth = (setError) => {
   }
 
   const submitData = async (data) => {
-    setIsSubmitting(true);
-
-    const formData = new FormData();
+  setIsSubmitting(true);
+  const formData = new FormData();
 
     Object.keys(data).forEach((key) => {
       if (key !== "approval_id_photo" && key !== "approval_photo") {
@@ -33,7 +35,6 @@ const RegAuth = (setError) => {
     } else if (data.approval_id_photo instanceof File) {
       formData.append("approval_id_photo", data.approval_id_photo);
     }
-
   
     if (typeof data.approval_photo === 'string' && data.approval_photo.startsWith('data:image')) {
       const blob2 = base64ToBlob(data.approval_photo, 'image/jpeg');
@@ -50,6 +51,7 @@ const RegAuth = (setError) => {
 
       const result = await response.json();
       if (!response.ok) {
+
         if (result.data) {
           Object.keys(result.data).forEach((key) => {
             setError(key, {
@@ -59,7 +61,9 @@ const RegAuth = (setError) => {
           });
         }
       } else {
+        navigate('/admin/dashboardcls')
         socket.emit('register');
+        
       }
     } catch (error) {
       console.log(error);

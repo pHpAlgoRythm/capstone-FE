@@ -3,6 +3,7 @@ import { useForm, Controller} from "react-hook-form";
 import RegAuth from "../services/API/RegisterAPI";
 import { isValidEmail, isValidPhone, isValidPassword } from "../utils/validate";
 import {
+  Typography,
   Button,
   TextField,
   FormControl,
@@ -16,7 +17,7 @@ import { useEffect, useState, useRef } from "react";
 import Aos from "aos";
 import "aos/dist/aos.css";
 import WebCamera from "../utils/AccessWebCam";
-import { NavigateBefore, NavigateNext } from "@mui/icons-material";
+import { Handshake, NavigateBefore, NavigateNext } from "@mui/icons-material";
 const Registration = () => {
   const {
     register,
@@ -47,18 +48,36 @@ const Registration = () => {
   const [cameraOn, setCameraOn] = useState(false)
   const [capturedImg, SetCaptureImg] = useState(null)
   const [activeStep, setActiveStep] = useState(0);
+    const [terms,setTerms] = useState(false)
 
   const handleCameraOn = () => {
     setCameraOn(true)
     
   }
 
+  const handleCheck = (event) => {
+    if(event.target.checked){
+      
+      setTerms(true)
+  }else{
+    alert('failed')
+  }
+  }
+
   const handleNext = async () => {
     let isValid = false
     try {
-      if (activeStep === 0) {
+      if(activeStep === 0) {
+          if(terms){
+         
+            isValid = true
+          }else{
+           alert('Please aggree to the terms and conditions')
+          }
+      }        
+        else if (activeStep === 1) {
         isValid = await trigger(['name', 'gender', 'phone', 'password', 'c_password', 'address'])
-      } else if (activeStep === 1) {
+      } else if (activeStep === 2) {
         const fileInput = watch('approval_id_photo')
         if(!fileInput){
           setError('approval_id_photo', {
@@ -69,7 +88,7 @@ const Registration = () => {
         }else {
           isValid = await trigger('approval_id_photo')
         }
-      }else if(activeStep === 2){
+      }else if(activeStep === 3){
 
         if(!capturedImg){
           setError('approval_photo',{
@@ -149,7 +168,32 @@ const Registration = () => {
 
           <div className="mx-auto p-3 h-auto w-auto ">
 
-            {activeStep === 0&&
+
+
+            {activeStep === 0 && 
+    
+              <div className="shadow-lg p-2 rounded-lg flex flex-col gap-2">   
+                <hr />
+              <h1 className="uppercase text-center font-bold text-3xl" >Welcome</h1>
+
+                <div>
+                  <Typography  variant="h5">Agreement</Typography>
+                  <div>
+                      Lorem ipsum dolor sit amet consectetur adipisicing elit. Cumque saepe, earum magnam exercitationem recusandae totam, amet beatae possimus tenetur porro dolores consequuntur. Dignissimos minus magni quo ducimus enim accusantium at
+                      
+                  </div>
+                  <input type="checkbox" onClick={handleCheck} />
+                </div>
+                  <Button type="button" onClick={handleNext} endIcon={<NavigateNext/>} variant="contained" sx={{
+                    width: 'auto'
+                  }}> Next</Button>
+              </div>
+            
+            
+            
+            }
+
+            {activeStep === 1 &&
 
               <div className="flex flex-col mx-auto px-auto h-auto w-auto  gap-2">
 
@@ -287,6 +331,23 @@ const Registration = () => {
 
                 </div>
                 <hr className="col-span-1" />
+
+                <Button
+
+type="button"
+variant="contained"
+size="small"
+onClick={handleBack}
+startIcon={<NavigateBefore />}
+fullWidth
+sx={{
+  width: "auto",
+  backgroundColor: '#374151'
+
+}} >
+
+back
+</Button>
                 <Button
                   className="sm:col-span-2 my-2"
                   type="button"
@@ -304,7 +365,7 @@ const Registration = () => {
 
               </div>}
 
-            {activeStep === 1 &&
+            {activeStep === 2 &&
               <>
                 <div className="sm:col-span-2  w-full h-full ">
 
@@ -321,7 +382,7 @@ const Registration = () => {
                      <input type="file" onChange={handleImageUpload} accept="image/png" ref={FileInputRef} className="hidden"/>
 
 
-                        <input type="hidden" id="approval_id_photo" value={image || ''} name="approval_id_photo"  {...register('approval_id_photo')}/>
+                     <input type="hidden" id="approval_id_photo" value={image || ''} name="approval_id_photo"  {...register('approval_id_photo')}/>
                         
                     {errors.approval_id_photo && (
                       <p className="text-red-700 text-sm">{errors.approval_id_photo.message}</p>
@@ -369,7 +430,7 @@ const Registration = () => {
 
             </>
             }
-                {activeStep === 2 &&
+                {activeStep === 3 &&
 
                 
 
@@ -444,20 +505,7 @@ const Registration = () => {
                         </div>
                 }
                
-                {activeStep === 4 &&
-
-                  <div className="sm:col-span-2 flex flex-col items-center space-y-2 ">
-
-                    <Button type="submit">{isSubmitting ? 'Registering' : 'register'}</Button>
-
-                    <p className="text-base/10 ">
-                      Already have an account?{" "}
-                      <a href="./login" className="text-sky-500">
-                        Login
-                      </a>
-                    </p>
-                  </div>
-                }
+            
                 
                 {/* hidden */}
                 <input
