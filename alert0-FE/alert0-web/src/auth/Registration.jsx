@@ -36,7 +36,7 @@ const Registration = () => {
   });
 
   const { submitData, isSubmitting } = RegAuth(setError);
-  const steps = ['User Info', 'ID Photo', 'Face Photo', 'Confirmation'];
+  const steps = ['Term and Condition','User Info', 'ID Photo', 'Face Photo' ];
   useEffect(() => {
     Aos.init({
       duration: 500,
@@ -67,7 +67,7 @@ const Registration = () => {
 
   const handleNext = async () => {
     let isValid = false
-    try {
+    try { 
       if (activeStep === 0) {
         if (terms) {
 
@@ -188,9 +188,12 @@ const Registration = () => {
                 <Button type="button" onClick={handleNext} endIcon={<NavigateNext />} variant="contained" sx={{
                   width: 'auto'
                 }}> Next</Button>
+
+                
+                
               </div>
 
-
+                
 
             }
 
@@ -331,38 +334,41 @@ const Registration = () => {
                   )}
 
                 </div>
-                <hr className="col-span-1" />
+                
+                  <div className="flex justify-between pt-2 items-center w-full col-span-2 my-2 border-t">
+                  <Button
 
-                <Button
+                            type="button"
+                            variant="contained"
+                            size="small"
+                            onClick={handleBack}
+                            // startIcon={<NavigateBefore />}
+                            fullWidth
+                            sx={{
+                              width: "auto",
+                              backgroundColor: '#374151'
 
-                  type="button"
-                  variant="contained"
-                  size="small"
-                  onClick={handleBack}
-                  startIcon={<NavigateBefore />}
-                  fullWidth
-                  sx={{
-                    width: "auto",
-                    backgroundColor: '#374151'
+                            }} >
 
-                  }} >
+                            back
+                   </Button>
+                  <Button
+                            className="sm:col-span-2 my-2"
+                            type="button"
+                            variant="contained"
+                            size="small"
+                            onClick={handleNext}
+                            fullWidth
+                            sx={{
 
-                  back
-                </Button>
-                <Button
-                  className="sm:col-span-2 my-2"
-                  type="button"
-                  variant="contained"
-                  size="small"
-                  onClick={handleNext}
-                  fullWidth
-                  sx={{
+                              width: "auto",
+                            }}
+                            >
+                            Next
+                    </Button>
 
-                    width: "auto",
-                  }}
-                >
-                  Next
-                </Button>
+                  </div>
+                
 
               </div>}
 
@@ -391,15 +397,15 @@ const Registration = () => {
 
                   </div>
 
-                  <hr />
-                  <div className="flex justify-between  items-center w-full col-span-2 my-2">
+                 
+                  <div className="flex justify-between pt-2 items-center w-full col-span-2 my-2 border-t">
                     <Button
 
                       type="button"
                       variant="contained"
                       size="small"
                       onClick={handleBack}
-                      startIcon={<NavigateBefore />}
+                      // startIcon={<NavigateBefore />}
                       fullWidth
                       sx={{
                         width: "auto",
@@ -415,7 +421,7 @@ const Registration = () => {
                       size="small"
                       onClick={handleNext}
                       color="primary"
-                      endIcon={<NavigateNext />}
+                      // endIcon={<NavigateNext />}
                       fullWidth
                       sx={{
                         width: "auto",
@@ -435,7 +441,7 @@ const Registration = () => {
 
 
 
-              <div className="w-full h-full ">
+              <div className="w-full h-full">
 
                 <div className="sm:col-span-2 flex flex-col gap-2 p-2 justify-center items-center">
 
@@ -456,33 +462,49 @@ const Registration = () => {
                     width: 'auto'
                   }}>Capture</Button>
 
+                    
+
                   {errors.approval_photo && (
                     <p className="text-red-700 text-sm ">{errors.approval_photo.message}</p>
                   )}
 
+                 
+
+                  <div className="flex justify-between pt-2 items-center w-full col-span-2 my-2 border-t">
+
                   <Button
 
-                    type="button"
-                    variant="contained"
-                    size="small"
-                    onClick={handleBack}
-                    startIcon={<NavigateBefore />}
-                    fullWidth
-                    sx={{
-                      width: "auto",
-                      backgroundColor: '#374151'
-                    }} >
+                      type="button"
+                      variant="contained"
+                      size="small"
+                      onClick={handleBack}
+                      // startIcon={<NavigateBefore />}
+                      fullWidth
+                      sx={{
+                        width: "auto",
+                        backgroundColor: '#374151'
+                      }} 
 
-                    back
+                      >
+
+                      back
                   </Button>
+
+                  <Button type="submit" variant="contained">{isSubmitting ? 'registering' : 'register'}</Button>
+
+
+                  
+
+                  </div>
           
-                  <Button type="submit">{isSubmitting ? 'registering' : 'register'}</Button>
+                 
                 </div>
               </div>
             }
 
 
-              <p className="mt-2 text-center">already have and account? <a href="/login" className="text-sky-500 ">Login</a></p>
+{/* <p className="mt-2 text-center">already have and account? <a href="/login" className="text-sky-500 ">Login</a></p> */}
+
 
             {/* hidden */}
             <input
