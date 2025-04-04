@@ -28,16 +28,14 @@ const LoginAuth = () => {
         
         if (result.data.role == "resident") {
           if(result.data.approval ===  'Pending'){
-            console.log('pending'); 
             navigate("/resident/pending")
           }else{
-            console.log('success');
             navigate("/resident/dashboard");
           }
           
         } else if (result.data.role == "admin") {
-          navigate("/adminPage/dashboard");
-        } else alert("Invalid Account Log in");
+          navigate("/admin/dashboard");
+        } 
       
     } catch (error) {
       console.log(error.mesg);

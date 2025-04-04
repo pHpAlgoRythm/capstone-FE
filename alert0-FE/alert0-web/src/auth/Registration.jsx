@@ -1,5 +1,5 @@
 import React from "react";
-import { useForm, Controller} from "react-hook-form";
+import { useForm, Controller } from "react-hook-form";
 import RegAuth from "../services/API/RegisterAPI";
 import { isValidEmail, isValidPhone, isValidPassword } from "../utils/validate";
 import {
@@ -28,10 +28,11 @@ const Registration = () => {
     control,
     setValue,
     formState: { errors },
-  } = useForm({ mode: 'onChange',
-      defaultValues:{
-        gender:""
-      }
+  } = useForm({
+    mode: 'onChange',
+    defaultValues: {
+      gender: ""
+    }
   });
 
   const { submitData, isSubmitting } = RegAuth(setError);
@@ -48,55 +49,55 @@ const Registration = () => {
   const [cameraOn, setCameraOn] = useState(false)
   const [capturedImg, SetCaptureImg] = useState(null)
   const [activeStep, setActiveStep] = useState(0);
-    const [terms,setTerms] = useState(false)
+  const [terms, setTerms] = useState(false)
 
   const handleCameraOn = () => {
     setCameraOn(true)
-    
+
   }
 
   const handleCheck = (event) => {
-    if(event.target.checked){
-      
+    if (event.target.checked) {
+
       setTerms(true)
-  }else{
-    alert('failed')
-  }
+    } else {
+      alert('failed')
+    }
   }
 
   const handleNext = async () => {
     let isValid = false
     try {
-      if(activeStep === 0) {
-          if(terms){
-         
-            isValid = true
-          }else{
-           alert('Please aggree to the terms and conditions')
-          }
-      }        
-        else if (activeStep === 1) {
+      if (activeStep === 0) {
+        if (terms) {
+
+          isValid = true
+        } else {
+          alert('Please aggree to the terms and conditions')
+        }
+      }
+      else if (activeStep === 1) {
         isValid = await trigger(['name', 'gender', 'phone', 'password', 'c_password', 'address'])
       } else if (activeStep === 2) {
         const fileInput = watch('approval_id_photo')
-        if(!fileInput){
+        if (!fileInput) {
           setError('approval_id_photo', {
             type: 'manual',
             message: 'ID Photo is required',
           });
           isValid = false
-        }else {
+        } else {
           isValid = await trigger('approval_id_photo')
         }
-      }else if(activeStep === 3){
+      } else if (activeStep === 3) {
 
-        if(!capturedImg){
-          setError('approval_photo',{
+        if (!capturedImg) {
+          setError('approval_photo', {
             type: 'manual',
             message: 'Face Photo is required'
           });
           isValid = false
-        }else {
+        } else {
           isValid = await trigger('approval_photo')
         }
       }
@@ -113,24 +114,24 @@ const Registration = () => {
 
 
   const FileInputRef = useRef(null)
-  const [image,setImage] = useState(null)
+  const [image, setImage] = useState(null)
 
   const handleImageUpload = (event) => {
     const file = event.target.files[0];
 
-    if(file){
+    if (file) {
 
       const reader = new FileReader();
       reader.onloadend = () => {
-        setImage(reader.result); 
+        setImage(reader.result);
       };
 
       reader.readAsDataURL(file);
-      setValue("approval_id_photo",file)
+      setValue("approval_id_photo", file)
 
     }
 
-   
+
   }
 
 
@@ -170,27 +171,27 @@ const Registration = () => {
 
 
 
-            {activeStep === 0 && 
-    
-              <div className="shadow-lg p-2 rounded-lg flex flex-col gap-2">   
+            {activeStep === 0 &&
+
+              <div className="shadow-lg p-2 rounded-lg flex flex-col gap-2">
                 <hr />
-              <h1 className="uppercase text-center font-bold text-3xl" >Welcome</h1>
+                <h1 className="uppercase text-center font-bold text-3xl" >Welcome</h1>
 
                 <div>
-                  <Typography  variant="h5">Agreement</Typography>
+                  <Typography variant="h5">Agreement</Typography>
                   <div>
-                      Lorem ipsum dolor sit amet consectetur adipisicing elit. Cumque saepe, earum magnam exercitationem recusandae totam, amet beatae possimus tenetur porro dolores consequuntur. Dignissimos minus magni quo ducimus enim accusantium at
-                      
+                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Cumque saepe, earum magnam exercitationem recusandae totam, amet beatae possimus tenetur porro dolores consequuntur. Dignissimos minus magni quo ducimus enim accusantium at
+
                   </div>
                   <input type="checkbox" onClick={handleCheck} />
                 </div>
-                  <Button type="button" onClick={handleNext} endIcon={<NavigateNext/>} variant="contained" sx={{
-                    width: 'auto'
-                  }}> Next</Button>
+                <Button type="button" onClick={handleNext} endIcon={<NavigateNext />} variant="contained" sx={{
+                  width: 'auto'
+                }}> Next</Button>
               </div>
-            
-            
-            
+
+
+
             }
 
             {activeStep === 1 &&
@@ -211,16 +212,16 @@ const Registration = () => {
                   )}
                 </div>
 
-                  
+
                 <div className="md:self-center">
                   <FormControl
-                     component="fieldset"
-                     error={Boolean(errors.gender)}
-                     margin="normal"
+                    component="fieldset"
+                    error={Boolean(errors.gender)}
+                    margin="normal"
                   >
                     <FormLabel component="legend">Gender</FormLabel>
 
-                 
+
 
                     <Controller
                       name="gender"
@@ -228,10 +229,10 @@ const Registration = () => {
                       rules={{ required: "Gender is required" }}
                       render={({ field }) => (
                         <RadioGroup row {...field}>
-                         <FormControlLabel value="male" control={<Radio />} label="Male" />
+                          <FormControlLabel value="male" control={<Radio />} label="Male" />
                           <FormControlLabel value="female" control={<Radio />} label="Female" />
-                         <FormControlLabel value="non-binary" control={<Radio />} label="Non-Binary" />
-                       </RadioGroup>
+                          <FormControlLabel value="non-binary" control={<Radio />} label="Non-Binary" />
+                        </RadioGroup>
                       )}
                     />
                   </FormControl>
@@ -334,20 +335,20 @@ const Registration = () => {
 
                 <Button
 
-type="button"
-variant="contained"
-size="small"
-onClick={handleBack}
-startIcon={<NavigateBefore />}
-fullWidth
-sx={{
-  width: "auto",
-  backgroundColor: '#374151'
+                  type="button"
+                  variant="contained"
+                  size="small"
+                  onClick={handleBack}
+                  startIcon={<NavigateBefore />}
+                  fullWidth
+                  sx={{
+                    width: "auto",
+                    backgroundColor: '#374151'
 
-}} >
+                  }} >
 
-back
-</Button>
+                  back
+                </Button>
                 <Button
                   className="sm:col-span-2 my-2"
                   type="button"
@@ -379,11 +380,11 @@ back
                       width: 'auto'
                     }} >Upload ID</Button>
 
-                     <input type="file" onChange={handleImageUpload} accept="image/png" ref={FileInputRef} className="hidden"/>
+                    <input type="file" onChange={handleImageUpload} accept="image/png" ref={FileInputRef} className="hidden" />
 
 
-                     <input type="hidden" id="approval_id_photo" value={image || ''} name="approval_id_photo"  {...register('approval_id_photo')}/>
-                        
+                    <input type="hidden" id="approval_id_photo" value={image || ''} name="approval_id_photo"  {...register('approval_id_photo')} />
+
                     {errors.approval_id_photo && (
                       <p className="text-red-700 text-sm">{errors.approval_id_photo.message}</p>
                     )}
@@ -424,104 +425,80 @@ back
                     </Button>
                   </div>
                 </div>
-            
 
-                      
 
-            </>
+
+
+              </>
             }
-                {activeStep === 3 &&
-
-                
-
-                  <div className="w-full h-full ">
-
-                    <div className="sm:col-span-2 flex flex-col gap-2 p-2 justify-center items-center">
-
-                      <FormLabel htmlFor="approval_photo">Face Photo</FormLabel>
-
-                      <input type="hidden" id="approval_photo" accept="images/*"
-                        {...register("approval_photo")}
-                        value={capturedImg || "not updated"}
-                        className="border-3 border-dashed border-gray-300 p-2 h-40 md:h-45 lg:h-100  w-full max-w-sm "
-
-                      />
-
-                      <img src={capturedImg} className="h-50 md:h-70 w-full md:w-lg border-3 border-dashed border-gray-300 " />
-
-                      {cameraOn && <WebCamera webcamRef={webcamRef} SetCaptureImg={SetCaptureImg} setCameraOn={setCameraOn}  setValue={setValue}/>}
-
-                      <Button type="button" onClick={handleCameraOn} variant="contained" color="success"  sx={{
-                        width: 'auto'
-                      }}>Capture</Button>
-
-          {errors.approval_photo && (
-                      <p className="text-red-700 text-sm ">{errors.approval_photo.message}</p>
-                    )}
+            {activeStep === 3 &&
 
 
-                      {/* <input type="hidden" id="approval_photo"
-                        {...register("approval_photo")}
-                        className="border-3 border-dashed border-gray-300 p-2 h-40 md:h-45 lg:h-100  w-full max-w-sm "/>
-                        </div>
-                       
-                        <div className="flex justify-between  items-center w-full col-span-2 my-2"> */}
-                        
-                    <Button
 
-                      type="button"
-                      variant="contained"
-                      size="small"
-                      onClick={handleBack}
-                      startIcon={<NavigateBefore />}
-                      fullWidth
-                      sx={{
-                        width: "auto",
-                        backgroundColor: '#374151'
-                      }} >
+              <div className="w-full h-full ">
 
-                      back
-                    </Button>
-{/* 
-                    <Button
-                      type="button"
-                      variant="contained"
-                      size="small"
-                      onClick={handleNext}
-                      color="primary"
-                      endIcon={<NavigateNext />}
-                      fullWidth
-                      sx={{
-                        width: "auto",
+                <div className="sm:col-span-2 flex flex-col gap-2 p-2 justify-center items-center">
 
+                  <FormLabel htmlFor="approval_photo">Face Photo</FormLabel>
 
-                      }}
+                  <input type="hidden" id="approval_photo" accept="images/*"
+                    {...register("approval_photo")}
+                    value={capturedImg || "not updated"}
+                    className="border-3 border-dashed border-gray-300 p-2 h-40 md:h-45 lg:h-100  w-full max-w-sm "
 
-                    >
-                      Next
-                    </Button> */}
-                    <Button type="submit">{isSubmitting? 'registering': 'register' }</Button>
-                  </div>
-                        </div>
-                }
-               
-            
-                
-                {/* hidden */}
-                <input
-                  type="hidden"
-                  value={new Date().toISOString().slice(0, 16)}
-                  {...register("created_at")}
-                />
+                  />
 
-                <input type="hidden" value="resident" {...register("role")} />
-                <input type="hidden" value="N/A" {...register("status")} />
-                <input
-                  type="hidden"
-                  value="Pending"
-                  {...register("approval_status")}
-                />
+                  <img src={capturedImg} className="h-50 md:h-70 w-full md:w-lg border-3 border-dashed border-gray-300 " />
+
+                  {cameraOn && <WebCamera webcamRef={webcamRef} SetCaptureImg={SetCaptureImg} setCameraOn={setCameraOn} setValue={setValue} />}
+
+                  <Button type="button" onClick={handleCameraOn} variant="contained" color="success" sx={{
+                    width: 'auto'
+                  }}>Capture</Button>
+
+                  {errors.approval_photo && (
+                    <p className="text-red-700 text-sm ">{errors.approval_photo.message}</p>
+                  )}
+
+                  <Button
+
+                    type="button"
+                    variant="contained"
+                    size="small"
+                    onClick={handleBack}
+                    startIcon={<NavigateBefore />}
+                    fullWidth
+                    sx={{
+                      width: "auto",
+                      backgroundColor: '#374151'
+                    }} >
+
+                    back
+                  </Button>
+          
+                  <Button type="submit">{isSubmitting ? 'registering' : 'register'}</Button>
+                </div>
               </div>
+            }
+
+
+              <p className="mt-2 text-center">already have and account? <a href="/login" className="text-sky-500 ">Login</a></p>
+
+            {/* hidden */}
+            <input
+              type="hidden"
+              value={new Date().toISOString().slice(0, 16)}
+              {...register("created_at")}
+            />
+
+            <input type="hidden" value="resident" {...register("role")} />
+            <input type="hidden" value="N/A" {...register("status")} />
+            <input
+              type="hidden"
+              value="Pending"
+              {...register("approval_status")}
+            />
+          </div>
         </form>
       </div>
     </div>

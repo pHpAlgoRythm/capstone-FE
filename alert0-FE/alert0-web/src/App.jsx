@@ -5,6 +5,8 @@ import Login from "./auth/Login";
 import ProtectedRoutes from "./auth/ProtectedRoutes";
 import AdminDashboard from "./pages/Admin/AdminDashboard";
 import PendingLandingPage from "./pages/Residents/PendingUserLanding";
+import ResidentDashboard from "./pages/Residents/dashboard";
+
 const App = () => {
     return (
           <BrowserRouter>
@@ -15,12 +17,15 @@ const App = () => {
                     <Route path="/registration" element={<Registration />} />
                     <Route path="/admin/dashboard" element= {<AdminDashboard/>}/>
                     <Route path= "/resident/pending" element={<PendingLandingPage/>}/>
-
+                    
+                    {/* ari ang bago na dashboard */}
+                    <Route path="/resident/dashboard" element={<ResidentDashboard/>}/>
         {/* Private Routes (Registered Users only) */}
                     <Route element={<ProtectedRoutes />}/>
-                        <Route path="/resident/dashboard">
+                    {/* for registered user only */}
+                        {/* <Route path="/resident/dashboard">
                         
-                    </Route>
+                    </Route> */}
                 </Routes>
             </BrowserRouter>
     );

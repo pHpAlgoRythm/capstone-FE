@@ -9,7 +9,7 @@ const RegAuth = (setError) => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const socket = io("http://127.0.0.1:8080");
   function base64ToBlob(base64, mime = '') {
-    const byteString = atob(base64.split(',')[1]);
+    const byteString = atob(base64.split( ',')[1]);
     const ab = new ArrayBuffer(byteString.length);
     const ia = new Uint8Array(ab);
     for (let i = 0; i < byteString.length; i++) {

@@ -2,7 +2,6 @@ import {
   AccountCircle,
   DirectionsRun,
   Emergency,
-  FireTruck,
   ManageAccounts,
   PendingActions,
   People,
