@@ -20,8 +20,12 @@ const WebCamera = ({ webcamRef, SetCaptureImg, setCameraOn, setValue}) => {
           ref={webcamRef}
           screenshotFormat="image/jpg"
           className="h-screen w-screen fixed left-0 top-0 z-2 object-cover"
+
         />
-        <button onClick={handleCapture} className="fixed bg-white bottom-0 z-3">Capture</button>
+
+          <button onClick={handleCapture} className="fixed bg-white bottom-0 z-3  mb-8 w-[70px] h-[70px] rounded-full cursor-pointer"></button>
+
+        
       </>
     );
   };

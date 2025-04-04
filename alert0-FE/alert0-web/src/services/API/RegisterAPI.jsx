@@ -28,6 +28,7 @@ const RegAuth = (setError) => {
       }
     });
 
+    console.log(data)
 
     if (typeof data.approval_id_photo === 'string' && data.approval_id_photo.startsWith('data:image')) {
       const blob1 = base64ToBlob(data.approval_id_photo, 'image/jpeg');
