@@ -1,6 +1,5 @@
 import { AppProvider, DashboardLayout, PageContainer } from "@toolpad/core";
 import * as React from "react"
-import { Sidebar } from "../../components/residents/contentNavigation";
 import { DemoTheme } from "../../utils/Theme";
 
 import MediaCard from "../../components/residents/cards/emergencyCards";
@@ -37,7 +36,7 @@ const renderContent= (section) => {
     return (
         <AppProvider
 
-        navigation={Sidebar}
+        
         router={router}
         theme={DemoTheme}
         branding={{
@@ -45,8 +44,28 @@ const renderContent= (section) => {
             title: 'KCERA',
             homeUrl: '/request',
           }}
+
         >
-            <DashboardLayout>
+
+            
+            <DashboardLayout
+                 sidebar={undefined} 
+                 mobileMenu={false} 
+                 sx={{
+                   '& .MuiDivider-root': {
+                     display: 'none', 
+                   },
+                   '& .MuiDrawer-root': {
+                     display: 'none',
+                   },
+                   '& .MuiIconButton-root': {
+                     display: 'none', 
+                   },
+                   '& .MuiAppBar-root .MuiIconButton-root[data-testid="ThemeIcon"]': {
+                     display: 'inline-flex', 
+                    },
+                  }}
+            >
 
 
                 <PageContainer>
@@ -56,7 +75,7 @@ const renderContent= (section) => {
                 </PageContainer>
             </DashboardLayout>
 
-
+            
 
         </AppProvider>
     )

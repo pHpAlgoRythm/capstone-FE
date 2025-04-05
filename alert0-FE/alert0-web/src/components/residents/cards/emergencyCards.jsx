@@ -6,8 +6,9 @@ import CardMedia from '@mui/material/CardMedia';
 
 export default function MediaCard() {
   return (
-<div className='flex flex-col gap-4 ' >
-    <Card sx={{ maxWidth: 400,border: '1px solid black' }}>
+
+<div className='flex justify-center items-center gap-8 w-full h-full  ' >
+    <Card sx={{ maxWidth: 400}} className='w-[50%]  '>
       <CardMedia
         sx={{ height: 150,
             
@@ -24,7 +25,7 @@ export default function MediaCard() {
       </CardActions>
     </Card>
 
-<Card sx={{ maxWidth: 400,border: '1px solid black' }}>
+<Card sx={{ maxWidth: 400,border: '1px solid black' }} className='w-[50%]'>
 <CardMedia
   sx={{ height: 150,
      

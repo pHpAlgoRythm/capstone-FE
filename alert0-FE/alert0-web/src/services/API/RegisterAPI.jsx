@@ -62,7 +62,7 @@ const RegAuth = (setError) => {
           });
         }
       } else {
-        navigate('/admin/dashboardcls')
+        navigate('/resident/pending')
         socket.emit('register');
         
       }
