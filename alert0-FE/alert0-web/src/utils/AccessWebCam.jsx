@@ -15,7 +15,6 @@ const WebCamera = ({ webcamRef, SetCaptureImg, setCameraOn, setValue }) => {
 
   
   useEffect(() => {
-   
     const webcamElement = webcamRef.current;
     if (webcamElement) {
       const onUserMedia = () => setShowButton(true);

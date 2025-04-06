@@ -1,8 +1,8 @@
 import { AppProvider, DashboardLayout, PageContainer } from "@toolpad/core";
 import * as React from "react"
 import { DemoTheme } from "../../utils/Theme";
-
 import MediaCard from "../../components/residents/cards/emergencyCards";
+import { Sidebar } from "../../components/residents/contentNavigation";
 
 const useDemoRouter = (initialPath) => {
     const [pathname,setPathname] = React.useState(initialPath);
@@ -22,7 +22,7 @@ const renderContent= (section) => {
 
         case 'request': 
         return (
-            <MediaCard/>
+           <MediaCard/>
         )
         case 'accountSettings':
             return <h1>Account page</h1>
@@ -36,7 +36,7 @@ const renderContent= (section) => {
     return (
         <AppProvider
 
-        
+        navigation={Sidebar}
         router={router}
         theme={DemoTheme}
         branding={{
@@ -46,28 +46,24 @@ const renderContent= (section) => {
           }}
 
         >
-
-            
             <DashboardLayout
-                 sidebar={undefined} 
-                 mobileMenu={false} 
-                 sx={{
-                   '& .MuiDivider-root': {
-                     display: 'none', 
-                   },
-                   '& .MuiDrawer-root': {
-                     display: 'none',
-                   },
-                   '& .MuiIconButton-root': {
-                     display: 'none', 
-                   },
-                   '& .MuiAppBar-root .MuiIconButton-root[data-testid="ThemeIcon"]': {
-                     display: 'inline-flex', 
-                    },
-                  }}
+                        //  sidebar={undefined} 
+                        //  mobileMenu={true} 
+                        //  sx={{
+                        //    '& .MuiDivider-root': {
+                        //      display: 'none', 
+                        //    },
+                        //    '& .MuiDrawer-root': {
+                        //      display: 'none',
+                        //    },
+                        //    '& .MuiIconButton-root': {
+                        //      display: 'none', 
+                        //    },
+                        //    '& .MuiAppBar-root .MuiIconButton-root[data-testid="ThemeIcon"]': {
+                        //      display: 'inline-flex', 
+                        //     },
+                        //   }}
             >
-
-
                 <PageContainer>
                 {renderContent(
                     router.pathname.slice(1),
@@ -80,5 +76,6 @@ const renderContent= (section) => {
         </AppProvider>
     )
 }
+
 
 
