@@ -1,12 +1,12 @@
-// import React, { useState } from 'react'
 import { Button } from '@mui/material'
-import { useRef } from 'react'
 import Webcam from 'react-webcam'
+import { useState, useEffect } from 'react'
+
+
 const SubmitModal = ({setModal,setShowWebcam,showWebcam,webcamRef,imgSrc,setImgSrc}) => {
-  // const [capturedPhoto,setCapturedPhoto] = useState(null)
-  // get users info through localstorage
-  // const request = localStorage.getItem();
-  // no logic yet for discard button
+  
+
+  const [showButton, setShowButton] = useState(false);
   
   const handleClick = () => {
     const screenshot = webcamRef.current?.getScreenshot?.()
@@ -15,6 +15,33 @@ const SubmitModal = ({setModal,setShowWebcam,showWebcam,webcamRef,imgSrc,setImgS
       setShowWebcam(false)
     }
   }
+
+  useEffect(() => {
+    if (!showWebcam) return;
+  
+    const interval = setInterval(() => {
+      const webcamElement = webcamRef.current;
+      const video = webcamElement?.video;
+  
+      if (video) {
+        const onUserMedia = () => {
+          console.log("Video is playing");
+          setShowButton(true);
+        };
+  
+        if (!video.paused) {
+          onUserMedia();
+        } else {
+          video.addEventListener("playing", onUserMedia);
+        }
+  
+        clearInterval(interval); 
+      }
+    }, 100);
+  
+    return () => clearInterval(interval); 
+  }, [webcamRef, showWebcam]);
+  
 
   return (
          <div className='fixed inset-0 bg-black/90 z-2000 flex flex-col justify-center items-center w-screen h-screen '>
@@ -51,7 +78,12 @@ const SubmitModal = ({setModal,setShowWebcam,showWebcam,webcamRef,imgSrc,setImgS
                 screenshotFormat="image/jpg"
                 className="h-screen w-screen fixed left-0 top-0 z-2 object-cover"
             /> 
+                  {showButton &&(
                   <button className='h-20 w-20 rounded-full fixed z-3000 bottom-3 self-center border-5 border-white ' onClick={handleClick}></button>
+
+                  )}
+
+                  
                </>
             }
             
