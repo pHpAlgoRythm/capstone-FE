@@ -6,6 +6,7 @@ import ProtectedRoutes from "./auth/ProtectedRoutes";
 import AdminDashboard from "./pages/Admin/AdminDashboard";
 import PendingLandingPage from "./pages/Residents/PendingUserLanding";
 import ResidentDashboard from "./pages/Residents/dashboard";
+import TermCondition from "./auth/TermCondition";
 
 const App = () => {
     return (
@@ -17,6 +18,7 @@ const App = () => {
                     <Route path="/registration" element={<Registration />} />
                     <Route path="/admin/dashboard" element= {<AdminDashboard/>}/>
                     <Route path= "/resident/pending" element={<PendingLandingPage/>}/>
+                    <Route path= "/termcondtion" element={<TermCondition/>}/>
                     
                     {/* ari ang bago na dashboard */}
                     <Route path="/resident/dashboard" element={<ResidentDashboard/>}/>

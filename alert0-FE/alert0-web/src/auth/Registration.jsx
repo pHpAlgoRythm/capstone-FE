@@ -60,8 +60,9 @@ const Registration = () => {
     if (event.target.checked) {
 
       setTerms(true)
-    } else {
-      alert('failed')
+    }else {
+      // alert('You Must Aggree to the Term and Condition before Procceeding to the next step')
+      setTerms(false)
     }
   }
 
@@ -73,7 +74,7 @@ const Registration = () => {
 
           isValid = true
         } else {
-          alert('Please aggree to the terms and conditions')
+          alert('Please agree to the terms and conditions')
         }
       }
       else if (activeStep === 1) {
@@ -109,8 +110,10 @@ const Registration = () => {
     }
   }
 
-  const handleBack = () => setActiveStep((prev) => prev - 1);
-
+  const handleBack = () =>{
+    setActiveStep((prev) => prev - 1);
+    setTerms(false)
+  } 
 
 
   const FileInputRef = useRef(null)
@@ -130,7 +133,7 @@ const Registration = () => {
       setValue("approval_id_photo", file)
 
     }
-
+   
 
   }
 
@@ -169,22 +172,21 @@ const Registration = () => {
 
           <div className="mx-auto p-3 h-auto w-auto ">
 
-
-
             {activeStep === 0 &&
 
               <div className="shadow-lg p-2 rounded-lg flex flex-col gap-2">
                 <hr />
                 <h1 className="uppercase text-center font-bold text-3xl" >Welcome</h1>
 
-                <div>
+                <div className="ml-4">
                   <Typography variant="h5">Agreement</Typography>
-                  <div>
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Cumque saepe, earum magnam exercitationem recusandae totam, amet beatae possimus tenetur porro dolores consequuntur. Dignissimos minus magni quo ducimus enim accusantium at
-
+                  
+                  <div className="flex item-center justify-center gap-2">
+                      <input type="checkbox" onClick={handleCheck} className="cursor-pointer"/><p>I Have Read and Aggree to the <a href="/termcondtion" className="text-blue-400">Term and Condition</a> </p>
                   </div>
-                  <input type="checkbox" onClick={handleCheck} />
+
                 </div>
+
                 <Button type="button" onClick={handleNext} endIcon={<NavigateNext />} variant="contained" sx={{
                   width: 'auto'
                 }}> Next</Button>
@@ -347,7 +349,7 @@ const Registration = () => {
                             sx={{
                               width: "auto",
                               backgroundColor: '#374151'
-
+                              
                             }} >
 
                             back
