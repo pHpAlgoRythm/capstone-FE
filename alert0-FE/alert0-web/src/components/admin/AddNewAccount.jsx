@@ -7,7 +7,7 @@ const NewAccount = ()=>{
     return(
         <>
             
-            
+            <h1>Add New Employee Account is under develop.</h1>
 
                     
             

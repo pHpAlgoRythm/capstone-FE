@@ -21,6 +21,7 @@ import Approveduserstable from "../../components/admin/Tables/ApprovesUsersTable
 import RespondersTable from "../../components/admin/Tables/RespondersTable";
 import DriversTable from "../../components/admin/Tables/GetDriversTable";
 import NewAccount from "../../components/admin/AddNewAccount";
+import EmergencyRequests from "../../components/admin/Tables/EmergencyRequest";
 
 // socket
 import { io } from "socket.io-client";
@@ -49,7 +50,9 @@ const renderContent = (
 ) => {
   switch (section) {
     case "emergencyRequests":
-      return <h1>Under Development</h1>;
+      return (
+          <EmergencyRequests/>
+      )
     case "accounts/pendingAccounts":
       return (
         <PendingAccounts

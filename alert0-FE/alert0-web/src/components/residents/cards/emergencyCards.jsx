@@ -22,13 +22,13 @@ export default function MediaCard() {
     }
 
   return (
-    <div className='flex  flex-col md:flex-row border border-white gap-8 w-full h-full  ' >
+    <div className='flex  flex-col md:flex-row shadow-xl gap-8 w-full h-full  ' >
     <Card sx={{ maxWidth: 400}} className='md:w-full md:h-fit'>
       <CardMedia
-        sx={{ height: 150,
+        sx={{ height: 250,
             
          }}
-        image="/images/ambulance.jpg "
+        image="/images/ambulance1.jpg "
         title="Ambulance"
       />
       <CardContent>
@@ -40,9 +40,9 @@ export default function MediaCard() {
       </CardActions>
     </Card>
 
-<Card sx={{ maxWidth: 400,border: '1px solid black' }} className='md:w-full md:h-fit' >
+<Card sx={{ maxWidth: 400 }} className='md:w-full md:h-fit' >
 <CardMedia
-  sx={{ height: 150,
+  sx={{ height: 250,
      
    }}
   image="/images/firetruck.jpg "
