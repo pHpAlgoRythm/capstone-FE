@@ -1,0 +1,37 @@
+
+import { io } from "socket.io-client";
+
+const GetEmergencyRequest = async (type, latitude, longitude, imageBlob) => {
+    // const socket = io("http://localhost:8080"); 
+    const userId = localStorage.getItem('userID')
+    // .toISOString()
+
+    const formdata = new FormData;
+    formdata.append('user_id', userId),
+        formdata.append('request_type', type),
+        formdata.append('request_date',new Date()),
+        formdata.append('longitude', longitude),
+        formdata.append('latitude', latitude),
+        formdata.append(" request_photo", imageBlob)
+
+    try {
+        const response = await fetch('http://127.0.0.1:8000/api/requests', {
+            method: 'POST',
+            body: formdata
+        });
+       
+        const result = await response.json();
+        console.log(response.data.request_date)
+        if (response.ok) {
+            // socket.emit('EmergencyRequest')
+            console.log(result)
+            return {
+                users: result.formdata
+            }
+        };
+
+    } catch (error) {
+        console.log(error, 'Something went wrong');
+    };
+};
+export default GetEmergencyRequest;

@@ -7,12 +7,12 @@ import AdminDashboard from "./pages/Admin/AdminDashboard";
 import PendingLandingPage from "./pages/Residents/PendingUserLanding";
 import ResidentDashboard from "./pages/Residents/dashboard";
 import TermCondition from "./auth/TermCondition";
-
 const App = () => {
     return (
           <BrowserRouter>
           {/*public Routes*/}
                 <Routes>
+
                     <Route path="/" element={<Login />} />
                     <Route path="/login" element={<Login />} />
                     <Route path="/registration" element={<Registration />} />

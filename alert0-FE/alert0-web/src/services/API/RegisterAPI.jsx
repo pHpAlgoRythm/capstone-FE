@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { io } from "socket.io-client";
 
 const RegAuth = (setError) => {
-  const navigate = useNavigate()
+const navigate = useNavigate()
 
 
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -27,9 +27,7 @@ const RegAuth = (setError) => {
         formData.append(key, data[key]);
       }
     });
-
     console.log(data)
-
     if (typeof data.approval_id_photo === 'string' && data.approval_id_photo.startsWith('data:image')) {
       const blob1 = base64ToBlob(data.approval_id_photo, 'image/jpeg');
       formData.append("approval_id_photo", blob1, 'id_photo.jpg');
@@ -63,9 +61,9 @@ const RegAuth = (setError) => {
         }
       } else {
         navigate('/resident/pending')
-        socket.emit('register');
-        
-      }
+        socket.emit('register')
+      };
+
     } catch (error) {
       console.log(error);
     } finally {

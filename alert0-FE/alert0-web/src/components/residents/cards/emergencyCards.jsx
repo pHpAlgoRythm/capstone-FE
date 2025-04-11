@@ -5,12 +5,21 @@ import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import SubmitModal from '../submitModal';
 
-
 export default function MediaCard() {
   const [modal,setModal] = React.useState(false)
+
+
   const [showWebcam, setShowWebcam ] = React.useState(false)
   const webcamRef = React.useRef(null)
   const [imgSrc,setImgSrc] = React.useState(null)
+
+  const [reqType,setReqType] = React.useState('');
+
+    const handleRequest = (value) => {
+      setModal(true)
+      setReqType(value)
+     
+    }
 
   return (
     <div className='flex  flex-col md:flex-row border border-white gap-8 w-full h-full  ' >
@@ -25,8 +34,9 @@ export default function MediaCard() {
       <CardContent>
        <h1 className='text-lg text-center uppercase'>Ambulance</h1>
       </CardContent>
+
       <CardActions>
-        <button className=' text-white border-white w-full bg-red-600 p-2 rounded-sm hover:bg-red-400 cursor-pointer font-semibold' onClick={(() =>setModal(true))}>Request</button>
+        <button className=' text-white border-white w-full bg-red-600 p-2 rounded-sm hover:bg-red-400 cursor-pointer font-semibold' onClick={() =>handleRequest("Ambulance")} >Request</button>
       </CardActions>
     </Card>
 
@@ -42,13 +52,14 @@ export default function MediaCard() {
  <h1 className='text-lg text-center  uppercase'>FireTruck</h1>
 </CardContent>
 <CardActions>
-<button className='text-white border-white w-full bg-red-600 p-2 rounded-sm hover:bg-red-400 cursor-pointer font-semibold' onClick={(() =>setModal(true))}>Request</button>
+<button className='text-white border-white w-full bg-red-600 p-2 rounded-sm hover:bg-red-400 cursor-pointer font-semibold' onClick={() => handleRequest('FireTruck')} >Request</button>
 </CardActions>
 </Card>
 
-{modal && <SubmitModal setModal={setModal} setShowWebcam={setShowWebcam} showWebcam= {showWebcam} webcamRef={webcamRef} imgSrc={imgSrc} setImgSrc={setImgSrc}/>}
+{modal && <SubmitModal setModal={setModal} setShowWebcam={setShowWebcam} showWebcam= {showWebcam} webcamRef={webcamRef} imgSrc={imgSrc} setImgSrc={setImgSrc} type={reqType} />}
           
 </div>
   );
 
-}
+};
+

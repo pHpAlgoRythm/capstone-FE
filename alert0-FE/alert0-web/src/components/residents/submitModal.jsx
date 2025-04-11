@@ -1,5 +1,6 @@
 import { Button } from '@mui/material'
 import Webcam from 'react-webcam'
+<<<<<<< Updated upstream
 import { useState, useEffect } from 'react'
 
 
@@ -8,6 +9,13 @@ const SubmitModal = ({setModal,setShowWebcam,showWebcam,webcamRef,imgSrc,setImgS
 
   const [showButton, setShowButton] = useState(false);
   
+=======
+import GetEmergencyRequest from '../../services/API/getEmergencyRequest'
+import { useGeolocation } from 'react-use'
+const SubmitModal = ({setModal,setShowWebcam,showWebcam,webcamRef,imgSrc,setImgSrc,type}) => {
+
+  const requester = localStorage.getItem('fullName')
+>>>>>>> Stashed changes
   const handleClick = () => {
     const screenshot = webcamRef.current?.getScreenshot?.()
     if(screenshot){ 
@@ -15,6 +23,35 @@ const SubmitModal = ({setModal,setShowWebcam,showWebcam,webcamRef,imgSrc,setImgS
       setShowWebcam(false)
     }
   }
+  const handleDiscard = () => {
+    if(imgSrc) {
+      setImgSrc(null)
+    }
+    setShowWebcam(false);
+    setModal(false);
+  };
+
+  const toDataUrl = async(dataUrl)=> {
+    const res = await fetch(dataUrl);
+    return await res.blob();
+  }
+
+
+
+  const userLocation =   useGeolocation({enableHighAccuracy: true});
+  const latitude = userLocation.latitude
+  const longtitude = userLocation.longitude 
+  const handleSend = async () => {
+    if(!imgSrc){
+      alert('Captrued Image is required');
+      return;
+    }
+    const imageBlob = await toDataUrl(imgSrc)
+    
+   await GetEmergencyRequest(type,latitude,longtitude,imageBlob);
+    
+  }
+
 
   useEffect(() => {
     if (!showWebcam) return;
@@ -59,17 +96,16 @@ const SubmitModal = ({setModal,setShowWebcam,showWebcam,webcamRef,imgSrc,setImgS
                 <Button variant='contained' size='small' className='w-fit'  onClick={()=> setShowWebcam(true)}>Take photo</Button>
                 </div>
                 <div className='text-black'>
-                <p >Requester :</p>
-                <p>Type:</p>
-                <p>Location:</p>
+                <p >Requester : <b>{requester}</b></p>
+                <p>Type: <b>{type}</b></p>
+              
               
                 </div>
                 <hr className='border-t-2 border-gray-500' />
                 <div className='flex justify-end items-center gap-1'>
-                <Button variant='contained' color='error' className='w-auto !font-semibold 'onClick={(() => setModal(false))} >Discard</Button>
-                <Button variant='contained'  className='w-auto !font-semibold !text-white  !bg-green-700'>Send</Button>
+                <Button variant='contained' color='error' className='w-auto !font-semibold 'onClick={handleDiscard} >Discard</Button>
+                <Button variant='contained'  className='w-auto !font-semibold !text-white  !bg-green-700' onClick={handleSend}>Send</Button>
                 </div>
-
                 {showWebcam &&
                <>
                <Webcam
@@ -85,8 +121,7 @@ const SubmitModal = ({setModal,setShowWebcam,showWebcam,webcamRef,imgSrc,setImgS
 
                   
                </>
-            }
-            
+            };
            </div>
     </div>
 
