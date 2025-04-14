@@ -7,7 +7,7 @@ import {
     TableRow,
     Paper,
   } from "@mui/material";
-  import { GetDocTitle } from "../../../utils/hooks/useDocumentTitle";
+  import { GetDocTitle } from "../../../../utils/hooks/useDocumentTitle";
 
     const Approveduserstable = ({ resident}) => {
         

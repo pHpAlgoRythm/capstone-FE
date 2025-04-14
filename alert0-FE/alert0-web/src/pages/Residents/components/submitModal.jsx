@@ -1,21 +1,13 @@
 import { Button } from '@mui/material'
 import Webcam from 'react-webcam'
-<<<<<<< Updated upstream
-import { useState, useEffect } from 'react'
-
-
-const SubmitModal = ({setModal,setShowWebcam,showWebcam,webcamRef,imgSrc,setImgSrc}) => {
-  
-
-  const [showButton, setShowButton] = useState(false);
-  
-=======
-import GetEmergencyRequest from '../../services/API/getEmergencyRequest'
+import GetEmergencyRequest from '../services/getEmergencyRequest'
 import { useGeolocation } from 'react-use'
+import { useState, useEffect } from 'react'
 const SubmitModal = ({setModal,setShowWebcam,showWebcam,webcamRef,imgSrc,setImgSrc,type}) => {
 
+  const [showButton, setShowButton] = useState(false);
+
   const requester = localStorage.getItem('fullName')
->>>>>>> Stashed changes
   const handleClick = () => {
     const screenshot = webcamRef.current?.getScreenshot?.()
     if(screenshot){ 

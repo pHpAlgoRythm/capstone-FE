@@ -1,6 +1,6 @@
 import React from "react";
 import { useForm, Controller } from "react-hook-form";
-import RegAuth from "../services/API/RegisterAPI";
+import RegAuth from "./API/RegisterAPI";
 import { isValidEmail, isValidPhone, isValidPassword } from "../utils/validate";
 import {
   Typography,
@@ -16,7 +16,7 @@ import {
 import { useEffect, useState, useRef } from "react";
 import Aos from "aos";
 import "aos/dist/aos.css";
-import WebCamera from "../utils/AccessWebCam";
+import WebCamera from "./utility/AccessWebCam";
 import { Handshake, NavigateBefore, NavigateNext } from "@mui/icons-material";
 const Registration = () => {
   const {

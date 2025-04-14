@@ -1,10 +1,12 @@
 import React from 'react';
 import { useForm } from 'react-hook-form';
-import LoginAuth from '../services/API/loginAPI';
+import LoginAuth from './API/loginAPI';
 import { Button, TextField } from '@mui/material';
 import { useEffect } from 'react';
 import Aos from "aos";
 import "aos/dist/aos.css";
+
+
 const Login = () => {
     const { 
         register,

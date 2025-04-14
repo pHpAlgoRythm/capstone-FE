@@ -8,7 +8,7 @@ import {
   Paper,
   Button,
 } from "@mui/material";
-import { GetDocTitle } from "../../../utils/hooks/useDocumentTitle";
+import { GetDocTitle } from "../../../../utils/hooks/useDocumentTitle";
 
 import ApprovalPhoto from "../actions/ViewPhoto";
 

@@ -5,23 +5,23 @@ import { PageContainer } from "@toolpad/core/PageContainer";
 import { DemoTheme } from "../../utils/Theme";
 
 // api connectivity
-import getPendingUsers from "../../services/API/getPendingUsers";
-import approvePending from "../../services/API/approvedUsers";
-import declinePending from "../../services/API/declineUser";
-import getApprovedUsers from "../../services/API/getApprovedUsers";
-import GetResponders from "../../services/API/GetResponders";
-import GetDrivers from "../../services/API/GetDriver";
+import getPendingUsers from "./services/getPendingUsers";
+import approvePending from "./services/approvedUsers";
+import declinePending from "./services/declineUser";
+import getApprovedUsers from "./services/getApprovedUsers";
+import GetResponders from "./services/GetResponders";
+import GetDrivers from "./services/GetDriver";
 
 //navigation
-import { NAVIGATION } from "../../components/admin/ContentNavigation";
+import { NAVIGATION } from "./components/ContentNavigation";
 
 //tables and pages
-import PendingAccounts from "../../components/admin/Tables/PendingAccounts";
-import Approveduserstable from "../../components/admin/Tables/ApprovesUsersTable";
-import RespondersTable from "../../components/admin/Tables/RespondersTable";
-import DriversTable from "../../components/admin/Tables/GetDriversTable";
-import NewAccount from "../../components/admin/AddNewAccount";
-import EmergencyRequests from "../../components/admin/Tables/EmergencyRequest";
+import PendingAccounts from "./components/Tables/PendingAccounts";
+import Approveduserstable from "./components/Tables/ApprovesUsersTable";
+import RespondersTable from "./components/Tables/RespondersTable";
+import DriversTable from "./components/Tables/GetDriversTable";
+import NewAccount from "./components/AddNewAccount";
+import EmergencyRequests from "./components/Tables/EmergencyRequest";
 
 // socket
 import { io } from "socket.io-client";

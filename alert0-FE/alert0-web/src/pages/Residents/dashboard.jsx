@@ -1,8 +1,8 @@
 import { AppProvider, DashboardLayout, PageContainer } from "@toolpad/core";
 import * as React from "react"
 import { DemoTheme } from "../../utils/Theme";
-import MediaCard from "../../components/residents/cards/emergencyCards";
-import { Sidebar } from "../../components/residents/contentNavigation";
+import MediaCard from "./components/cards/emergencyCards";
+import { Sidebar } from "./components/contentNavigation";
 
 const useDemoRouter = (initialPath) => {
     const [pathname,setPathname] = React.useState(initialPath);

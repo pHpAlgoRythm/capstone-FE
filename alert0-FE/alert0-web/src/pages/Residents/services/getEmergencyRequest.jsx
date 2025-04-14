@@ -6,10 +6,14 @@ const GetEmergencyRequest = async (type, latitude, longitude, imageBlob) => {
     const userId = localStorage.getItem('userID')
     // .toISOString()
 
+    const now = new Date();
+    const formattedDate = now.toISOString().slice(0, 19).replace('T', ' ');
+
     const formdata = new FormData;
     formdata.append('user_id', userId),
         formdata.append('request_type', type),
-        formdata.append('request_date',new Date()),
+        formdata.append('request_date',formattedDate),
+        formdata.append('request_status', 'pending'),
         formdata.append('longitude', longitude),
         formdata.append('latitude', latitude),
         formdata.append(" request_photo", imageBlob)
