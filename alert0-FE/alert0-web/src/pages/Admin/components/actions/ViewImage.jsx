@@ -1,7 +1,10 @@
+import React from 'react'
 import { use, useState } from "react";
 import { Dialog, DialogTitle, DialogContent, Button } from "@mui/material";
 
-const ApprovalPhoto = ({id,live}) => {
+
+const ViewImage = ({img}) => {
+  
     const [open, setOpen] = useState(false);
 
     return(
@@ -11,13 +14,13 @@ const ApprovalPhoto = ({id,live}) => {
             </Button>
 
         <Dialog open={open} onClose={() => setOpen(false)}>
-        <DialogTitle>Photo Preview</DialogTitle>
+        <DialogTitle>Request Photo Preview</DialogTitle>
         <DialogContent className="flex gap-[10px]" >
-          <div className="w-[50%]">
-            <h1>User's Photo</h1>
-          {id ? (
+          <div className="w-full">
+            
+          {img ? (
             <img
-              src={id}
+              src={img}
               alt="ID Preview"
               style={{ width: "100%", maxWidth: "900px", height: "100%" }}
               className="outline"
@@ -27,23 +30,11 @@ const ApprovalPhoto = ({id,live}) => {
           )}
         </div>
 
-        <div className="w-[50%]">
-          <h1>User's ID</h1>
-              {live ? (
-                  <img
-                    src={live}
-                    alt="ID Preview"
-                    style={{ width: "100%", maxWidth: "900px", height: "auto" }}
-                  />
-                ) : (
-                  <p>No Photo Available</p>
-                )}
-
-        </div>
+        
         </DialogContent>
       </Dialog>
         </div>
-    )
+  )
 }
 
-export default ApprovalPhoto
+export default ViewImage

@@ -9,6 +9,9 @@ import {
     Button
   } from "@mui/material";
   import GetRequester from "../../services/GetRequester";
+import ViewImage from "../actions/ViewImage";
+import ViewLocation from "../actions/ViewLocation";
+
 
 const EmergencyRequests = ({emergency}) => {
   console.log(emergency)
@@ -34,9 +37,18 @@ const EmergencyRequests = ({emergency}) => {
                   <GetRequester id={emergencies.user_id  } />
                 </TableCell>
                 <TableCell>{emergencies.request_type}</TableCell>
-                <TableCell className="flex-col gap-[10px] items-center justify-center">
-                    <Button variant="contained" className="w-[80%]">View Images</Button>
-                     <Button variant="outlined" className="w-[80%] mt-4">View Location</Button>
+                <TableCell>
+                  <div className="flex flex-col gap-[20px] items-center justify-center">
+                    <div>
+                        <ViewImage img={emergencies.request_photo} />
+                    </div>
+                    <div>
+                        <ViewLocation 
+                        latitude={emergencies.latitude}
+                        longitude={emergencies.longitude  }
+                        />
+                    </div>
+                  </div>
                 </TableCell>
                 <TableCell>
                   <Button variant="contained">Respond</Button>
