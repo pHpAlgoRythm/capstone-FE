@@ -5,7 +5,7 @@ import { io } from "socket.io-client";
 const GetEmergencyRequest = async (type, latitude, longitude, imageBlob) => {
 
 
-    // const socket = io("http://localhost:8080"); 
+   const socket = io("http://localhost:8080"); 
     const userId = localStorage.getItem('userID')
     // .toISOString()
 
@@ -31,7 +31,7 @@ const GetEmergencyRequest = async (type, latitude, longitude, imageBlob) => {
         console.log(result)
         if (response.ok) {
             
-            // socket.emit('EmergencyRequest')
+            socket.emit('emergencyRequest')
             alert('Your Request is Being Processed')
             console.log(result);
             window.location.reload();

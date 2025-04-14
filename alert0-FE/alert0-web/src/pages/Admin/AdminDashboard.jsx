@@ -11,6 +11,7 @@ import declinePending from "./services/declineUser";
 import getApprovedUsers from "./services/getApprovedUsers";
 import GetResponders from "./services/GetResponders";
 import GetDrivers from "./services/GetDriver";
+import GetEmergencyRequest from "./services/GetEmergencyRequest";
 
 //navigation
 import { NAVIGATION } from "./components/ContentNavigation";
@@ -25,6 +26,7 @@ import EmergencyRequests from "./components/Tables/EmergencyRequest";
 
 // socket
 import { io } from "socket.io-client";
+import { Emergency } from "@mui/icons-material";
 
 function useDemoRouter(initialPath) {
   const [pathname, setPathname] = React.useState(initialPath);
@@ -46,12 +48,15 @@ const renderContent = (
   declinePending,
   resident,
   responders,
-  drivers
+  drivers,
+  EmergencyReq
 ) => {
   switch (section) {
     case "emergencyRequests":
       return (
-          <EmergencyRequests/>
+          <EmergencyRequests 
+            emergency={EmergencyReq}
+          />
       )
     case "accounts/pendingAccounts":
       return (
@@ -103,6 +108,7 @@ const renderContent = (
 };
 
 export default function AdminDashboard() {
+
 
   // handle sang pag kwa sang list sang mga pending users
   const [pendingUsers, setPendingUsers] = React.useState([]);
@@ -175,6 +181,25 @@ export default function AdminDashboard() {
   }
 };
 
+    // handle sa pag kwa sang emergencies
+  const [EmergencyReq, SetEmergency] = React.useState([]);
+  // console.log(Emergency)
+
+  React.useEffect( () => {
+    socket.on("emergencyRequests", () => {
+      handdleGetEmergency();
+    })
+    handdleGetEmergency();
+  }, []);
+
+  const handdleGetEmergency = async () => {
+    const emergencies = await GetEmergencyRequest();
+
+    if(emergencies.emergency){
+      SetEmergency(emergencies.emergency);
+    }
+  }
+
   const router = useDemoRouter("/emergencyRequests");
 
   return (
@@ -196,7 +221,8 @@ export default function AdminDashboard() {
             (id) => declinePending(id, handleGetPendingUsers),
             approveUsers,
             responders,
-            drivers
+            drivers,
+            EmergencyReq
           )}
         </PageContainer>
       </DashboardLayout>

@@ -8,8 +8,10 @@ import {
     Paper,
     Button
   } from "@mui/material";
+  import GetRequester from "../../services/GetRequester";
 
-const EmergencyRequests = () => {
+const EmergencyRequests = ({emergency}) => {
+  console.log(emergency)
 
     return(
         <TableContainer component={Paper}>
@@ -25,10 +27,13 @@ const EmergencyRequests = () => {
           </TableHead>
   
           <TableBody>
-            
-              <TableRow>
-                <TableCell>Shem Regidor</TableCell>
-                <TableCell>Ambulance</TableCell>
+            {emergency.map((emergencies) => (
+              
+              <TableRow key={emergencies.id}>
+                <TableCell>
+                  <GetRequester id={emergencies.user_id  } />
+                </TableCell>
+                <TableCell>{emergencies.request_type}</TableCell>
                 <TableCell className="flex-col gap-[10px] items-center justify-center">
                     <Button variant="contained" className="w-[80%]">View Images</Button>
                      <Button variant="outlined" className="w-[80%] mt-4">View Location</Button>
@@ -39,6 +44,8 @@ const EmergencyRequests = () => {
                 
               </TableRow>
            
+          ))}
+
           </TableBody>
         </Table>
       </TableContainer>
