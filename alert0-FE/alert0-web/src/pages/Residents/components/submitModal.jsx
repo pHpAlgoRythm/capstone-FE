@@ -30,14 +30,21 @@ const SubmitModal = ({setModal,setShowWebcam,showWebcam,webcamRef,imgSrc,setImgS
 
 
 
-  const userLocation =   useGeolocation({enableHighAccuracy: true});
+  const userLocation = useGeolocation({enableHighAccuracy: true});
   const latitude = userLocation.latitude
   const longtitude = userLocation.longitude 
+
   const handleSend = async () => {
     if(!imgSrc){
       alert('Captrued Image is required');
       return;
     }
+
+    if (!latitude || !longtitude) {
+      alert('Location not available. Please enable GPS and try again.');
+      return;
+    }
+
     const imageBlob = await toDataUrl(imgSrc)
     
    await GetEmergencyRequest(type,latitude,longtitude,imageBlob);

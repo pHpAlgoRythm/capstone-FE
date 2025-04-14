@@ -1,7 +1,10 @@
 
+
 import { io } from "socket.io-client";
 
 const GetEmergencyRequest = async (type, latitude, longitude, imageBlob) => {
+
+
     // const socket = io("http://localhost:8080"); 
     const userId = localStorage.getItem('userID')
     // .toISOString()
@@ -15,8 +18,8 @@ const GetEmergencyRequest = async (type, latitude, longitude, imageBlob) => {
         formdata.append('request_date',formattedDate),
         formdata.append('request_status', 'pending'),
         formdata.append('longitude', longitude),
-        formdata.append('latitude', latitude),
-        formdata.append(" request_photo", imageBlob)
+        formdata.append('latitude', latitude),  
+        formdata.append("request_photo", imageBlob)
 
     try {
         const response = await fetch('http://127.0.0.1:8000/api/requests', {
@@ -25,10 +28,13 @@ const GetEmergencyRequest = async (type, latitude, longitude, imageBlob) => {
         });
        
         const result = await response.json();
-        console.log(response.data.request_date)
+        console.log(result)
         if (response.ok) {
+            
             // socket.emit('EmergencyRequest')
-            console.log(result)
+            alert('Your Request is Being Processed')
+            console.log(result);
+            window.location.reload();
             return {
                 users: result.formdata
             }
@@ -37,5 +43,7 @@ const GetEmergencyRequest = async (type, latitude, longitude, imageBlob) => {
     } catch (error) {
         console.log(error, 'Something went wrong');
     };
+
+    
 };
 export default GetEmergencyRequest;
