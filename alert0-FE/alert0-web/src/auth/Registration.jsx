@@ -11,13 +11,16 @@ import {
   RadioGroup,
   FormControlLabel,
   Radio,
-  Stepper, Step, StepLabel,
+  Stepper,
+  Step,
+  StepLabel,
 } from "@mui/material";
 import { useEffect, useState, useRef } from "react";
 import Aos from "aos";
 import "aos/dist/aos.css";
 import WebCamera from "./utility/AccessWebCam";
-import { Handshake, NavigateBefore, NavigateNext } from "@mui/icons-material";
+import { NavigateNext } from "@mui/icons-material";
+import Loading from "../utils/loader2";
 const Registration = () => {
   const {
     register,
@@ -29,14 +32,14 @@ const Registration = () => {
     setValue,
     formState: { errors },
   } = useForm({
-    mode: 'onChange',
+    mode: "onChange",
     defaultValues: {
-      gender: ""
-    }
+      gender: "",
+    },
   });
 
   const { submitData, isSubmitting } = RegAuth(setError);
-  const steps = ['Term and Condition','User Info', 'ID Photo', 'Face Photo' ];
+  const steps = ["User Info", "ID Photo", "Face Photo"];
   useEffect(() => {
     Aos.init({
       duration: 500,
@@ -45,111 +48,105 @@ const Registration = () => {
     });
   }, []);
 
-  const webcamRef = React.useRef(null)
-  const [cameraOn, setCameraOn] = useState(false)
-  const [capturedImg, SetCaptureImg] = useState(null)
+  const webcamRef = React.useRef(null);
+  const [cameraOn, setCameraOn] = useState(false);
+  const [capturedImg, SetCaptureImg] = useState(null);
   const [activeStep, setActiveStep] = useState(0);
-  const [terms, setTerms] = useState(false)
+  const [terms, setTerms] = useState(false);
 
   const handleCameraOn = () => {
-    setCameraOn(true)
-
-  }
+    setCameraOn(true);
+  };
 
   const handleCheck = (event) => {
     if (event.target.checked) {
-
-      setTerms(true)
-    }else {
-      // alert('You Must Aggree to the Term and Condition before Procceeding to the next step')
-      setTerms(false)
+      setTerms(true);
+    } else {
+      setTerms(false);
     }
-  }
-
+  };
   const handleNext = async () => {
-    let isValid = false
-    try { 
+    let isValid = false;
+    try {
       if (activeStep === 0) {
-        if (terms) {
-
-          isValid = true
-        } else {
-          alert('Please agree to the terms and conditions')
+        if (
+          (isValid =
+            (await trigger([
+              "name",
+              "gender",
+              "phone",
+              "password",
+              "c_password",
+              "address",
+            ])) && terms)
+        ) {
+          isValid = true;
+        } else if (!terms) {
+          alert("Please agree to the terms and conditions");
         }
-      }
-      else if (activeStep === 1) {
-        isValid = await trigger(['name', 'gender', 'phone', 'password', 'c_password', 'address'])
-      } else if (activeStep === 2) {
-        const fileInput = watch('approval_id_photo')
+      } else if (activeStep === 1) {
+        const fileInput = watch("approval_id_photo");
         if (!fileInput) {
-          setError('approval_id_photo', {
-            type: 'manual',
-            message: 'ID Photo is required',
+          setError("approval_id_photo", {
+            type: "manual",
+            message: "ID Photo is required",
           });
-          isValid = false
+          isValid = false;
         } else {
-          isValid = await trigger('approval_id_photo')
+          isValid = await trigger("approval_id_photo");
         }
-      } else if (activeStep === 3) {
-
+      } else if (activeStep === 2) {
         if (!capturedImg) {
-          setError('approval_photo', {
-            type: 'manual',
-            message: 'Face Photo is required'
+          setError("approval_photo", {
+            type: "manual",
+            message: "Face Photo is required",
           });
-          isValid = false
+          isValid = false;
         } else {
-          isValid = await trigger('approval_photo')
+          isValid = await trigger("approval_photo");
         }
       }
       if (isValid) {
-        setActiveStep((prevStep => prevStep + 1))
+        setActiveStep((prevStep) => prevStep + 1);
       }
     } catch (error) {
-      console.log('error', error)
+      console.log("error", error);
     }
-  }
+  };
 
-  const handleBack = () =>{
+  const handleBack = () => {
     setActiveStep((prev) => prev - 1);
-    setTerms(false)
-  } 
+    setTerms(false);
+  };
 
-
-  const FileInputRef = useRef(null)
-  const [image, setImage] = useState(null)
+  const FileInputRef = useRef(null);
+  const [image, setImage] = useState(null);
 
   const handleImageUpload = (event) => {
     const file = event.target.files[0];
 
     if (file) {
-
       const reader = new FileReader();
       reader.onloadend = () => {
         setImage(reader.result);
       };
 
       reader.readAsDataURL(file);
-      setValue("approval_id_photo", file)
-
+      setValue("approval_id_photo", file);
     }
-   
-
-  }
-
+  };
 
   const triggerFileInput = () => {
-    FileInputRef.current.click()
-  }
+    FileInputRef.current.click();
+  };
 
   return (
-    <div className="md:bg-gray-300 min-h-screen flex items-center justify-center px-4 sm:px-6 lg:px-10  overflow-hidden">
+    <div className="md:bg-gray-300 min-h-screen flex items-center justify-center px-4 my-5 md:my-0 lg:px-10  overflow-hidden">
       <div
         className="bg-white h-full max-h-2xl w-full max-w-4xl md:shadow-lg rounded-2xl"
         data-aos="fade-down"
       >
         <form onSubmit={handleSubmit(submitData)}>
-
           <div className="flex flex-col justify-center items-center mb-0.5">
             <img
               src="/images/KCERA.png"
@@ -157,52 +154,20 @@ const Registration = () => {
               className="min-h-15 max-h-20 w-auto"
             />
           </div>
-
-          <h1 className="text-base/10  font-bold text-gray-900  uppercase  text-center  mb-2">
+          <h2 className="text-base/5 text-gray-900 text-center uppercase font-bold  mb-5">
             Register an Account
-          </h1>
+          </h2>
 
-          <Stepper activeStep={activeStep} className="mb-3">
+          <Stepper activeStep={activeStep} className="mb-3 ">
             {steps.map((label) => (
               <Step key={label}>
                 <StepLabel>{label}</StepLabel>
               </Step>
             ))}
           </Stepper>
-
           <div className="mx-auto p-3 h-auto w-auto ">
-
-            {activeStep === 0 &&
-
-              <div className="shadow-lg p-2 rounded-lg flex flex-col gap-2">
-                <hr />
-                <h1 className="uppercase text-center font-bold text-3xl" >Welcome</h1>
-
-                <div className="ml-4">
-                  <Typography variant="h5">Agreement</Typography>
-                  
-                  <div className="flex item-center justify-center gap-2">
-                      <input type="checkbox" onClick={handleCheck} className="cursor-pointer"/><p>I Have Read and Aggree to the <a href="/termcondtion" className="text-blue-400">Term and Condition</a> </p>
-                  </div>
-
-                </div>
-
-                <Button type="button" onClick={handleNext} endIcon={<NavigateNext />} variant="contained" sx={{
-                  width: 'auto'
-                }}> Next</Button>
-
-                
-                
-              </div>
-
-                
-
-            }
-
-            {activeStep === 1 &&
-
-              <div className="flex flex-col mx-auto px-auto h-auto w-auto  gap-2">
-
+            {activeStep === 0 && (
+              <div className="flex flex-col mx-auto px-auto h-auto w-auto  gap-3">
                 <div>
                   <TextField
                     {...register("name", { required: "Fullname is required" })}
@@ -213,10 +178,11 @@ const Registration = () => {
                     fullWidth
                   />
                   {errors.name && (
-                    <p className="text-red-700 text-sm">{errors.name.message}</p>
+                    <p className="text-red-700 text-sm">
+                      {errors.name.message}
+                    </p>
                   )}
                 </div>
-
 
                 <div className="md:self-center">
                   <FormControl
@@ -226,23 +192,35 @@ const Registration = () => {
                   >
                     <FormLabel component="legend">Gender</FormLabel>
 
-
-
                     <Controller
                       name="gender"
                       control={control}
                       rules={{ required: "Gender is required" }}
                       render={({ field }) => (
                         <RadioGroup row {...field}>
-                          <FormControlLabel value="male" control={<Radio />} label="Male" />
-                          <FormControlLabel value="female" control={<Radio />} label="Female" />
-                          <FormControlLabel value="non-binary" control={<Radio />} label="Non-Binary" />
+                          <FormControlLabel
+                            value="male"
+                            control={<Radio />}
+                            label="Male"
+                          />
+                          <FormControlLabel
+                            value="female"
+                            control={<Radio />}
+                            label="Female"
+                          />
+                          <FormControlLabel
+                            value="non-binary"
+                            control={<Radio />}
+                            label="Non-Binary"
+                          />
                         </RadioGroup>
                       )}
                     />
                   </FormControl>
                   {errors.gender && (
-                    <p className="text-red-700 text-sm">{errors.gender.message}</p>
+                    <p className="text-red-700 text-sm">
+                      {errors.gender.message}
+                    </p>
                   )}
                 </div>
                 <div>
@@ -276,10 +254,11 @@ const Registration = () => {
                     size="small"
                   />
                   {errors.phone && (
-                    <p className="text-red-700 text-sm">{errors.phone.message}</p>
+                    <p className="text-red-700 text-sm">
+                      {errors.phone.message}
+                    </p>
                   )}
                 </div>
-
 
                 <div>
                   <TextField
@@ -299,7 +278,6 @@ const Registration = () => {
                     </p>
                   )}
                 </div>
-
 
                 <div>
                   <TextField
@@ -323,7 +301,9 @@ const Registration = () => {
 
                 <div>
                   <TextField
-                    {...register("address", { required: "Address is required" })}
+                    {...register("address", {
+                      required: "Address is required",
+                    })}
                     variant="outlined"
                     multiline
                     rows={1}
@@ -332,77 +312,89 @@ const Registration = () => {
                     size="small"
                   />
                   {errors.address && (
-                    <p className="text-red-700 text-sm">{errors.address.message}</p>
+                    <p className="text-red-700 text-sm">
+                      {errors.address.message}
+                    </p>
                   )}
 
-                </div>
-                
-                  <div className="flex justify-between pt-2 items-center w-full col-span-2 my-2 border-t">
-                  <Button
-
-                            type="button"
-                            variant="contained"
-                            size="small"
-                            onClick={handleBack}
-                            // startIcon={<NavigateBefore />}
-                            fullWidth
-                            sx={{
-                              width: "auto",
-                              backgroundColor: '#374151'
-                              
-                            }} >
-
-                            back
-                   </Button>
-                  <Button
-                            className="sm:col-span-2 my-2"
-                            type="button"
-                            variant="contained"
-                            size="small"
-                            onClick={handleNext}
-                            fullWidth
-                            sx={{
-
-                              width: "auto",
-                            }}
-                            >
-                            Next
-                    </Button>
-
+                  <div className="flex justify-center items-baseline gap-2 md:items-center">
+                    <input
+                      type="checkbox"
+                      onClick={handleCheck}
+                      className="cursor-pointer"
+                    />
+                    <p>
+                      I agree to the{" "}
+                      <a href="/termcondtion" className="text-blue-400">
+                        Terms and Condition
+                      </a>
+                    </p>
                   </div>
-                
+                </div>
+                <Button
+                  className="sm:col-span-2"
+                  type="button"
+                  variant="contained"
+                  size="small"
+                  onClick={handleNext}
+                  fullWidth
+                  sx={{
+                    width: "full",
+                  }}
+                >
+                  Next
+                </Button>
+              </div>
+            )}
 
-              </div>}
-
-            {activeStep === 2 &&
+            {activeStep === 1 && (
               <>
-                <div className="sm:col-span-2  w-full h-full ">
-
+                <div className="sm:col-span-2 w-full h-full ">
                   <div className="sm:col-span-2 flex flex-col gap-2 p-2 justify-center items-center">
-
                     <FormLabel htmlFor="approval_photo">ID Photo</FormLabel>
 
-                    <img src={image} className="h-50 md:h-70 w-full md:w-lg border-3 border-dashed border-gray-300 " />
+                    <img
+                      src={image}
+                      className="h-50 md:h-70 w-full md:w-lg border-3 border-dashed border-gray-300 "
+                    />
 
-                    <Button type="button" onClick={triggerFileInput} variant="contained" color="primary" sx={{
-                      width: 'auto'
-                    }} >Upload ID</Button>
+                    <Button
+                      type="button"
+                      onClick={triggerFileInput}
+                      variant="contained"
+                      color="primary"
+                      sx={{
+                        width: "auto",
+                      }}
+                    >
+                      Upload ID
+                    </Button>
 
-                    <input type="file" onChange={handleImageUpload} accept="image/png" ref={FileInputRef} className="hidden" />
+                    <input
+                      type="file"
+                      onChange={handleImageUpload}
+                      accept="image/png"
+                      ref={FileInputRef}
+                      className="hidden"
+                    />
 
-
-                    <input type="hidden" id="approval_id_photo" value={image || ''} name="approval_id_photo"  {...register('approval_id_photo')} />
+                    <input
+                      type="hidden"
+                      id="approval_id_photo"
+                      value={image || ""}
+                      name="approval_id_photo"
+                      {...register("approval_id_photo")}
+                    />
 
                     {errors.approval_id_photo && (
-                      <p className="text-red-700 text-sm">{errors.approval_id_photo.message}</p>
+                      <p className="text-red-700 text-sm">
+                        {errors.approval_id_photo.message}
+                      </p>
                     )}
-
                   </div>
 
-                 
                   <div className="flex justify-between pt-2 items-center w-full col-span-2 my-2 border-t">
                     <Button
-
                       type="button"
                       variant="contained"
                       size="small"
@@ -411,10 +403,9 @@ const Registration = () => {
                       fullWidth
                       sx={{
                         width: "auto",
-                        backgroundColor: '#374151'
-
-                      }} >
-
+                        backgroundColor: "#374151",
+                      }}
+                    >
                       back
                     </Button>
                     <Button
@@ -433,49 +424,54 @@ const Registration = () => {
                     </Button>
                   </div>
                 </div>
-
-
-
-
               </>
-            }
-            {activeStep === 3 &&
-
-
-
+            )}
+            {activeStep === 2 && (
               <div className="w-full h-full">
-
                 <div className="sm:col-span-2 flex flex-col gap-2 p-2 justify-center items-center">
-
                   <FormLabel htmlFor="approval_photo">Face Photo</FormLabel>
 
-                  <input type="hidden" id="approval_photo" accept="images/*"
+                  <input
+                    type="hidden"
+                    id="approval_photo"
+                    accept="images/*"
                     {...register("approval_photo")}
                     value={capturedImg || "not updated"}
                     className="border-3 border-dashed border-gray-300 p-2 h-40 md:h-45 lg:h-100  w-full max-w-sm "
-
                   />
 
-                  <img src={capturedImg} className="h-50 md:h-70 w-full md:w-lg border-3 border-dashed border-gray-300 " />
+                  <img
+                    src={capturedImg}
+                    className="h-50 md:h-70 w-full md:w-lg border-3 border-dashed border-gray-300 "
+                  />
 
-                  {cameraOn && <WebCamera webcamRef={webcamRef} SetCaptureImg={SetCaptureImg} setCameraOn={setCameraOn} setValue={setValue} />}
-
-                  <Button type="button" onClick={handleCameraOn} variant="contained" color="success" sx={{
-                    width: 'auto'
-                  }}>Capture</Button>
-
-                    
-
-                  {errors.approval_photo && (
-                    <p className="text-red-700 text-sm ">{errors.approval_photo.message}</p>
+                  {cameraOn && (
+                    <WebCamera
+                      webcamRef={webcamRef}
+                      SetCaptureImg={SetCaptureImg}
+                      setCameraOn={setCameraOn}
+                      setValue={setValue}
+                    />
                   )}
 
-                 
-
-                  <div className="flex justify-between pt-2 items-center w-full col-span-2 my-2 border-t">
-
                   <Button
-
+                    type="button"
+                    onClick={handleCameraOn}
+                    variant="contained"
+                    color="success"
+                    sx={{
+                      width: "auto",
+                    }}
+                  >
+                    Capture
+                  </Button>
+                  {errors.approval_photo && (
+                    <p className="text-red-700 text-sm ">
+                      {errors.approval_photo.message}
+                    </p>
+                  )}
+                  <div className="flex justify-between pt-2 items-center w-full col-span-2 my-2 border-t">
+                    <Button
                       type="button"
                       variant="contained"
                       size="small"
@@ -484,29 +480,26 @@ const Registration = () => {
                       fullWidth
                       sx={{
                         width: "auto",
-                        backgroundColor: '#374151'
-                      }} 
-
-                      >
-
+                        backgroundColor: "#374151",
+                      }}
+                    >
                       back
-                  </Button>
+                    </Button>
 
-                  <Button type="submit" variant="contained">{isSubmitting ? 'registering' : 'register'}</Button>
-
-
-                  
-
+                    <Button type="submit" variant="contained">
+                      {isSubmitting ? "registering" : "register"}
+                    </Button>
                   </div>
-          
-                 
                 </div>
               </div>
-            }
+            )}
 
-
-{/* <p className="mt-2 text-center">already have and account? <a href="/login" className="text-sky-500 ">Login</a></p> */}
-
+            <p className="mt-2 text-center">
+              already have and account?{" "}
+              <a href="/login" className="text-sky-500 ">
+                Login
+              </a>
+            </p>
 
             {/* hidden */}
             <input
@@ -525,6 +518,7 @@ const Registration = () => {
           </div>
         </form>
       </div>
+      {isSubmitting ? <Loading /> : ""}
     </div>
   );
 };

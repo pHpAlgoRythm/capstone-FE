@@ -15,10 +15,8 @@ const GetResponders = async ()=>{
         }
     }catch(e){
         
-         console.log(e, 'error')
-        
+         console.log(e, 'error');
     }
-
 }
 
 export default GetResponders;

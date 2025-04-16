@@ -22,12 +22,12 @@ export default function MediaCard() {
     }
 
   return (
-    <div className='flex  flex-col md:flex-row shadow-xl gap-8 w-full h-full  ' >
-    <Card sx={{ maxWidth: 400}} className='md:w-full md:h-fit'>
+    <div className='flex flex-col lg:flex-row shadow-xl gap-8 w-full h-full border border-white ' >
+    <Card sx={{ maxWidth: 400}} className='md:w-full md:h-fit '>
       <CardMedia
         sx={{ height: 250,
-            
          }}
+        
         image="/images/ambulance1.jpg "
         title="Ambulance"
       />

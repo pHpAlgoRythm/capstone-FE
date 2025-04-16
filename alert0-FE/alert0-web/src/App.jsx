@@ -7,7 +7,7 @@ import AdminDashboard from "./pages/Admin/AdminDashboard";
 import PendingLandingPage from "./pages/Residents/PendingUserLanding";
 import ResidentDashboard from "./pages/Residents/dashboard";
 import TermCondition from "./auth/TermCondition";
-
+import DriversDashboard from "./pages/Drivers/DriversDashboard";
 
 const App = () => {
     return (
@@ -21,6 +21,7 @@ const App = () => {
                     <Route path="/admin/dashboard" element= {<AdminDashboard/>}/>
                     <Route path= "/resident/pending" element={<PendingLandingPage/>}/>
                     <Route path= "/termcondtion" element={<TermCondition/>}/>
+                    <Route path= "/driver/dashboard" element={<DriversDashboard/>}/>
                     
                     {/* ari ang bago na dashboard */}
                     <Route path="/resident/dashboard" element={<ResidentDashboard/>}/>
