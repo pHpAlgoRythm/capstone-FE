@@ -3,7 +3,6 @@ import { useForm, Controller } from "react-hook-form";
 import RegAuth from "./API/RegisterAPI";
 import { isValidEmail, isValidPhone, isValidPassword } from "../utils/validate";
 import {
-  Typography,
   Button,
   TextField,
   FormControl,
@@ -19,8 +18,10 @@ import { useEffect, useState, useRef } from "react";
 import Aos from "aos";
 import "aos/dist/aos.css";
 import WebCamera from "./utility/AccessWebCam";
-import { NavigateNext } from "@mui/icons-material";
 import Loading from "../utils/loader2";
+import AddPhotoAlternateIcon from '@mui/icons-material/AddPhotoAlternate';
+import { NavigateBefore, NavigateNext } from "@mui/icons-material";
+import Alert from "@mui/material/Alert";
 const Registration = () => {
   const {
     register,
@@ -32,7 +33,7 @@ const Registration = () => {
     setValue,
     formState: { errors },
   } = useForm({
-    mode: "onChange",
+    mode: "onBlur",
     defaultValues: {
       gender: "",
     },
@@ -58,9 +59,12 @@ const Registration = () => {
     setCameraOn(true);
   };
 
+  const [alert, setAlert] = useState(false)
+
   const handleCheck = (event) => {
     if (event.target.checked) {
       setTerms(true);
+      setAlert(false)
     } else {
       setTerms(false);
     }
@@ -81,8 +85,9 @@ const Registration = () => {
             ])) && terms)
         ) {
           isValid = true;
+
         } else if (!terms) {
-          alert("Please agree to the terms and conditions");
+          setAlert(true)
         }
       } else if (activeStep === 1) {
         const fileInput = watch("approval_id_photo");
@@ -141,13 +146,13 @@ const Registration = () => {
   };
 
   return (
-    <div className="md:bg-gray-300 min-h-screen flex items-center justify-center px-4 my-5 md:my-0 lg:px-10  overflow-hidden">
+    <div className=" bg-[#FAFAFA] md:bg-[#FDF3F2]  min-h-screen flex items-center justify-center px-4 my-5 md:my-0 lg:px-10  overflow-hidden">
       <div
-        className="bg-white h-full max-h-2xl w-full max-w-4xl md:shadow-lg rounded-2xl"
+        className="bg-[#FAFAFA] h-full max-h-2xl w-full max-w-4xl  md:shadow-lg rounded-2xl"
         data-aos="fade-down"
       >
         <form onSubmit={handleSubmit(submitData)}>
-          <div className="flex flex-col justify-center items-center mb-0.5">
+          <div className="flex flex-col justify-center items-center mb-0.5 md:mt-3">
             <img
               src="/images/KCERA.png"
               alt="KCERA Logo"
@@ -157,6 +162,8 @@ const Registration = () => {
           <h2 className="text-base/5 text-gray-900 text-center uppercase font-bold  mb-5">
             Register an Account
           </h2>
+
+
 
           <Stepper activeStep={activeStep} className="mb-3 ">
             {steps.map((label) => (
@@ -317,12 +324,23 @@ const Registration = () => {
                     </p>
                   )}
 
-                  <div className="flex justify-center items-baseline gap-2 md:items-center">
+                  {alert &&
+                    <div data-aos="fade-right" className=" w-full mt-2">
+                      <Alert
+                        severity="error"
+
+
+                      >
+                        Please agree to the terms and conditions
+                      </Alert>
+                    </div>}
+                  <div className="flex justify-center items-baseline gap-2 md:items-center mt-2">
                     <input
                       type="checkbox"
                       onClick={handleCheck}
                       className="cursor-pointer"
                     />
+
                     <p>
                       I agree to the{" "}
                       <a href="/termcondtion" className="text-blue-400">
@@ -335,11 +353,11 @@ const Registration = () => {
                   className="sm:col-span-2"
                   type="button"
                   variant="contained"
-                  size="small"
+                  size="medium"
                   onClick={handleNext}
                   fullWidth
                   sx={{
-                    width: "full",
+                    width: "full"
                   }}
                 >
                   Next
@@ -350,25 +368,24 @@ const Registration = () => {
             {activeStep === 1 && (
               <>
                 <div className="sm:col-span-2 w-full h-full ">
-                  <div className="sm:col-span-2 flex flex-col gap-2 p-2 justify-center items-center">
+                  <div className="sm:col-span-2 flex flex-col gap-2 p-1 justify-center items-center relative border-t" >
                     <FormLabel htmlFor="approval_photo">ID Photo</FormLabel>
 
-                    <img
+                    {image ? <img
                       src={image}
-                      className="h-50 md:h-70 w-full md:w-lg border-3 border-dashed border-gray-300 "
-                    />
+                      className="h-50 md:h-70 w-fit  md:w-lg border-4 border-dashed border-gray-300 object-contain "
+                    /> : <div className="h-50 md:h-70 w-full md:w-lg border-4 border-dashed border-gray-300 object-contain flex justify-center items-center ">
+                      <p className="text-gray-400" >No ID uploaded yet</p>
+                    </div>}
 
-                    <Button
+
+                    <button
                       type="button"
                       onClick={triggerFileInput}
-                      variant="contained"
-                      color="primary"
-                      sx={{
-                        width: "auto",
-                      }}
+                      className="bg-gray-400 h-15 w-15 rounded-full text-white cursor-pointer absolute bottom-[-5%]"
                     >
-                      Upload ID
-                    </Button>
+                      <AddPhotoAlternateIcon />
+                    </button>
 
                     <input
                       type="file"
@@ -385,42 +402,43 @@ const Registration = () => {
                       name="approval_id_photo"
                       {...register("approval_id_photo")}
                     />
-
                     {errors.approval_id_photo && (
-                      <p className="text-red-700 text-sm">
+                      <p className="text-red-700 text-sm absolute bottom-[-11.5%]">
                         {errors.approval_id_photo.message}
                       </p>
                     )}
                   </div>
 
-                  <div className="flex justify-between pt-2 items-center w-full col-span-2 my-2 border-t">
+                  <div className="flex flex-col justify-between gap-2 pt-2 items-center w-full col-span-2 my-2  border-t mt-10">
+
                     <Button
                       type="button"
                       variant="contained"
-                      size="small"
-                      onClick={handleBack}
-                      // startIcon={<NavigateBefore />}
-                      fullWidth
-                      sx={{
-                        width: "auto",
-                        backgroundColor: "#374151",
-                      }}
-                    >
-                      back
-                    </Button>
-                    <Button
-                      type="button"
-                      variant="contained"
-                      size="small"
+                      size="medium"
                       onClick={handleNext}
                       color="primary"
-                      // endIcon={<NavigateNext />}
+                      endIcon={<NavigateNext />}
                       fullWidth
                       sx={{
-                        width: "auto",
+                        width: "full",
                       }}
                     >
                       Next
+                    </Button>
+
+                    <Button
+                      type="button"
+                      variant="outlined"
+                      size="medium"
+                      color="error"
+                      onClick={handleBack}
+                      startIcon={<NavigateBefore />}
+                      fullWidth
+                      sx={{
+                        width: "full"
+                      }}
+                    >
+                      back
                     </Button>
                   </div>
                 </div>
