@@ -10,25 +10,42 @@ import {
   Box
 } from '@mui/material';
 
+import { io } from "socket.io-client";
+
+// mga table
 import AssignDriver from '../Tables/AssignDriver';
-import AssignResponders from '../Tables/AssignReponder';
+import AssignRespondersStepper from '../Tables/AssignReponder';
+import { useGeolocation } from 'react-use'
+
+
 
 const AssignResponder = ({ request_id }) => {
+
+  const socket = io("http://localhost:8080"); 
+
+
     const [open, setOpen] = useState(false);
     const [activeStep, setActiveStep] = useState(0);
     const [selectedDriverId, setSelectedDriverId] = useState(null); 
     const [selectedRespondersId, setSelectedRespondersId] = useState(null);
   
     const steps = ['Assign Driver', 'Assign Responders'];
+
+
+    const userLocation = useGeolocation({ enableHighAccuracy: true });
+    const latitude = userLocation.latitude
+    const longtitude = userLocation.longitude
+
   
     const handleNext = () => {
       if (activeStep < steps.length - 1) {
         setActiveStep(prev => prev + 1);
       } else {
-        alert(`Request ID: ${request_id}\nDriver ID: ${selectedDriverId}\n Responders ID: ${selectedRespondersId}`);
-       
+        
         setOpen(false);
         setActiveStep(0);
+        SendResponse(request_id,selectedRespondersId,selectedDriverId, latitude, longtitude )
+
       }
     };
   
@@ -40,10 +57,39 @@ const AssignResponder = ({ request_id }) => {
       setOpen(false);
       setActiveStep(0);
     };
+
+  
+
+    const SendResponse = async (request_id, responders_id, drivers_id, current_latitude, current_longitude) => {
+
+      try{  
+            const response = await fetch('http://127.0.0.1:8000/api/storeResponse', {
+               method : 'POST',
+               headers : {'Content-Type' : 'application/json'},
+               body : JSON.stringify({request_id, responders_id, drivers_id, current_latitude, current_longitude})
+          })
+                   
+        const result = await response.json();
+
+        if(response.ok){
+          socket.emit('respond')
+          console.log(result)
+        }
+
+      }catch(e){
+        console.log(e)
+      }
+
+    }
   
     return (
       <div>
-        <Button variant="contained" onClick={() => setOpen(true)} className="w-full">
+        <Button 
+        variant="contained" 
+        onClick={() => {
+          console.log('clicked')
+          setOpen(true)} }
+        className="w-full">
           Respond
         </Button>
   
@@ -64,7 +110,7 @@ const AssignResponder = ({ request_id }) => {
                 <AssignDriver onAssignDriver={setSelectedDriverId} />
               )}
               {activeStep === 1 && (
-                <AssignResponders onAssignResponder={setSelectedRespondersId} />
+                <AssignRespondersStepper onAssignResponder={setSelectedRespondersId} />
             )}
             </Box>
   
@@ -74,6 +120,7 @@ const AssignResponder = ({ request_id }) => {
               </Button>
               <Button variant="contained" onClick={handleNext}>
                 {activeStep === steps.length - 1 ? 'Finish' : 'Next'}
+
               </Button>
             </Box>
           </DialogContent>

@@ -35,7 +35,9 @@ const LoginAuth = () => {
           
         } else if (result.data.role == "admin") {
           navigate("/admin/dashboard");
-        } 
+        }else if(result.data.role == 'driver'){
+          navigate("/driver/dashboard")
+        }
       
     } catch (error) {
       console.log(error.mesg);

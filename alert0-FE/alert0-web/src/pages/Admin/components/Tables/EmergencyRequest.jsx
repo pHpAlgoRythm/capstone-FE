@@ -11,6 +11,7 @@ import {
   import GetRequester from "../../services/GetRequester";
 import ViewImage from "../actions/ViewImage";
 import ViewLocation from "../actions/ViewLocation";
+import AssignResponder from "../actions/AssignResponder";
 
 
 const EmergencyRequests = ({emergency}) => {
@@ -51,7 +52,7 @@ const EmergencyRequests = ({emergency}) => {
                   </div>
                 </TableCell>
                 <TableCell>
-                  <Button variant="contained">Respond</Button>
+                  <AssignResponder request_id={emergencies.id} />
                 </TableCell>
                 
               </TableRow>

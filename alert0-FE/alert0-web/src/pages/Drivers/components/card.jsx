@@ -1,21 +1,23 @@
-import React, { useState } from 'react'
-import { Button } from '@mui/material'
-const TaskCard = () => {
-    const [istask,setIsTask] = useState(false)
+import React, { useState } from 'react';
+import { Dialog, DialogContent, DialogTitle } from '@mui/material';
+
+const TaskCard = ({ task }) => {
+  const [open, setOpen] = useState(true);
+
+
   return (
-    <div className='border h-screen w-screen p-2'>
-        <div className='mx-auto  h-fit w-full bg-white shadow-lg p-2 rounded-lg'>
-           <p>Requster: <strong>max</strong>  </p>
-           <p>Location: <strong>brgy3</strong> </p>
-           <p>Type:  <strong>Ambulance</strong> </p>
-           <br />
-            <div className='flex justify-end   gap-1'>
-            {/* <Button variant='contained' color='secondary'>View location</Button> */}
-                <Button variant='contained' color='success'>Accept</Button>
-            </div>
+    <Dialog open={open}>
+      <DialogTitle>New Task</DialogTitle>
+      <DialogContent>
+        <div className='flex gap-1'>
+          <h1>Good Day!</h1><h1><strong>{task?.driver.name}</strong></h1>
         </div>
-    </div>
-  )
-}
+        <h3>You have a new task. Please respond immediately!</h3>
+        
+        {/* Add more task details here if needed */}
+      </DialogContent>
+    </Dialog>
+  );
+};
 
 export default TaskCard;

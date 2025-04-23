@@ -11,7 +11,7 @@ import {
   } from "@mui/material";
 import GetResponders from '../../services/GetResponders';
 
-const AssignResponders = ({onAssignResponder}) => {
+const AssignRespondersStepper = ({onAssignResponder}) => {
 
     const [responder, setResponders] = useState([]);
 
@@ -26,7 +26,8 @@ const AssignResponders = ({onAssignResponder}) => {
       }
     };
 
-    console.log(responder)
+    
+
     return (
         <TableContainer component={Paper}>
           <Table>
@@ -59,7 +60,7 @@ const AssignResponders = ({onAssignResponder}) => {
       );
 }
 
-export default AssignResponders
+export default AssignRespondersStepper
 
 
 

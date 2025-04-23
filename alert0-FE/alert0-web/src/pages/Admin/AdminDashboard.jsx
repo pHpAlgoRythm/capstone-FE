@@ -26,7 +26,7 @@ import EmergencyRequests from "./components/Tables/EmergencyRequest";
 
 // socket
 import { io } from "socket.io-client";
-import { Emergency } from "@mui/icons-material";
+// import { Emergency } from "@mui/icons-material";
 
 function useDemoRouter(initialPath) {
   const [pathname, setPathname] = React.useState(initialPath);
