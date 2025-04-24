@@ -94,7 +94,7 @@ const RoutingMap = ({ from, to }) => {
       </MapContainer>
 
       {routeInfo && (
-        <div className='absolute top-[410px] right-[10px] bg-white p-[10px] rounded-[8px] shadow-[0_2px_8px_rgba(0,0,0,0.2)] z-[1000]'>
+        <div className='absolute top-[360px] right-[10px] bg-white p-[10px] rounded-[8px] shadow-[0_2px_8px_rgba(0,0,0,0.2)] z-[1000]'>
           
             <strong>Route Info</strong><br />
             Distance: {routeInfo.distance} km<br />

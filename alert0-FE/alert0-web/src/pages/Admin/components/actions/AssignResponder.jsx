@@ -69,6 +69,20 @@ const AssignResponder = ({ request_id }) => {
       if (response.ok) {
         socket.emit('respond');
         console.log(result);
+
+        try{
+          const updateStatus = await fetch(`http://127.0.0.1:8000/api/requests/${request_id}`, {
+            method:'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body : JSON.stringify({request_status : 'in_progress'})
+          });
+
+          if(updateStatus.ok){
+            socket.emit('emergencyRequest')
+          }
+        }catch(e){
+          console.log(e)
+        }
       }
 
     } catch (e) {
