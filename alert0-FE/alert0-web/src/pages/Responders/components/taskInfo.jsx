@@ -6,6 +6,7 @@ const TaskInfo = () => {
             <div>
                 <h1 className='text-center font-bold tracking-wider'>Details</h1>
             </div>
+            
             <img src="/public/images/test2.jpg" alt="" className='rounded-lg' />
             <div className='flex flex-col gap-2 '>
                 <p >Request Id: <strong>01</strong></p>

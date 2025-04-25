@@ -2,12 +2,12 @@ import React, { useState, useEffect } from 'react';
 import RequesterDetails from '../services/RequesterDetails';
 import RoutingMap from './RoutingMap';
 import ImagePreview from './ImagePreview';
-
+import { Button } from '@mui/material';
 const EmergencyDetails = ({ details, from }) => {
   const [requesterId, setRequesterId] = useState(null);
   const [to, setTo] = useState([]);
   const [imgData, setImgData] = useState();
-
+  const [viewLocation, setVewLocation] = useState(false)
   useEffect(() => {
     if (details) {
       console.log(details);
@@ -16,32 +16,39 @@ const EmergencyDetails = ({ details, from }) => {
       setImgData(details.request_photo);
     }
   }, [details]);
-
   return (
-    <div className="w-[90%] max-w-6xl h-[80vh] bg-white rounded-2xl shadow-2xl p-6 mx-auto mt-6">
+    <>
       {requesterId ? (
-        <div className="flex flex-col md:flex-row h-full gap-6">
-       
-          <div className="md:w-1/2 w-full flex flex-col gap-4 border border-gray-300 rounded-xl p-4 bg-gray-50 shadow-inner">
-            
+        <div className="rounded-lg shadow-[0px_0px_12px_-4px_rgba(0,_0,_0,_0.7)] mx-2  mt-10">
+          <div className="p-2">
             <RequesterDetails userId={requesterId} />
-            <div className="flex flex-col items-start gap-2">
-                <h3 className="text-md font-medium text-gray-700">Submitted Emergency Image</h3>
-                <ImagePreview imageData={imgData}/>
+            <div className="p-2">
+              <ImagePreview imageData={imgData} />
+            </div>
+
+            <div className='flex justify-end mt-2 m-2'>
+              <Button
+                variant='contained' onClick={() => setVewLocation(true)} >View location</Button>
             </div>
           </div>
 
-         
-          <div className="md:w-1/2 w-full h-full rounded-xl overflow-hidden shadow">
-            <RoutingMap to={to} from={from} />
-          </div>
+          {viewLocation && (
+            <div className=" w-screen h-screen fixed top-0 left-0 flex flex-col justify-center items-center bg-green-400 p-2 ">
+              <RoutingMap to={to} from={from} />
+              <button className='absolute top-20 left-0 bg-green-600 p-1 rounded-sm  z-2000' onClick={() => setVewLocation(false)} >Hide</button>
+            </div>
+          )}
         </div>
+
       ) : (
-        <div className="text-center text-gray-500 text-lg py-10">
+        <div className="">
           No task yet
         </div>
-      )}
-    </div>
+      )
+      }
+    </ >
+
+
   );
 };
 

@@ -7,10 +7,10 @@ const TaskCard = ({ task, onRespond }) => {
 
   const requestDetails = task.alert_request;
 
- 
+
 
   const handleClose = () => {
-    onRespond(requestDetails); 
+    onRespond(requestDetails);
     setOpen(false);
   };
 
@@ -22,8 +22,9 @@ const TaskCard = ({ task, onRespond }) => {
           <h1>Good Day!</h1><h1><strong>{task?.driver.name}</strong></h1>
         </div>
         <h3>You have a new task. Please respond immediately!</h3>
-        
-        <Button variant='contained' className='translate-x-60 translate-y-2' onClick={handleClose}>Respond</Button>
+        <div className='flex justify-end'>
+          <Button variant='contained' onClick={handleClose}>Respond</Button>
+        </div>
       </DialogContent>
     </Dialog>
   );

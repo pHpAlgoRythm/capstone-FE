@@ -29,7 +29,7 @@ const RoutingControl = ({ from, to, setRouteInfo }) => {
     }
 
     const fromIcon = L.icon({
-      iconUrl: '/images/from-icon.png', 
+      iconUrl: '/images/from-icon.png',
       iconSize: [50, 50],
       iconAnchor: [16, 32],
     });
@@ -41,10 +41,10 @@ const RoutingControl = ({ from, to, setRouteInfo }) => {
       ],
       routeWhileDragging: false,
       createMarker: function (i, wp) {
-       
+
         return i === 0
           ? L.marker(wp.latLng, { icon: fromIcon })
-          : L.marker(wp.latLng); 
+          : L.marker(wp.latLng);
       },
     }).addTo(map);
 
@@ -73,18 +73,20 @@ const RoutingMap = ({ from, to }) => {
   if (!from || !to || from.length !== 2 || to.length !== 2) {
     return <div>Loading map...</div>;
   }
-
   const center = [
     (toNumber(from[0]) + toNumber(to[0])) / 2,
     (toNumber(from[1]) + toNumber(to[1])) / 2,
   ];
 
   return (
-    <div style={{ height: '100%', width: '100%', position: 'relative' }}>
+    <div className='w-full h-full mt-12'>
       <MapContainer
         center={center}
         zoom={12}
-        style={{ height: '100%', width: '100%' }}
+        style={{
+          height: '100%',
+          width: '100%',
+        }}
       >
         <TileLayer
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
@@ -94,13 +96,12 @@ const RoutingMap = ({ from, to }) => {
       </MapContainer>
 
       {routeInfo && (
-        <div className='absolute top-[360px] right-[10px] bg-white p-[10px] rounded-[8px] shadow-[0_2px_8px_rgba(0,0,0,0.2)] z-[1000]'>
-          
-            <strong>Route Info</strong><br />
-            Distance: {routeInfo.distance} km<br />
-            Estimated Time: {routeInfo.time} mins
-          
-          
+        <div className='absolute bottom-2 left-2 bg-white p-2 rounded-lg z-1000 shadow-lg'>
+          <strong>Route Info</strong><br />
+          <p className='text-xs'>  Distance: {routeInfo.distance} km</p>
+          <p className='text-xs'>Estimated Time: {routeInfo.time} mins</p>
+
+
         </div>
       )}
     </div>

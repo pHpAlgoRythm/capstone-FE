@@ -13,7 +13,7 @@ const RequesterDetails = ({ userId }) => {
         const data = await response.json();
 
         if (response.ok) {
-            console.log(data)
+          console.log(data)
           setName(data.data.name);
           setConNum(data.data.phone)
           setEmailAdd(data.data.email)
@@ -28,17 +28,14 @@ const RequesterDetails = ({ userId }) => {
     if (userId) {
       fetchUser();
     }
-  }, [userId]); 
+  }, [userId]);
 
   return (
-    <div className='w-full'>
-
-        <fieldset className="border border-black p-4 rounded text-black my-4">
-            <legend className="px-2 text-lg font-semibold">Requester Information</legend>
-            <h1>Name : {name ? name : <CircularProgress size={20} />}</h1>
-            <h1>Contact number : {conNum ? conNum : <CircularProgress size={20} />} </h1> {/*butangi lang di spinner or ano nga mga loading element*/}
-            <h1>Email Address : {emailAdd ? emailAdd : <CircularProgress size={20} />}</h1>
-        </fieldset>
+    <div className=' p-2'>
+      <h1 className='text-center text-2xl font-bold uppercase  mb-3 tracking-wide border-b text-gray-500 border-gray-400'>Emergency Details</h1>
+      <h2>Requester : {name ? <span className='font-semibold'>{name}</span> : <CircularProgress size={20} />}</h2>
+      <h2>Contact : {conNum ? <span className='font-semibold'>{conNum}</span> : <CircularProgress size={20} />} </h2> {/*butangi lang di spinner or ano nga mga loading element*/}
+      <h2>Email Address : {emailAdd ? <span className='font-semibold' >{emailAdd}</span> : <CircularProgress size={20} />}</h2>
     </div>
   );
 };
