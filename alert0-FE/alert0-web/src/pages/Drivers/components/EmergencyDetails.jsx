@@ -19,23 +19,28 @@ const EmergencyDetails = ({ details, from }) => {
   return (
     <>
       {requesterId ? (
-        <div className="rounded-lg shadow-[0px_0px_12px_-4px_rgba(0,_0,_0,_0.7)] mx-2  mt-10">
-          <div className="p-2">
-            <RequesterDetails userId={requesterId} />
-            <div className="p-2">
-              <ImagePreview imageData={imgData} />
-            </div>
+        <div className="rounded-lg shadow-[0px_0px_12px_-4px_rgba(0,_0,_0,_0.7)] sm:max-w-full mx-5 mt-12  md:mt-10 md:mx-4 sm:mx-45 ">
+          <h1 className='text-center text-2xl font-bold uppercase  mb-3 mx-4  tracking-wide  text-gray-600 md:py-2 md:text-3xl  mt-3'>Emergency Details</h1>
+          <div className="p-2 border-t border-gray-400 m-2 ">
 
-            <div className='flex justify-end mt-2 m-2'>
+            <div className="px-2 gap-2 sm:flex justify-center items-center md:h-100 md:w-150   ">
+
+              <div className='p-2 w-full max-h-full'>
+                <ImagePreview imageData={imgData} />
+              </div>
+              <RequesterDetails userId={requesterId} />
+            </div>
+            <div className='flex justify-end m-2'>
               <Button
                 variant='contained' onClick={() => setVewLocation(true)} >View location</Button>
             </div>
-          </div>
 
+
+          </div>
           {viewLocation && (
-            <div className=" w-screen h-screen fixed top-0 left-0 flex flex-col justify-center items-center bg-green-400 p-2 ">
+            <div className=" w-screen h-screen fixed top-0 left-0 flex flex-col justify-center items-center bg-black p-2  ">
               <RoutingMap to={to} from={from} />
-              <button className='absolute top-20 left-0 bg-green-600 p-1 rounded-sm  z-2000' onClick={() => setVewLocation(false)} >Hide</button>
+              <button className='absolute bottom-3 right-3 p-1  md:bottom-3 md:right-3 bg-green-600 md:p-2 rounded-sm md:w-2xs  md:text-2xl text-white font-semibold z-1000' onClick={() => setVewLocation(false)} >hide location</button>
             </div>
           )}
         </div>

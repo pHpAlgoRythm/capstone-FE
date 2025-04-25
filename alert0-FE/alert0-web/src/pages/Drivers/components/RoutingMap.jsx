@@ -29,9 +29,9 @@ const RoutingControl = ({ from, to, setRouteInfo }) => {
     }
 
     const fromIcon = L.icon({
-      iconUrl: '/images/from-icon.png',
-      iconSize: [50, 50],
-      iconAnchor: [16, 32],
+      iconUrl: '/images/ambulance.png',
+      iconSize: [70, 70],
+      iconAnchor: [20, 32],
     });
 
     routingControlRef.current = L.Routing.control({
@@ -77,9 +77,8 @@ const RoutingMap = ({ from, to }) => {
     (toNumber(from[0]) + toNumber(to[0])) / 2,
     (toNumber(from[1]) + toNumber(to[1])) / 2,
   ];
-
   return (
-    <div className='w-full h-full mt-12'>
+    <div className='w-full h-full p-1 mt-10'>
       <MapContainer
         center={center}
         zoom={12}
@@ -96,12 +95,10 @@ const RoutingMap = ({ from, to }) => {
       </MapContainer>
 
       {routeInfo && (
-        <div className='absolute bottom-2 left-2 bg-white p-2 rounded-lg z-1000 shadow-lg'>
+        <div className='absolute bottom-2 left-2 md:bottom-3 md:left-3 bg-white p-2 rounded-lg z-1000 shadow-lg'>
           <strong>Route Info</strong><br />
-          <p className='text-xs'>  Distance: {routeInfo.distance} km</p>
-          <p className='text-xs'>Estimated Time: {routeInfo.time} mins</p>
-
-
+          <p className='text-xs md:text-2xl'>  Distance: {routeInfo.distance} km</p>
+          <p className='text-xs md:text-2xl'>Estimated Time: {routeInfo.time} mins</p>
         </div>
       )}
     </div>

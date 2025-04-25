@@ -5,8 +5,8 @@ const ImagePreview = ({ imageData }) => {
     <>
       <img
         src={imageData}
-        alt="Emergency submitted"
-        className='w-full h-full md:w-md md:h-md rounded-lg'
+        alt="Photo of submitted emergency"
+        className='w-sm h-sm rounded-lg  '
       />
     </>
 

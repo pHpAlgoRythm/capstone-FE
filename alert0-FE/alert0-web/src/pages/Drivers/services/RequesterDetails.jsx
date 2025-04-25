@@ -31,8 +31,8 @@ const RequesterDetails = ({ userId }) => {
   }, [userId]);
 
   return (
-    <div className=' p-2'>
-      <h1 className='text-center text-2xl font-bold uppercase  mb-3 tracking-wide border-b text-gray-500 border-gray-400'>Emergency Details</h1>
+    <div className='p-2 border-b sm:border-0 border-gray-400 sm:text-sm mb-2 sm:p-0  md:text-[25px]   w-full '>
+
       <h2>Requester : {name ? <span className='font-semibold'>{name}</span> : <CircularProgress size={20} />}</h2>
       <h2>Contact : {conNum ? <span className='font-semibold'>{conNum}</span> : <CircularProgress size={20} />} </h2> {/*butangi lang di spinner or ano nga mga loading element*/}
       <h2>Email Address : {emailAdd ? <span className='font-semibold' >{emailAdd}</span> : <CircularProgress size={20} />}</h2>
