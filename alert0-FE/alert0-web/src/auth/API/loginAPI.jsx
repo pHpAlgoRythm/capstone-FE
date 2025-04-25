@@ -37,13 +37,15 @@ const LoginAuth = () => {
           navigate("/admin/dashboard");
         }else if(result.data.role == 'driver'){
           navigate("/driver/dashboard")
+        }else if(result.data.role == 'responder'){
+          navigate("responder/dashboard")
         }
       
     } catch (error) {
       console.log(error.mesg);
       alert(error.message)
     } finally {
-      setIsSubmitting(false);
+      setIsSubmitting(false)
     }
   };
   return { submitData, isSubmitting };
