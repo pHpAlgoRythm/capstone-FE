@@ -7,11 +7,33 @@ const TaskCard = ({ task, onRespond }) => {
 
   const requestDetails = task.alert_request;
 
+  const handleUpdateStatus = async ()=>{
+
+    const id = task.id
+    const responderStatus = task.responders_response
+
+   
+
+    
+        const response =  await fetch(`http://127.0.0.1:8000/api/updateDriverResponse/${id}`,{
+            method: 'PUT',
+            headers: {
+                 'Content-Type': 'application/json',
+                 'Accept': 'application/json'
+                }
+        })
+
+        const data = await response.json();
+        console.log('Status response:', data);
+   
+    }
+
 
 
   const handleClose = () => {
     onRespond(requestDetails);
     setOpen(false);
+    handleUpdateStatus();
   };
 
   return (

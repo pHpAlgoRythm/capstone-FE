@@ -1,7 +1,8 @@
 import React, {useState, useEffect} from 'react'
-import TaskCard from '../Drivers/components/card'
+import TaskCard from '../Responders/components/card'
 import { io } from 'socket.io-client';
 import NewTaskApi from '../Drivers/services/NewTaskApi';
+import ResponseDetails from './components/ResponseDeatails';
 
 const ResponderDashboard = () => {
 
@@ -11,7 +12,7 @@ const ResponderDashboard = () => {
   const [matchedTask, setMatchedTask] = useState(null);
   const [taskDetails, setTaskDetails] = useState(null); 
 
- console.log(myId)
+ 
 
   useEffect(() => {
 
@@ -33,8 +34,6 @@ const ResponderDashboard = () => {
     };
 
   
-console.log(matchedTask)
-
     fetchTasks();
 
     socket.on('responded', () => {
@@ -54,6 +53,7 @@ console.log(matchedTask)
 
   return (
     <div>
+        <ResponseDetails details={taskDetails}/>
          {matchedTask && <TaskCard task={matchedTask} onRespond={handleRespond} />}
     </div>
   )
