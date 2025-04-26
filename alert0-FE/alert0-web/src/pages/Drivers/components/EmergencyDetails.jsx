@@ -3,6 +3,7 @@ import RequesterDetails from '../services/RequesterDetails';
 import RoutingMap from './RoutingMap';
 import ImagePreview from './ImagePreview';
 import { Button } from '@mui/material';
+import { ArrowBack } from '@mui/icons-material';
 const EmergencyDetails = ({ details, from }) => {
   const [requesterId, setRequesterId] = useState(null);
   const [to, setTo] = useState([]);
@@ -34,13 +35,14 @@ const EmergencyDetails = ({ details, from }) => {
               <Button
                 variant='contained' onClick={() => setVewLocation(true)} >View location</Button>
             </div>
-
-
           </div>
           {viewLocation && (
-            <div className=" w-screen h-screen fixed top-0 left-0 flex flex-col justify-center items-center bg-black p-2  ">
+            <div className=" w-screen h-screen fixed top-0 left-0 flex flex-col justify-center items-center bg-black  ">
               <RoutingMap to={to} from={from} />
-              <button className='absolute bottom-3 right-3 p-1  md:bottom-3 md:right-3 bg-green-600 md:p-2 rounded-sm md:w-2xs  md:text-2xl text-white font-semibold z-1000' onClick={() => setVewLocation(false)} >hide location</button>
+
+              <div className='bg-white shadow-lg w-full absolute top-0 left-0 z-3000 px-2 py-1'>
+                <button className=' p-0.5 md:p-2 rounded-sm md:w-2xs  md:text-2xl text-black font-semibold z-0 ' onClick={() => setVewLocation(false)} ><ArrowBack /></button>
+              </div>
             </div>
           )}
         </div>
