@@ -1,20 +1,81 @@
 import React, { useState } from 'react';
-import { Dialog, DialogContent, DialogTitle, Button, fabClasses } from '@mui/material';
-import EmergencyDetails from './EmergencyDetails';
+import { Dialog, DialogContent, DialogTitle, Button } from '@mui/material';
 
-const TaskCard = ({ task, onRespond }) => {
+
+const TaskCard = ({ task, onRespond, setHistoryId  }) => {
   const [open, setOpen] = useState(true);
-
+ 
   const requestDetails = task.alert_request;
+  
+
+
+  const updateResponseLocation = async (responseId) => {
+    if (!navigator.geolocation) {
+      console.error('Geolocation is not supported by your browser.');
+      return;
+    }
+  
+    navigator.geolocation.getCurrentPosition(
+      async (position) => {
+        const { latitude, longitude } = position.coords;
+  
+        try {
+          const res = await fetch(`http://127.0.0.1:8000/api/updateLocation/${responseId}`, {
+            method: 'PUT',
+            headers: {
+              'Content-Type': 'application/json',
+              'Accept': 'application/json',
+            },
+            body: JSON.stringify({
+              latitude,
+              longitude,
+            }),
+          });
+  
+          const data = await res.json();
+          console.log('Location updated:', data);
+        } catch (error) {
+          console.error('Error updating location:', error);
+        }
+      },
+      (error) => {
+        console.error('Geolocation error:', error.message);
+      }
+    );
+  };
+
+  const createNewHistory = async () => {
+    const response_id = task.id
+    const request_id = requestDetails.id
+
+    const response = await fetch('http://127.0.0.1:8000/api/createNewHistory', {
+          method : 'POST',
+          headers : {
+            'Content-Type' : 'application/json',
+            'Accept' : 'application/json'
+          },
+          body : JSON.stringify({
+            response_id,
+            request_id
+          })
+
+    })
+
+    const result = await response.json()
+
+    if(response.ok){
+       setHistoryId(result.data.id)
+       
+    }
+
+  }
+
+
 
   const handleUpdateStatus = async ()=>{
 
     const id = task.id
-    const responderStatus = task.responders_response
 
-   
-
-    
         const response =  await fetch(`http://127.0.0.1:8000/api/updateDriverResponse/${id}`,{
             method: 'PUT',
             headers: {
@@ -28,12 +89,12 @@ const TaskCard = ({ task, onRespond }) => {
    
     }
 
-
-
   const handleClose = () => {
     onRespond(requestDetails);
     setOpen(false);
     handleUpdateStatus();
+    createNewHistory();
+    updateResponseLocation(task.id);
   };
 
   return (

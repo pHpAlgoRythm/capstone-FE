@@ -4,26 +4,33 @@ import RoutingMap from './RoutingMap';
 import ImagePreview from './ImagePreview';
 import { Button } from '@mui/material';
 import { ArrowBack } from '@mui/icons-material';
-const EmergencyDetails = ({ details, from }) => {
+
+const EmergencyDetails = ({ details, from, historyId  }) => {
+
+  console.log('historyId:', historyId)
+
   const [requesterId, setRequesterId] = useState(null);
   const [to, setTo] = useState([]);
   const [imgData, setImgData] = useState();
   const [viewLocation, setVewLocation] = useState(false)
+
   useEffect(() => {
+
     if (details) {
-      console.log(details);
       setRequesterId(details.user_id);
       setTo([details.latitude, details.longitude]);
       setImgData(details.request_photo);
     }
   }, [details]);
+
   return (
     <>
       {requesterId ? (
         <div className="rounded-lg shadow-[0px_0px_12px_-4px_rgba(0,_0,_0,_0.7)] sm:max-w-full mx-5 mt-12  md:mt-10 md:mx-4 sm:mx-45 ">
           <h1 className='text-center text-2xl font-bold uppercase  mb-3 mx-4  tracking-wide  text-gray-600 md:py-2 md:text-3xl  mt-3'>Emergency Details</h1>
           <div className="p-2 border-t border-gray-400 m-2 ">
-
+              {/* Bag o ni */}
+              <div><h1>Report No: {historyId}</h1></div>
             <div className="px-2 gap-2 sm:flex justify-center items-center md:h-100 md:w-150   ">
 
               <div className='p-2 w-full max-h-full'>

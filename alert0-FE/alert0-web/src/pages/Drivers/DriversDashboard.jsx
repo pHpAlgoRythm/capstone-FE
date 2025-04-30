@@ -10,6 +10,7 @@ const DriversDashboard = () => {
   const myId = localStorage.getItem('userID');
   const [matchedTask, setMatchedTask] = useState(null);
   const [taskDetails, setTaskDetails] = useState(null);
+  const [historyId, setHistoryId] = useState(null);
 
 
 
@@ -53,9 +54,9 @@ const DriversDashboard = () => {
     <div className='overflow-scroll'>
       <DriversHeader />
       <div className='w-full h-screen flex items-center justify-center border '>
-        <EmergencyDetails details={taskDetails} from={from} />
+        <EmergencyDetails details={taskDetails} from={from} historyId={historyId}/>
       </div>
-      {matchedTask && <TaskCard task={matchedTask} onRespond={handleRespond} />}
+      {matchedTask && <TaskCard task={matchedTask} onRespond={handleRespond} setHistoryId={setHistoryId} />}
     </div>
   );
 };
