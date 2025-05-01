@@ -14,7 +14,7 @@ const WebCamera = ({ webcamRef, SetCaptureImg, setCameraOn, setValue }) => {
       setCameraOn(false);
     }
   };
-  
+
   useEffect(() => {
     const webcamElement = webcamRef.current;
     if (webcamElement) {
@@ -25,22 +25,19 @@ const WebCamera = ({ webcamRef, SetCaptureImg, setCameraOn, setValue }) => {
       };
     }
   }, [webcamRef]);
-
-
-
   return (
     <>
       <Webcam
         audio={false}
         ref={webcamRef}
         screenshotFormat="image/jpg"
-        className="h-screen w-screen fixed left-0 top-0 z-2 object-cover"
+        className="w-screen !h-screen bg-black fixed top-[-43px] left-0 z-2 object-cover "
       />
 
       {showButton && (
         <button
           onClick={handleCapture}
-          className="fixed bg-transparent bottom-0 z-20 mb-8 w-[70px] h-[70px] rounded-full cursor-pointer border-4 border-stone-100 p-4"
+          className="fixed bg-transparent bottom-[-58px] z-20 mb-8 w-[70px] h-[70px] rounded-full cursor-pointer border-4 border-stone-100 p-4"
         ></button>
       )}
     </>

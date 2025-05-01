@@ -146,7 +146,7 @@ const Registration = () => {
   };
 
   return (
-    <div className=" bg-[#FAFAFA] md:bg-[#FDF3F2]  min-h-screen flex items-center justify-center px-4 my-5 md:my-0 lg:px-10  overflow-hidden">
+    <div className="bg-[#FAFAFA] md:bg-[#FDF3F2]  min-h-screen flex items-center justify-center  md:my-0 lg:px-10  overflow-hidden">
       <div
         className="bg-[#FAFAFA] h-full max-h-2xl w-full max-w-4xl  md:shadow-lg rounded-2xl"
         data-aos="fade-down"

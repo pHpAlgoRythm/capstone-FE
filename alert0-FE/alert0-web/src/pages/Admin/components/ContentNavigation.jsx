@@ -18,9 +18,9 @@ export const NAVIGATION = [
     segment: "emergencyRequests",
     title: "Emergency Request",
     icon: <Emergency />,
-    
+
   },
-    
+
 
   {
     segment: "accounts",
@@ -48,9 +48,9 @@ export const NAVIGATION = [
         icon: <DirectionsCar />,
       },
       {
-        segment: "addNew",
+        segment: "addNewUser",
         title: "Add New Account",
-        icon: <PersonAdd/>,
+        icon: <PersonAdd />,
       },
     ],
   },
@@ -76,6 +76,6 @@ export const NAVIGATION = [
   {
     segment: "myAccount",
     title: "My Account",
-    icon: <AccountCircle/>,
+    icon: <AccountCircle />,
   },
 ];

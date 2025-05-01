@@ -54,9 +54,9 @@ const renderContent = (
   switch (section) {
     case "emergencyRequests":
       return (
-          <EmergencyRequests 
-            emergency={EmergencyReq}
-          />
+        <EmergencyRequests
+          emergency={EmergencyReq}
+        />
       )
     case "accounts/pendingAccounts":
       return (
@@ -83,24 +83,24 @@ const renderContent = (
     case "accounts/responders":
       return (
         <>
-            <RespondersTable responders={responders} />
+          <RespondersTable responders={responders} />
         </>
       );
 
     case "accounts/drivers":
 
-      return(
+      return (
         <>
           <DriversTable drivers={drivers} />
         </>
       );
 
-      case "accounts/addNew":
-        return(
-          <>  
-            <NewAccount></NewAccount>
-          </>
-        );
+    case "accounts/addNewUser":
+      return (
+        <>
+          <NewAccount />
+        </>
+      );
 
     default:
       return null;
@@ -149,9 +149,9 @@ export default function AdminDashboard() {
     }
   };
 
-// Shem ni
+  // Shem ni
 
-// handle sa pag kwa sang list ka responders
+  // handle sa pag kwa sang list ka responders
   const [responders, SetResponders] = React.useState([]);
 
   React.useEffect(() => {
@@ -160,32 +160,32 @@ export default function AdminDashboard() {
 
   const handleResponders = async () => {
     const respondersList = await GetResponders();
-    if(respondersList.responders){
+    if (respondersList.responders) {
       SetResponders(respondersList.responders);
-  }
-};
+    }
+  };
 
 
   // handle naman ni ya sa pag kwa sang list sang mga drivers
 
   const [drivers, SetDrivers] = React.useState([]);
-  
-  React.useEffect( () => {
+
+  React.useEffect(() => {
     handleDrivers();
   }, []);
 
   const handleDrivers = async () => {
     const driversList = await GetDrivers();
-    if(driversList.drivers){
+    if (driversList.drivers) {
       SetDrivers(driversList.drivers);
-  }
-};
+    }
+  };
 
-    // handle sa pag kwa sang emergencies
+  // handle sa pag kwa sang emergencies
   const [EmergencyReq, SetEmergency] = React.useState([]);
   // console.log(Emergency)
 
-  React.useEffect( () => {
+  React.useEffect(() => {
     socket.on("emergencyRequests", () => {
       handdleGetEmergency();
     })
@@ -195,7 +195,7 @@ export default function AdminDashboard() {
   const handdleGetEmergency = async () => {
     const emergencies = await GetEmergencyRequest();
 
-    if(emergencies.emergency){
+    if (emergencies.emergency) {
       SetEmergency(emergencies.emergency);
     }
   }
@@ -203,9 +203,9 @@ export default function AdminDashboard() {
   const router = useDemoRouter("/emergencyRequests");
 
   return (
-    <AppProvider 
-    navigation={NAVIGATION}
-     router={router}
+    <AppProvider
+      navigation={NAVIGATION}
+      router={router}
       theme={DemoTheme}
       branding={{
         logo: <img src="/images/KCERA.png" alt="KCERA logo" />,
