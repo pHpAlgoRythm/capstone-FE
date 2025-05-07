@@ -1,14 +1,11 @@
 import React, { useState } from 'react';
 import { Dialog, DialogContent, DialogTitle, Button } from '@mui/material';
 
-
 const TaskCard = ({ task, onRespond, setHistoryId  }) => {
   const [open, setOpen] = useState(true);
  
   const requestDetails = task.alert_request;
   
-
-
   const updateResponseLocation = async (responseId) => {
     if (!navigator.geolocation) {
       console.error('Geolocation is not supported by your browser.');

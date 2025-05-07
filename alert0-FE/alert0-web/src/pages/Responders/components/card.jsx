@@ -4,15 +4,9 @@ import { Dialog, DialogContent, DialogTitle, Button, fabClasses } from '@mui/mat
 
 const TaskCard = ({ task, onRespond }) => {
 
-    console.log(task.drivers_response)
-
     const handleUpdateStatus = async ()=>{
 
         const id = task.id
-        const driverStatus = task.drivers_response
-
-       
-
        
             const response =  await fetch(`http://127.0.0.1:8000/api/updateResponderResponse/${id}`,{
                 method: 'PUT',
@@ -23,16 +17,15 @@ const TaskCard = ({ task, onRespond }) => {
             })
 
             const data = await response.json();
-            console.log('Status response:', data);
+           
        
 
     }
 
 
-
   const [open, setOpen] = useState(true);
 
-  const requestDetails = task.alert_request;
+  const requestDetails = task;
 
   const handleClose = () => {
     onRespond(requestDetails);

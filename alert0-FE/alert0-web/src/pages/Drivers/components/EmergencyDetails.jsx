@@ -7,8 +7,6 @@ import { ArrowBack } from '@mui/icons-material';
 
 const EmergencyDetails = ({ details, from, historyId  }) => {
 
-  console.log('historyId:', historyId)
-
   const [requesterId, setRequesterId] = useState(null);
   const [to, setTo] = useState([]);
   const [imgData, setImgData] = useState();

@@ -50,7 +50,6 @@ const ResponderDashboard = () => {
     setTaskDetails(details); 
   };
 
-
   return (
     <div>
         <ResponseDetails details={taskDetails}/>
