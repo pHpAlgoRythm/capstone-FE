@@ -1,4 +1,4 @@
-import React, { use, useState } from 'react';
+import React, {  useState } from 'react';
 import { Button, 
         Dialog, 
         DialogTitle, 
@@ -44,6 +44,18 @@ const PatientCareReport = ({ details }) => {
 
     const [civilStatus, setCivilStatus] = useState('')
     const [gender, setGender] = useState('')
+
+    const [careBy, setCareBy] = useState([]);
+
+    const handleCareByChange = (value) => {
+        setCareBy((prev) =>
+        prev.includes(value)
+        ? prev.filter((item) => item !== value)
+            : [...prev, value]
+    );
+
+};
+
 
 
   return (
@@ -137,15 +149,66 @@ const PatientCareReport = ({ details }) => {
     <div>
       <FormLabel>Care on Progress upon Arrival</FormLabel><br />
 
-      <FormControlLabel value='Bystander' control={<Checkbox onChange={() => {handleChange('Bystander')}} />} label='Bystander' />
-      <FormControlLabel value='Family' control={<Checkbox onChange={() => {handleChange('Family')}}  />} label='Family' />
-      <FormControlLabel value='Brgy Personnel' control={<Checkbox onChange={() => {handleChange('Brgy Personnel')}} />} label='Brgy Personnel' />
-      <FormControlLabel value='PNP/CTRSMO' control={ <Checkbox/>} label='PNP/CTTRAMO' />
-      <FormControlLabel value='Medical Personnel' control={<Checkbox/>} label='Medical Personnel' />
-      <FormControlLabel value='EMS' control={<Checkbox />} label='EMS' />
-      <FormControlLabel value='Others' control={<Checkbox/>} label='Others'/>
+      <FormControlLabel value='Bystander'
+           control={
+           <Checkbox 
+           checked={careBy.includes('Bystander')}
+           onChange={() => handleCareByChange('Bystander')}
+           />
+          } 
+           label='Bystander' />
+
+      <FormControlLabel value='Family' 
+          control={
+          <Checkbox 
+            checked={careBy.includes('Family')}
+            onChange={() => handleCareByChange('Family')}
+          />
+          } 
+          label='Family' />
+
+      <FormControlLabel value='Brgy Personnel' 
+          control={
+          <Checkbox 
+            checked={careBy.includes('Brgy Personnel')}
+            onChange={() => handleCareByChange('Brgy Personnel')}          />
+          } label='Brgy Personnel' />
+
+      <FormControlLabel value='PNP/CTRAMO' 
+        control={ 
+        <Checkbox
+           checked={careBy.includes('PNP/CTRAMO')}
+           onChange={() => handleCareByChange('PNP/CTRAMO')}
+        />
+        } label='PNP/CTTRAMO' />
+
+      <FormControlLabel value='Medical Personnel' 
+      control={
+      <Checkbox
+          checked={careBy.includes('Medical Personnel')}
+          onChange={() => handleCareByChange('Medical Personnel')}
+      />
+      } label='Medical Personnel' />
+
+      <FormControlLabel value='EMS' 
+      control={
+      <Checkbox 
+          checked={careBy.includes('EMS')}
+          onChange={() => handleCareByChange('EMS')}
+      />} label='EMS' />
+
+      <FormControlLabel value='Others' 
+      control={
+      <Checkbox
+          checked={careBy.includes('Others')}
+          onChange={() => handleCareByChange('Others')}
+      />
+      } label='Others'/>
+
     </div>
+
     <hr />
+    
     <div>
       <FormLabel>Level of Consciousness</FormLabel>
       <br />
