@@ -146,9 +146,9 @@ const Registration = () => {
   };
 
   return (
-    <div className="bg-[#FAFAFA] md:bg-[#FDF3F2] h-screen flex items-center justify-center  md:my-0 lg:px-10  overflow-hidden">
+    <div className="md:bg-gray-300   h-screen flex items-center justify-center md:my-0 lg:px-10 overflow-hidden">
       <div
-        className="bg-[#FAFAFA] h-full max-h-2xl w-full max-w-4xl  md:shadow-lg rounded-2xl"
+        className="bg-[#FAFAFA] h-full max-h-lg w-full max-w-4xl  md:shadow-lg rounded-2xl lg:h-fit"
         data-aos="fade-down"
       >
         <form onSubmit={handleSubmit(submitData)}>
@@ -164,7 +164,6 @@ const Registration = () => {
           </h2>
 
 
-
           <Stepper activeStep={activeStep} className="mb-3 ">
             {steps.map((label) => (
               <Step key={label}>
@@ -172,7 +171,7 @@ const Registration = () => {
               </Step>
             ))}
           </Stepper>
-          <div className="mx-auto p-3 h-auto w-auto ">
+          <div className="mx-auto p-3 h-auto  w-auto ">
             {activeStep === 0 && (
               <div className="flex flex-col mx-auto px-auto h-auto w-auto  gap-3">
                 <div>
@@ -367,7 +366,7 @@ const Registration = () => {
 
             {activeStep === 1 && (
               <>
-                <div className="sm:col-span-2 w-full h-full ">
+                <div className="sm:col-span-2 w-full h-full  ">
                   <div className="sm:col-span-2 flex flex-col gap-2 p-1 justify-center items-center relative border-t" >
                     <FormLabel htmlFor="approval_photo">ID Photo</FormLabel>
 
